@@ -1,0 +1,21 @@
+#!/usr/bin/perl
+
+use 5.012;
+use warnings;
+
+use FindBin;
+use File::Spec;
+use File::Temp;
+
+use Test::More;
+
+require_ok( 'Blender::Archivefile' );
+
+my $path = File::Spec->catfile( $FindBin::Bin, 'TestApp-1.0.tar.gz' );
+
+my $temp = File::Temp->newdir;
+
+my $archivefile = Blender::Archivefile->new( $path );
+ok( -d $archivefile->extract( $temp ), 'archive file extract' );
+
+done_testing();
