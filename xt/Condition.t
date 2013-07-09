@@ -156,7 +156,6 @@ subtest 'collector method' => sub {
 subtest 'is_equal_to method' => sub {
 
     subtest 'no parameter' => sub {
-
         my $condition = Blender::Condition->new( name => 'target' );
         eval { $condition->is_equal_to };
 
@@ -224,6 +223,14 @@ subtest 'is_equal_to method' => sub {
         is( $condition->is_equal_to( $param_diff ), undef,
                 'different make_test' );
 
+        my $condition_diff = Blender::Condition->new(
+                name        => 'testapp',
+                make_test   => undef,
+                );
+
+        is( $condition_diff->is_equal_to( $param ), undef,
+                'different not equal pattern' );
+
         done_testing();
     };
 
@@ -247,10 +254,28 @@ subtest 'is_equal_to method' => sub {
                 );
 
         is( $condition->is_equal_to( $param_diff ), undef,
-                'different modules' );
+                'different modules pattern1' );
+
+        my $condition_diff = Blender::Condition->new(
+                name        => 'testapp',
+                modules     => undef,
+                );
+
+        is( $condition_diff->is_equal_to( $param ), undef,
+                'diffrent modules pattern2' );
+
+        my $param_diff_but_modules = Blender::Condition->new(
+                name    => 'testapp',
+                modules => { 'diffrentmodule' => 0 },
+                );
+
+        is( $condition->is_equal_to( $param_diff_but_modules ), undef,
+                'different module condition' );
 
         done_testing();
     };
+
+    
 
     done_testing();
 };
