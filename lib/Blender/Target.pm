@@ -274,6 +274,10 @@ sub _build {
     Blender::Message->notify( $finish_msg );
 
     $self->{config}->set_enabled( $self->{attributes}->Version, $condition );
+
+    if ( $condition->modules ) {
+        $self->{config}->set_modules( $condition->modules );
+    }
 }
 
 sub _solve_dependencies {

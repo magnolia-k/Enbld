@@ -13,6 +13,7 @@ sub new {
         name        =>  undef,
         installed   =>  {},
         enabled     =>  undef,
+        modules     =>  {},
         @_,
     };
 
@@ -94,6 +95,22 @@ sub set_enabled {
     $self->{installed}{$version} = $condition->serialize_without_name;
 
     return $self->{enabled};
+}
+
+sub modules {
+    my $self = shift;
+
+    return $self->{modules} if ( keys %{ $self->{modules} } );
+
+    return;
+}
+
+sub set_modules {
+    my ( $self, $modules ) = @_;
+
+    $self->{modules} = $modules;
+
+    return $self->modules;
 }
 
 sub serialize {

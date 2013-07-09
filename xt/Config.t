@@ -220,4 +220,32 @@ subtest 'collector method' => sub {
     done_testing();
 };
 
+subtest 'modules method' => sub {
+
+    subtest 'no modules' => sub {
+        my $config = Blender::Config->new( name => 'app' );
+        is( $config->modules, undef, 'no modules' );
+
+        done_testing();
+    };
+
+    subtest 'set no modules' => sub {
+        my $config = Blender::Config->new( name => 'app' );
+        $config->set_modules;
+        is( $config->modules, undef, 'set no modules' );
+
+        done_testing();
+    };
+
+    subtest 'set modules' => sub {
+        my $config = Blender::Config->new( name => 'app' );
+        $config->set_modules( { 'module' => 0 } );
+        is_deeply( $config->modules, { 'module' => 0 }, 'set modules' );
+
+        done_testing();
+    };
+
+    done_testing();
+};
+
 done_testing();
