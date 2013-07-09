@@ -66,8 +66,6 @@ sub to_value {
 
     my $value = $self->evaluate;
 
-    return [] if ( ! defined $value );
-
     $self->validate( $value );
 
     my @list = sort @{ $value};
