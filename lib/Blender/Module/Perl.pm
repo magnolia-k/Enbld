@@ -32,7 +32,7 @@ sub module {
 sub install_command {
     my ( $self, $module ) = @_;
 
-    my $cmd = $self->{command} . ' ' . $module;
+    my $cmd = q{yes '' | } . $self->{command} . ' ' . $module;
 
     return $cmd;
 }
