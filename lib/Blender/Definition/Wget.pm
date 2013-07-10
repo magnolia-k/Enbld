@@ -35,6 +35,8 @@ sub set_argument {
 
     my $argument = "--with-ssl=openssl --enable-iri --with-libidn=$to_install";
 
+    $argument .= ' ' . 'PERL=/usr/bin/perl POD2MAN=/usr/bin/pod2man';
+
     return $argument;
 }
 
