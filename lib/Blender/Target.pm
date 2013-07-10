@@ -216,12 +216,7 @@ sub _set_attributes {
 sub _set_PATH {
     my $self = shift;
 
-    my $path;
-    if ( Blender::Feature->is_deploy_mode ) {
-        $path = File::Spec->catdir( Blender::Home->deploy_path, 'bin' );
-    } else {
-        $path = File::Spec->catdir( Blender::Home->home, 'bin' );
-    }
+    my $path = File::Spec->catdir( Blender::Home->install_path, 'bin' );
 
     $self->{PATH} = $path . ':' . $ENV{PATH};
 }

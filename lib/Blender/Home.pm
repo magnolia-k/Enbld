@@ -63,6 +63,13 @@ sub create_build_directory {
     return $dirs->{build};
 }
 
+sub install_path {
+
+    return Blender::Home->deploy_path if Blender::Feature->is_deploy_mode;
+    return Blender::Home->home;
+
+}
+
 sub _create_home_directory {
     my $pkg = shift;
 

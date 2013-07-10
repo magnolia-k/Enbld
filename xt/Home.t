@@ -107,6 +107,9 @@ subtest 'set deploy path' => sub {
 
 	Blender::Home->initialize;
     is( Blender::Home->library, Blender::Home->home, 'library path is home' );
+    is( Blender::Home->install_path, Blender::Home->home,
+            'install path is home' );
+
 
 	local $ENV{PERL_BLENDER_HOME} = File::Temp->newdir;
     my $deploy_path = File::Temp->newdir;
@@ -117,6 +120,9 @@ subtest 'set deploy path' => sub {
     Blender::Home->initialize;
     is( Blender::Home->deploy_path, $deploy_path, 'set deploy path' );
     is( Blender::Home->library, $deploy_path, 'library path is deploy path' );
+    is( Blender::Home->install_path, Blender::Home->deploy_path,
+            'install path is deploy path' );
+
 
     done_testing();
 };

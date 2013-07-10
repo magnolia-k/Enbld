@@ -35,11 +35,11 @@ sub initialize {
 sub set_argument {
 
     require Blender::Home;
-    require Blender::Feature;
-
-    my $path = Blender::Feature->is_deploy_mode ?
-        File::Spec->catdir( Blender::Home->deploy_path, 'lib', 'pkgconfig' ) :
-        File::Spec->catdir( Blender::Home->home, 'lib', 'pkgconfig' );
+    my $path = File::Spec->catdir(
+            Blender::Home->install_path,
+            'lib',
+            'pkgconfig'
+            );
 
     my $env = 'PKG_CONFIG_PATH=' . $path;
 
