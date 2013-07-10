@@ -10,7 +10,7 @@ SKIP: {
           skip "Skip build Pkgconfig test because none of test env.",
                1 unless ( $ENV{PERL_BLENDER_TEST_DEFINITION} );
            
-           build_ok( 'pkgconfig', undef, 'first test' );
+           build_ok( 'pkgconfig', undef, undef, 'first test' );
 
        };
 

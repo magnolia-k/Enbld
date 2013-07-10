@@ -10,7 +10,7 @@ SKIP: {
           skip "Skip build Tmux test because none of test env.",
                1 unless ( $ENV{PERL_BLENDER_TEST_DEFINITION} );
            
-           build_ok( 'tmux', undef, 'first test' );
+           build_ok( 'tmux', undef, undef, 'first test' );
 
        };
 

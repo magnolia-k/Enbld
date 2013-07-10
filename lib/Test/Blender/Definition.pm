@@ -3,15 +3,18 @@ package Test::Blender::Definition;
 use strict;
 use warnings;
 
+use Test::Builder::Module;
+
 use File::Temp;
 use File::Spec;
 use File::Path qw/make_path/;
 use File::Copy;
 use FindBin;
 
-use Test::Builder::Module;
+require Blender::Home;
 require Blender::Logger;
 require Blender::Target;
+require Blender::Condition;
 
 my $CLASS = __PACKAGE__;
 
@@ -19,41 +22,44 @@ use parent qw/Test::Builder::Module/;
 
 our @EXPORT = qw/build_ok/;
 
-sub build_ok($$;$) {
+sub build_ok($;$$$) {
     my $name        = $_[0];
-    my $ver         = $_[1];
-    my $description = $_[2];
+    my $config      = $_[1];
+    my $condition   = $_[2];
+    my $description = $_[3];
 
     local $ENV{PERL_BLENDER_HOME} = File::Temp->newdir;
-    require Blender::Home;
+
     Blender::Home->initialize;
     Blender::Home->create_build_directory;
 
     my $path = File::Spec->catdir( Blender::Home->home, 'bin' );
     local $ENV{PATH} = $path . ':' . $ENV{PATH};
-
-    require Blender::Logger;
     Blender::Logger->rotate( Blender::Home->log );
 
-    my $target = Blender::Target->new( $name );
+    my $target = Blender::Target->new( $name, $config );
 
-    require Blender::Condition;
-    my $condition = Blender::Condition->new( name => $name, version => $ver );
-
-    $target->{attributes}->add( 'VersionCondition', $ver );
-    
-    eval {
-        $target->_build( $condition );
-    };
+    my $installed;
+    if ( $condition ) {
+        eval { $installed = $target->install_declared( $condition ) };
+    } else {
+        eval { $installed = $target->install };
+    }
 
     my $tb = $CLASS->builder;
 
     chdir $FindBin::Bin;
 
     if ( $@ ) {
-        my $logfile = File::Spec->catfile( $FindBin::Bin, time . 'log.txt' );
-        $tb->diag( "copy logfile:" . $logfile );
+        $tb->diag( "Error occured, please check logfile." );
+
+        my $logfile = File::Spec->catfile(
+                $FindBin::Bin,
+                'build_' . time . '_log.txt'
+                );
+        $tb->diag( "logfile:" . $logfile );
         copy( Blender::Logger->logfile, $logfile );
+
         return $tb->BAIL_OUT( $@ );
     }
 

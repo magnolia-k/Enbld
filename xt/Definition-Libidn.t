@@ -10,7 +10,7 @@ SKIP: {
           skip "Skip build Libidn test because none of test env.",
                1 unless ( $ENV{PERL_BLENDER_TEST_DEFINITION} );
           
-          build_ok( 'libidn', undef, 'first test' );
+          build_ok( 'libidn', undef, undef, 'first test' );
       };
 
 done_testing();

@@ -10,7 +10,7 @@ SKIP: {
           skip "Skip build Autoconf test because none of test env.",
                1 unless ( $ENV{PERL_BLENDER_TEST_DEFINITION} );
           
-          build_ok( 'autoconf', undef, 'first test' );
+          build_ok( 'autoconf', undef, undef, 'first test' );
 
       };
 
