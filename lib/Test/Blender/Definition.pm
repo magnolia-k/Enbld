@@ -33,8 +33,6 @@ sub build_ok($;$$$) {
     Blender::Home->initialize;
     Blender::Home->create_build_directory;
 
-    my $path = File::Spec->catdir( Blender::Home->home, 'bin' );
-    local $ENV{PATH} = $path . ':' . $ENV{PATH};
     Blender::Logger->rotate( Blender::Home->log );
 
     my $target = Blender::Target->new( $name, $config );

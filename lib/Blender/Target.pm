@@ -34,12 +34,14 @@ sub new {
         attributes  =>  undef,
         build       =>  undef,
         install     =>  undef,
+        PATH        =>  undef,
     };
 
     bless $self, $class;
 
     $self->_set_config;
     $self->_set_attributes;
+    $self->_set_PATH;
 
     return $self;
 }
@@ -211,6 +213,19 @@ sub _set_attributes {
     $self->{attributes} = $module->new->parse;
 }
 
+sub _set_PATH {
+    my $self = shift;
+
+    my $path;
+    if ( Blender::Feature->is_deploy_mode ) {
+        $path = File::Spec->catdir( Blender::Home->deploy_path, 'bin' );
+    } else {
+        $path = File::Spec->catdir( Blender::Home->home, 'bin' );
+    }
+
+    $self->{PATH} = $path . ':' . $ENV{PATH};
+}
+
 sub _switch {
     my ( $self, $version ) = @_;
 
@@ -247,6 +262,8 @@ sub _build {
     my ( $self, $condition ) = @_;
 
     Blender::Message->notify( "=====> Start building target '$self->{name}'." );
+
+    local $ENV{PATH} = $self->{PATH};
 
     $self->_solve_dependencies;
 
