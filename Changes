@@ -1,4 +1,9 @@
 Revision history for Blender-Declare
 
+0.6001 2013/07/11
+		- 'Freeze' command displays modules condition.
+		- 'yes' command might be started automatically at installation
+		  cpan module.
+
 0.60 2013/07/07
         - re-relase.

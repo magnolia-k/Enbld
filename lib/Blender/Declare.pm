@@ -5,7 +5,7 @@ use warnings;
 
 use Getopt::Long;
 
-our $VERSION = '0.60';
+our $VERSION = '0.6001';
 
 require Exporter;
 our @ISA    = qw(Exporter);
