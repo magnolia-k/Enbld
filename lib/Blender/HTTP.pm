@@ -94,7 +94,7 @@ sub register_get_hook {
         return $pkg;
     }
 
-    my $err = "Attribute 'Dependencies' isn't ARRAY reference";
+    my $err = "register get hook requires CODE reference parameter.";
     require Blender::Exception;
     croak( Blender::Exception->new( $err, $coderef ));
 }
@@ -107,7 +107,7 @@ sub register_download_hook {
         return $pkg;
     }
 
-    my $err = "Attribute 'Dependencies' isn't ARRAY reference";
+    my $err = "register download hook requires CODE reference parameter.";
     require Blender::Exception;
     croak( Blender::Exception->new( $err, $coderef ));
 }
