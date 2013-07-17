@@ -46,10 +46,11 @@ sub download {
 
     Blender::Message->notify( "-----> Download '$file' from '$self->{url}'." );
 
-    system( 'curl', '-L', $self->{url}, '-o', $path, '-s' );
+    system( 'curl', '-L', $self->{url}, '-o', $path, '-s', '-f' );
 
     if ( $? >> 8 ) {
-        die( Blender::Error->new( 'download error occured', ( $? >> 8 ) ));
+        my $err = 'download request returns error.';
+        die( Blender::Error->new( $err , ( $? >> 8 ) ));
     }
 
     return $path;
@@ -71,10 +72,14 @@ sub get {
         return $get_hook->( $self );
     }
 
-    my $res = `curl -L $self->{url} -s`;
-    return $res if $res;
+    my $res = `curl -L $self->{url} -s -f`;
 
-    die( Blender::Error->new( 'get error occured' ));
+    if ( $? >> 8 ) {
+        my $err = 'HTTP get request returns error.';
+        die( Blender::Error->new( $err, ( $? >> 8) ));
+    }
+
+    return $res;
 }
 
 sub get_html {
