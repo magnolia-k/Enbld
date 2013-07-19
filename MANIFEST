@@ -26,6 +26,7 @@ lib/Blender/Definition.pm
 lib/Blender/Definition/Autoconf.pm
 lib/Blender/Definition/Automake.pm
 lib/Blender/Definition/Git.pm
+lib/Blender/Definition/Groff.pm
 lib/Blender/Definition/Hello.pm
 lib/Blender/Definition/Libevent.pm
 lib/Blender/Definition/Libidn.pm
@@ -45,7 +46,6 @@ lib/Blender/Logger.pm
 lib/Blender/Message.pm
 lib/Blender/Module.pm
 lib/Blender/Module/Perl.pm
-lib/Blender/Require.pm
 lib/Blender/Target.pm
 lib/Blender/Target/Attribute.pm
 lib/Blender/Target/Attribute/AdditionalArgument.pm
@@ -93,6 +93,7 @@ xt/Config.t
 xt/Definition-Autoconf.t
 xt/Definition-Automake.t
 xt/Definition-Git.t
+xt/Definition-Groff.t
 xt/Definition-Hello.t
 xt/Definition-Libevent.t
 xt/Definition-Libidn.t
@@ -111,7 +112,6 @@ xt/HTML.t
 xt/HTTP.t
 xt/Logger.t
 xt/Message.t
-xt/Require.t
 xt/Target-Attribute-AdditionalArgument.t
 xt/Target-Attribute-AllowedCondition.t
 xt/Target-Attribute-ArchiveName.t
