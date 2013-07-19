@@ -50,6 +50,10 @@ sub download {
 
     return $path unless $?;
 
+    if ( -e $path ) {
+        unlink $path;
+    }
+
     if ( $? == -1 ) {
         die( Blender::Error->new( "Failed to execute curl" ));
     } elsif ( $? & 127 ) {
