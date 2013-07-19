@@ -434,9 +434,9 @@ sub _exec {
 
     Blender::Message->notify( "-----> $cmd" );
 
-    system( "$cmd >> $logfile 2>&1" );
+    my $result = system( "$cmd >> $logfile 2>&1" );
 
-    if ( $? >> 8 ) {
+    if ( $result ) {
         my $err = "Build fail.Command:$cmd return code:" . ( $? >> 8 );
         die( Blender::Error->new( $err ));
     }
