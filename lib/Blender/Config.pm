@@ -6,6 +6,8 @@ use warnings;
 use Carp;
 use Scalar::Util qw/blessed/;
 
+require Blender::Exception;
+
 sub new {
     my $class = shift;
 
@@ -20,7 +22,6 @@ sub new {
     bless $self, $class;
 
     unless ( $self->{name} ) {
-        require Blender::Exception;
         croak( Blender::Exception->new( "'$class' requires name" ) );
     }
 
@@ -78,17 +79,18 @@ sub set_enabled {
     my ( $self, $version, $condition ) = @_;
 
     if ( ! $version ) {
-        require Blender::Exception;
-        croak( Blender::Exception->new(
-                    "set_enabled method requires version string parameter"
-                    ) );
+        my $err = "set_enabled method requires version string parameter"; 
+        croak( Blender::Exception->new( $err ));
     }
 
     if ( ! $condition ) {
-        require Blender::Exception;
-        croak( Blender::Exception->new(
-                    "set_enabled method requires condition object"
-                    ));
+        my $err = "set_enabled method requires condition object";
+        croak( Blender::Exception->new( $err ));
+    }
+
+    if ( $self->name ne $condition->name ) {
+        my $err = "condition's name don't match config's name";
+        croak( Blender::Exception->new( $err ));
     }
 
     $self->{enabled} = $version;
