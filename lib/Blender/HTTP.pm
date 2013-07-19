@@ -46,14 +46,19 @@ sub download {
 
     Blender::Message->notify( "-----> Download '$file' from '$self->{url}'." );
 
-    my $result = system( 'curl', '-L', $self->{url}, '-o', $path, '-s', '-f' );
+    system( 'curl', '-L', $self->{url}, '-o', $path, '-s', '-f' );
 
-    if ( $result ) {
+    return $path unless $?;
+
+    if ( $? == -1 ) {
+        die( Blender::Error->new( "Failed to execute curl" ));
+    } elsif ( $? & 127 ) {
+        my $err = 'curl died with signal.';
+        die( Blender::Error->new( $err ));
+    } else {
         my $err = 'download request returns error.';
         die( Blender::Error->new( $err , ( $? >> 8 ) ));
     }
-
-    return $path;
 }
 
 sub download_archivefile {

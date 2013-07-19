@@ -434,9 +434,16 @@ sub _exec {
 
     Blender::Message->notify( "-----> $cmd" );
 
-    my $result = system( "$cmd >> $logfile 2>&1" );
+    system( "$cmd >> $logfile 2>&1" );
 
-    if ( $result ) {
+    return $self unless $?;
+
+    if ( $? == -1 ) {
+        die( Blender::Error->new( "Failed to execute:$cmd" ));
+    } elsif ( $? & 127 ) {
+        my $err = "Child died with signal:$cmd";
+        die( Blender::Error->new( $err ));
+    } else {
         my $err = "Build fail.Command:$cmd return code:" . ( $? >> 8 );
         die( Blender::Error->new( $err ));
     }
