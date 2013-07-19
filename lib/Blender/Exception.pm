@@ -19,9 +19,11 @@ sub new {
 
     if ( $param ) { $message .= "\n" . Dumper( $param ) };
 
+    my $location = $ENV{HARNESS_ACTIVE} ? Carp::longmess() : Carp::shortmess();
+
     my $self = {
         message         =>  $message,
-        caller_location =>  Carp::longmess(),
+        caller_location =>  $location,
     };
 
     return bless $self, $class;
