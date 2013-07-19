@@ -1,5 +1,20 @@
 Revision history for Blender-Declare
 
+0.6002 2013/07/20
+        [New Definition]
+        - Groff
+
+        [Improvement]
+        - Remove 'Blender::Require'
+          Blender::Require was replaced by Module::Load &
+          Module::Load::Conditional.
+
+        - Check return value of 'system' function.
+          In order to identify having been interrupted by Crl-C.
+
+        - Blender::Exception outputs stacktrace only when
+          $ENV{HARNESS_ACTIVE} is set.
+
 0.6001 2013/07/11
 		- 'Freeze' command displays modules condition.
 		- 'yes' command might be started automatically at installation
