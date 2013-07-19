@@ -12,6 +12,7 @@ use File::Path qw/make_path remove_tree/;
 use File::Find;
 use autodie;
 
+require Blender::Definition;
 require Blender::Feature;
 require Blender::Condition;
 require Blender::Message;
@@ -201,16 +202,7 @@ sub _set_attributes {
         die( Blender::Error->new( "invalid target name '$self->{name}'" ));
     }
 
-    my $module = 'Blender::Definition::' . ucfirst( $self->{name} );
-
-    require Blender::Require;
-    eval { Blender::Require->try_require( $module ) };
-
-    if ( $@ ) {
-        die( Blender::Error->new( "no definition for target '$self->{name}'" ));
-    }
-
-    $self->{attributes} = $module->new->parse;
+    $self->{attributes} = Blender::Definition->new( $self->{name} )->parse;
 }
 
 sub _set_PATH {

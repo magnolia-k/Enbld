@@ -3,8 +3,14 @@ package Blender::Definition;
 use 5.012;
 use warnings;
 
+use Module::Load;
+use Module::Load::Conditional qw/can_load/;
+
+require Blender::Error;
+
 sub new {
     my $class = shift;
+    my $name = shift;
 
     my $self = {
         defined => {
@@ -34,11 +40,18 @@ sub new {
         },
     };
 
-    bless $self, $class;
+    my $module = 'Blender::Definition::' . ucfirst( $name );
 
-    $self->initialize;
+    if ( can_load( modules => { $module => undef } ) ) {
+        load $module;
 
-    return $self;
+        bless $self, $module;
+        $self->initialize;
+
+        return $self;
+    }
+
+    die( Blender::Error->new( "no definition for target '$name'" ));
 }
 
 sub initialize {

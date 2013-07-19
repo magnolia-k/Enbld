@@ -3,6 +3,9 @@ package Blender::Module;
 use 5.012;
 use warnings;
 
+use Module::Load;
+use Module::Load::Conditional qw/can_load/;
+
 require Blender::Message;
 require Blender::Error;
 
@@ -18,18 +21,16 @@ sub new {
     };
     
     my $module = 'Blender::Module::' . ucfirst( $self->{name} );
-    require Blender::Require;
-    eval { Blender::Require->try_require( $module ) };
+    if ( can_install( modules => { $module => undef } ) ) {
+        load $module;
 
-    if ( $@ ) {
-        die( Blender::Error->new( "no module for target '$self->{name}'" ));
+        bless $self, $module;
+        $self->initialize;
+
+        return $self;
     }
 
-    bless $self, $module;
-
-    $self->initialize;
-
-    return $self;
+    die( Blender::Error->new( "no module for target '$self->{name}'" ));
 }
 
 sub install {

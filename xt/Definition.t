@@ -8,9 +8,9 @@ use lib "$FindBin::Bin/./testlib/";
 
 use Test::More;
 
-require_ok( 'Blender::Definition::Dummy' );
+require_ok( 'Blender::Definition' );
 
-my $def = Blender::Definition::Dummy->new;
+my $def = Blender::Definition->new( 'dummy' );
 isa_ok( $def, 'Blender::Definition::Dummy' );
 
 done_testing();

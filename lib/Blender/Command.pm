@@ -3,7 +3,9 @@ package Blender::Command;
 use 5.012;
 use warnings;
 
-require Blender::Require;
+use Module::Load;
+use Module::Load::Conditional qw/can_load/;
+
 require Blender::Message;
 require Blender::Home;
 require Blender::Logger;
@@ -20,13 +22,12 @@ sub new {
 
     my $module = 'Blender::Command::' . ucfirst( $self->{cmd} );
 
-    eval { Blender::Require->try_require( $module ) };
-
-    if ( $@ ) {
-        die 'ERROR:Unknown command:' . $self->{cmd} . "\n";
+    if ( can_load( modules => { $module => undef } ) ) {
+        load $module;
+        return bless $self, $module;
     }
 
-    return bless $self, $module;
+    die 'ERROR:Unknown command:' . $self->{cmd} . "\n";
 }
 
 sub setup {
