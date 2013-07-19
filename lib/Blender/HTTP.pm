@@ -46,9 +46,9 @@ sub download {
 
     Blender::Message->notify( "-----> Download '$file' from '$self->{url}'." );
 
-    system( 'curl', '-L', $self->{url}, '-o', $path, '-s', '-f' );
+    my $result = system( 'curl', '-L', $self->{url}, '-o', $path, '-s', '-f' );
 
-    if ( $? >> 8 ) {
+    if ( $result ) {
         my $err = 'download request returns error.';
         die( Blender::Error->new( $err , ( $? >> 8 ) ));
     }
