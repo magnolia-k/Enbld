@@ -81,7 +81,7 @@ sub write_configuration_file {
 }
 
 sub set {
-    my ( $self, $config ) = @_;
+    my ( $pkg, $config ) = @_;
   
     if ( ! $config ) {
         require Blender::Exception;
@@ -92,7 +92,7 @@ sub set {
 
     $dirty++;
 
-    return $self;
+    return $pkg;
 }
 
 sub search {
