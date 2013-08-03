@@ -7,7 +7,7 @@ use lib "$ENV{HOME}/blended/Blender-Declare/lib/perl5/";
 
 use Blender::Declare;
 
-blend 'my dev env' => build {
+blend 'myblendedenv' => build {
 
     target 'git' => define {
         version 'latest';
