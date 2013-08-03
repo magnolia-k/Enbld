@@ -6,13 +6,13 @@ To install Blender-Declare, run the following commands:
 
     $ ./setup.plx
 
-Add path to PATH.
+Add Blender-Declare's path to PATH.
 
     export $PATH=$HOME/blended/bin:$HOME/blended/Blender-Declare/bin:$PATH
 
 Ready DSL file.
 
-    $ cat sample/DSL.plx
+    $ cat sample/git_install.plx
     #!/usr/bin/perl
 
     use 5.012;
@@ -22,16 +22,25 @@ Ready DSL file.
 
     use Blender::Declare;
 
-    blend 'my dev env' => build {
+    blend 'myblendedenv' => build {
 
-        target 'vim' => define {
+        target 'git' => define {
             version 'latest';
         };
     }
 
 Run DSL file.
 
-    $ ./sample/DSL.plx
+    $ ./sample/git_install.plx
+
+Install latest version git.
+
+    $ git --version
+    git version [version number]
+
+
+Build your development environment.
+
 
 SUPPORT AND DOCUMENTATION
 
