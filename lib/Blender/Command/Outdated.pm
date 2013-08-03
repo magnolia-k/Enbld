@@ -30,7 +30,7 @@ sub do {
     }
 
     if ( ! keys %outdated ) {
-        print STDERR "no outdated target.\n";
+        print STDERR "no outdated targets.\n";
     }
 
     foreach my $name ( sort keys %outdated ) {
