@@ -5,7 +5,7 @@ use warnings;
 
 use parent qw/Blender::Command/;
 
-require Blender::ConfigCollector;
+require Blender::App::Configuration;
 require Blender::Error;
 require Blender::Message;
 require Blender::Feature;
@@ -27,22 +27,33 @@ sub do {
     say "";
     say 'use Blender::Declare;';
     say "";
-    say "blend '" . Blender::ConfigCollector->blend_name . "' => build {";
+    say "blend '" . Blender::App::Configuration->blendname . "' => build {";
     say "";
 
-    foreach my $name ( sort keys %{ Blender::ConfigCollector->collection } ) {
-        my $config = Blender::ConfigCollector->search( $name );
+    foreach my $name ( sort keys %{ Blender::App::Configuration->config } ) {
+        my $config = Blender::App::Configuration->search_config( $name );
 
-        my $version = Blender::Feature->is_current_mode ?
-            $config->enabled : $config->condition->version;
+        my $lines = $config->DSL;
 
-        my $make_test = $config->condition->make_test;
+        foreach my $line ( @{ $lines } ) {
+            print '    ' . $line;
+        }
 
-        say ' ' x 4 . "target '" . $name . "' => define {";
-        say ' ' x 8 . "version '" . $version . "';";
-        say ' ' x 8 . "make_test '" . $make_test . "';" if $make_test;
-        say ' ' x 4 . "};";
-        say "";
+        print "\n";
+    }
+
+    print "\n";
+
+    foreach my $file ( sort keys %{ Blender::App::Configuration->rcfile } ) {
+        my $rcfile = Blender::App::Configuration->search_rcfile( $file );
+
+        my $lines = $rcfile->DSL;
+
+        foreach my $line ( @{ $lines } ) {
+            print '    ' . $line;
+        }
+
+        print "\n";
     }
 
     say "};";

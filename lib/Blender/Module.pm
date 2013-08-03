@@ -21,7 +21,7 @@ sub new {
     };
     
     my $module = 'Blender::Module::' . ucfirst( $self->{name} );
-    if ( can_install( modules => { $module => undef } ) ) {
+    if ( can_load( modules => { $module => undef } ) ) {
         load $module;
 
         bless $self, $module;
@@ -39,7 +39,7 @@ sub install {
     require Blender::Logger;
     my $logfile = Blender::Logger->logfile;
 
-    my $start_msg = "-----> Start install modules for '$self->{name}'.";
+    my $start_msg = "----> Start install modules for '$self->{name}'.";
     Blender::Message->notify( $start_msg );
 
     foreach my $name ( sort keys %{ $modules } ) {
@@ -47,7 +47,7 @@ sub install {
         my $module = $self->module( $name, $modules->{$name} );
         my $cmd = $self->install_command( $module );
 
-        Blender::Message->notify( "-----> $cmd" );
+        Blender::Message->notify( "--> $cmd" );
         system( "$cmd >> $logfile 2>&1" );
 
         if ( $? >> 8 ) {
@@ -57,7 +57,7 @@ sub install {
 
     }
 
-    my $end_msg = "-----> Finish install modules for '$self->{name}'.";
+    my $end_msg = "----> Finish install modules for '$self->{name}'.";
     Blender::Message->notify( $end_msg );
 
     return $self;
@@ -68,6 +68,7 @@ sub module {
 }
 
 sub install_command {
+    # virtual method
 }
 
 sub initialize {

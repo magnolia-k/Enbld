@@ -5,6 +5,9 @@ use warnings;
 
 use Carp;
 
+use Module::Load;
+use Module::Load::Conditional qw/can_load/;
+
 sub new {
     my ( $class, $name, $param ) = @_;
 
@@ -14,27 +17,28 @@ sub new {
     }
 
     my $module = "Blender::Target::Attribute::$name";
-    require Blender::Require;
-    eval { Blender::Require->try_require( $module ) };
 
-    if ( $@ ) {
-        require Blender::Exception;
-        croak( Blender::Exception->new( "Attribute '$name' is invalid name" ) );
+    if ( can_load( modules => { $module => undef } ) ) {
+        load $module;
+
+        my $self = {
+            attributes      =>  undef,
+            value           =>  undef,
+            callback        =>  undef,
+            is_evaluated    =>  undef,
+        };
+
+        bless $self, $module;
+
+        $self->initialize( $param );
+
+        return $self;
     }
 
-    my $self = {
-        attributes      =>  undef,
-        value           =>  undef,
-        callback        =>  undef,
-        is_evaluated    =>  undef,
-    };
-
-    bless $self, $module;
-
-    $self->initialize( $param );
-
-    return $self;
+    require Blender::Exception;
+    croak( Blender::Exception->new( "Attribute '$name' is invalid name" ) );
 }
+
 
 sub initialize {
     my ( $self, $param ) = @_;

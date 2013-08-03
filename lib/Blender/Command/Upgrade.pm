@@ -5,7 +5,7 @@ use warnings;
 
 use parent qw/Blender::Command/;
 
-require Blender::ConfigCollector;
+require Blender::App::Configuration;
 require Blender::Error;
 require Blender::Exception;
 require Blender::Message;
@@ -19,14 +19,14 @@ sub do {
     
     $self->setup;
     
-    my $config = Blender::ConfigCollector->search( $target_name );
+    my $config = Blender::App::Configuration->search_config( $target_name );
     my $target = Blender::Target->new( $target_name, $config );
 
     my $installed;
     eval{ $installed = $target->upgrade };
 
     if ( $installed ) {
-        Blender::ConfigCollector->set( $installed );
+        Blender::App::Configuration->set_config( $installed );
     }
     
     $self->teardown;

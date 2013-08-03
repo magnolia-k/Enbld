@@ -6,7 +6,7 @@ use warnings;
 use parent qw/Blender::Command/;
 
 require Blender::Home;
-require Blender::ConfigCollector;
+require Blender::App::Configuration;
 require Blender::Target;
 require Blender::Message;
 
@@ -14,11 +14,11 @@ sub do {
     my $self = shift;
   
     Blender::Home->initialize;
-    Blender::ConfigCollector->read_configuration_file;
+    Blender::App::Configuration->read_file;
 
     my %outdated;
-    foreach my $name ( keys %{ Blender::ConfigCollector->collection } ) {
-        my $config = Blender::ConfigCollector->search( $name );
+    foreach my $name ( keys %{ Blender::App::Configuration->config } ) {
+        my $config = Blender::App::Configuration->search_config( $name );
         my $target = Blender::Target->new( $name, $config );
 
         my $version = $target->is_outdated;
@@ -34,7 +34,7 @@ sub do {
     }
 
     foreach my $name ( sort keys %outdated ) {
-        my $config = Blender::ConfigCollector->search( $name );
+        my $config = Blender::App::Configuration->search_config( $name );
 
         print $name . ' ' x 4 . $config->enabled;
         print " < " . $outdated{$name} . "\n";

@@ -34,7 +34,7 @@ sub download {
     my ( undef, undef, $file ) = File::Spec->splitpath( $path );
 
     if ( -e $path ) {
-        my $msg = "-----> Use file '$file' that is previously downloaded.";
+        my $msg = "--> Use file '$file' that is previously downloaded.";
         Blender::Message->notify( $msg );
         return $path;
     }
@@ -44,7 +44,7 @@ sub download {
         return $path;
     }
 
-    Blender::Message->notify( "-----> Download '$file' from '$self->{url}'." );
+    Blender::Message->notify( "--> Download '$file' from '$self->{url}'." );
 
     system( 'curl', '-L', $self->{url}, '-o', $path, '-s', '-f' );
 

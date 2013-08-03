@@ -86,8 +86,8 @@ sub serialize {
     my $self = shift;
 
     my %serialized;
-    foreach my $key ( keys %{ $self } ) {
-        next if ( ! defined $self->{$key} );
+    foreach my $key ( sort keys %{ $self } ) {
+        next if ( ! $self->{$key} );
 
         $serialized{$key} = $self->{$key};
     }
@@ -99,9 +99,9 @@ sub serialize_without_name {
     my $self = shift;
 
     my %serialized;
-    foreach my $key ( keys %{ $self } ) {
+    foreach my $key ( sort keys %{ $self } ) {
         next if $key eq 'name';
-        next if ( ! defined $self->{$key} );
+        next if ( ! $self->{$key} );
 
         $serialized{$key} = $self->{$key};
     }

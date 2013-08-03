@@ -6,7 +6,7 @@ use warnings;
 use parent qw/Blender::Command/;
 
 require Blender::Home;
-require Blender::ConfigCollector;
+require Blender::App::Configuration;
 require Blender::Error;
 require Blender::Exception;
 require Blender::Target;
@@ -17,19 +17,19 @@ sub do {
     my $target_name = $self->validate_target_name( shift @{ $self->{argv} } );
 
     Blender::Home->initialize;
-    Blender::ConfigCollector->read_configuration_file;
+    Blender::App::Configuration->read_file;
 
-    my $config = Blender::ConfigCollector->search( $target_name );
+    my $config = Blender::App::Configuration->search_search( $target_name );
     my $target = Blender::Target->new( $target_name, $config );
 
     my $offed;
     eval { $offed = $target->off };
 
     if ( $offed ) {
-        Blender::ConfigCollector->set( $offed );
+        Blender::App::Configuration->set_config( $offed );
     } 
 
-    Blender::ConfigCollector->write_configuration_file;
+    Blender::Configuration->write_file;
 
     if ( Blender::Error->caught or Blender::Exception->caught ) {
         Blender::Message->notify( $@ );

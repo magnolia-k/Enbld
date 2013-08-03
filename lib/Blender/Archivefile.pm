@@ -24,7 +24,7 @@ sub extract {
     my ( undef, undef, $file ) = File::Spec->splitpath( $self->{archivefile} );
 
     require Blender::Message;
-    Blender::Message->notify( "-----> Extract archive file '$file'." );
+    Blender::Message->notify( "--> Extract archive file '$file'." );
 
     my $tar = Archive::Tar->new;
     $tar->read( $self->{archivefile} ) or

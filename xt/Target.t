@@ -135,8 +135,8 @@ subtest 'install dependant' => sub {
         is( $dependant->name, 'testdependant', 'dependant name' );
         is( $dependant->enabled, '1.1', 'dependant enabled' );
 
-        require Blender::ConfigCollector;
-        my $config = Blender::ConfigCollector->search( 'testapp' );
+        require Blender::App::Configuration;
+        my $config = Blender::App::Configuration->search_config( 'testapp' );
         is( $config->name, 'testapp', 'dependency name' );
         is( $config->enabled, '1.1', 'dependency enabled' );
 
@@ -148,9 +148,9 @@ subtest 'install dependant' => sub {
         setup();
     
         my $dependency = Blender::Target->new( 'testapp' )->install;
-        Blender::ConfigCollector->set( $dependency );
+        Blender::App::Configuration->set_config( $dependency );
 
-        my $installed = Blender::ConfigCollector->search( 'testapp' );
+        my $installed = Blender::App::Configuration->search_config( 'testapp' );
         is( $installed->enabled, '1.1', 'installed dependency' );
 
         my $config = Blender::Target->new( 'testdependant' )->install;
@@ -172,7 +172,7 @@ subtest 'install dependant' => sub {
         my $dependant = Blender::Target->new( 'testdependant' )->install;
         is( $dependant->enabled, '1.1', 'enabled' );
 
-        my $config = Blender::ConfigCollector->search( 'testapp' );
+        my $config = Blender::App::Configuration->search_config( 'testapp' );
         is( $config->name, 'testapp', 'target name' );
         is( $config->enabled, '1.0', 'target enabled' );
 
@@ -505,12 +505,12 @@ sub setup {
     require Blender::Logger;
     Blender::Logger->rotate( Blender::Home->log );
 
-    require Blender::ConfigCollector;
+    require Blender::App::Configuration;
     require Blender::ConditionCollector;
 }
 
 sub teardown {
-    Blender::ConfigCollector->destroy;
+    Blender::App::Configuration->destroy;
     Blender::ConditionCollector->destroy;
 
     Blender::Feature->reset;

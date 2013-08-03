@@ -8,7 +8,7 @@ use parent qw/Blender::Command/;
 require Blender::Feature;
 require Blender::Home;
 require Blender::Logger;
-require Blender::ConfigCollector;
+require Blender::App::Configuration;
 require Blender::Target;
 
 sub do {
@@ -25,10 +25,10 @@ sub do {
     Blender::Home->create_build_directory;
     Blender::Logger->rotate( Blender::Home->log );
 
-    Blender::ConfigCollector->read_configuration_file;
+    Blender::App::Configuration->read_file;
 
-    foreach my $name ( keys %{ Blender::ConfigCollector->collection } ) {
-        my $config = Blender::ConfigCollector->search( $name );
+    foreach my $name ( keys %{ Blender::App::Configuration->config } ) {
+        my $config = Blender::App::Configuration->search_config( $name );
 
         next unless $config->enabled;
 

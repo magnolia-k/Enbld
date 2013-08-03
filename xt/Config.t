@@ -9,7 +9,6 @@ use File::Spec;
 use File::Temp;
 
 require_ok( 'Blender::Config' );
-require_ok( 'Blender::ConfigCollector' );
 
 subtest 'constructor method' => sub {
     eval { Blender::Config->new };
@@ -32,34 +31,6 @@ subtest 'getter method' => sub {
 
     is( $config->condition->version, '1.1', 'version condition no param' );
     is( $config->condition( '1.0' )->version, '1.0', 'sepecific version' );
-
-    done_testing();
-};
-
-subtest 'write and read configuration method' => sub {
-    local $ENV{HOME} = File::Temp->newdir;
-    require Blender::Home;
-    Blender::Home->initialize;
-
-    is( Blender::ConfigCollector->read_configuration_file, undef, 'no read' );
-
-    require Blender::Condition;
-    my $condition = Blender::Condition->new( name => 'app', version => '1.0' );
-    my $config = Blender::Config->new( name =>  'app' );
-    $config->set_enabled( '1.0', $condition );
-    Blender::ConfigCollector->set( $config );
-    Blender::ConfigCollector->write_configuration_file;
-
-    my $dummy = Blender::Config->new( name =>  'app', enabled  =>  '1.1' );
-    Blender::ConfigCollector->set( $dummy );
-
-    Blender::ConfigCollector->destroy;
-
-    Blender::ConfigCollector->read_configuration_file;
-    my $read_config = Blender::ConfigCollector->search( 'app' );
-
-    is( $read_config->name, 'app', 'read configure - name' );
-    is( $read_config->enabled, '1.0', 'read configure - enabled' );
 
     done_testing();
 };
@@ -173,74 +144,6 @@ subtest 'is installed version method' => sub {
         $config->set_enabled( '1.0', $condition );
 
         is( $config->is_installed_version( '1.1' ), undef, 'not installed' );
-
-        done_testing();
-    };
-
-    done_testing();
-};
-
-subtest 'collector method' => sub {
-    no Blender::ConfigCollector;
-    require Blender::ConfigCollector;
-
-    subtest 'no return' => sub {
-        is( Blender::ConfigCollector->search, undef, 'no param' );
-
-        done_testing();
-    };
-
-    subtest 'method success' => sub {
-        require Blender::Condition;
-        my $condition = Blender::Condition->new( name => 'app' );
-        my $config = Blender::Config->new( name => 'app' );
-        $config->set_enabled( '1.0', $condition );
-        Blender::ConfigCollector->set( $config );
-
-        my $searched = Blender::ConfigCollector->search( 'app' );
-        is( $searched->name, 'app', 'got name' );
-        is( $searched->enabled, '1.0', 'got enabled' );
-
-        done_testing();
-    };
-
-    subtest 'no config' => sub {
-        is( Blender::ConfigCollector->search( 'dummy' ), undef, 'no config' );
-
-        done_testing();
-    };
-
-    subtest 'set method exception' => sub {
-        eval { Blender::ConfigCollector->set };
-        like( $@, qr/ABORT:set method requires config object/, 'no param' );
-
-        done_testing();
-    };
-
-    done_testing();
-};
-
-subtest 'modules method' => sub {
-
-    subtest 'no modules' => sub {
-        my $config = Blender::Config->new( name => 'app' );
-        is( $config->modules, undef, 'no modules' );
-
-        done_testing();
-    };
-
-    subtest 'set no modules' => sub {
-        my $config = Blender::Config->new( name => 'app' );
-        $config->set_modules;
-        is( $config->modules, undef, 'set no modules' );
-
-        done_testing();
-    };
-
-    subtest 'set modules' => sub {
-        my $config = Blender::Config->new( name => 'app' );
-        $config->set_modules( { 'module' => 0 } );
-        is_deeply( $config->modules, { 'module' => 0 }, 'set modules' );
 
         done_testing();
     };

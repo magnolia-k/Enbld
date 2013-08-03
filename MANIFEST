@@ -3,6 +3,7 @@ bin/blender
 Build.PL
 Changes
 lib/Blender/App.pm
+lib/Blender/App/Configuration.pm
 lib/Blender/Archivefile.pm
 lib/Blender/Command.pm
 lib/Blender/Command/Available.pm
@@ -20,7 +21,6 @@ lib/Blender/Command/Version.pm
 lib/Blender/Condition.pm
 lib/Blender/ConditionCollector.pm
 lib/Blender/Config.pm
-lib/Blender/ConfigCollector.pm
 lib/Blender/Declare.pm
 lib/Blender/Definition.pm
 lib/Blender/Definition/Autoconf.pm
@@ -46,6 +46,7 @@ lib/Blender/Logger.pm
 lib/Blender/Message.pm
 lib/Blender/Module.pm
 lib/Blender/Module/Perl.pm
+lib/Blender/RcFile.pm
 lib/Blender/Target.pm
 lib/Blender/Target/Attribute.pm
 lib/Blender/Target/Attribute/AdditionalArgument.pm
@@ -87,6 +88,7 @@ t/boilerplate.t
 t/manifest.t
 t/pod-coverage.t
 t/pod.t
+xt/App-Configuration.t
 xt/Archivefile.t
 xt/Condition.t
 xt/Config.t
@@ -112,6 +114,7 @@ xt/HTML.t
 xt/HTTP.t
 xt/Logger.t
 xt/Message.t
+xt/RcFile.t
 xt/Target-Attribute-AdditionalArgument.t
 xt/Target-Attribute-AllowedCondition.t
 xt/Target-Attribute-ArchiveName.t

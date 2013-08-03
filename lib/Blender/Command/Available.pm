@@ -8,9 +8,11 @@ use parent qw/Blender::Command/;
 use File::Spec;
 use autodie;
 
+use Module::Load;
+use Module::Load::Conditional qw/can_load/;
+
 require Blender::Home;
 require Blender::Definition;
-require Blender::Require;
 
 sub do {
     my $self = shift;
@@ -35,12 +37,14 @@ sub do {
         my $output = lc( $name );
 
         my $module = 'Blender::Definition::' . $name;
-        Blender::Require->try_require( $module );
 
-        my $attributes = $module->new->parse;
+        if ( can_load( modules => { $module => undef } ) ) {
+            load $module;
 
-        say $output . ' ' x 8 . $attributes->WebSite;
-    }
+            my $attributes = Blender::Definition->new( $output )->parse;
+            say $output . ' ' x 8 . $attributes->WebSite;
+        }
+   }
 
     return $self;
 }

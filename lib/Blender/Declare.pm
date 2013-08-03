@@ -17,18 +17,42 @@ our @EXPORT = qw/
     version
     make_test
     modules
+    conf
+    load
+    set
+    from
+    to
+    content
 /;
 
+require Blender::App::Configuration;
 require Blender::Logger;
 require Blender::Target;
-require Blender::ConfigCollector;
 require Blender::Condition;
 require Blender::Error;
 require Blender::Exception;
+require Blender::RcFile;
 
-our $condition;
+our $condition_ref;
 
 sub blend($$) {
+    my ( $blendname, $coderef ) = @_;
+
+    if ( ref( $blendname ) ) {
+        _err(
+                "Function 'blend' first requsres " .
+                "string type parameter 'blend name'."
+                );
+    }
+
+    if ( $blendname =~ /[^0-9a-zA-Z_]/ ) {
+        _err( "Blend name '$blendname' contains invalid character.", $blendname );
+    }
+
+    if ( ref( $coderef ) ne 'CODE' ) {
+        _err( "Function 'blend' seconde requires code reference parameter." );
+    }
+
     parse_option();
 
     require Blender::Home;
@@ -37,14 +61,12 @@ sub blend($$) {
     require Blender::Message;
     Blender::Message->set_verbose;
 
-    Blender::ConfigCollector->read_configuration_file;
-    Blender::ConfigCollector->set_blend_name( $_[0] );
+    Blender::App::Configuration->read_file;
+    Blender::App::Configuration->set_blendname( $_[0] );
 
     $_[1]->();
     
-    if ( ! Blender::Feature->is_deploy_mode ) {
-        Blender::ConfigCollector->write_configuration_file;
-    }
+    Blender::App::Configuration->write_file;
 
     return 1;
 }
@@ -54,70 +76,196 @@ sub build(&) {
 }
 
 sub target($$) {
+    my ( $targetname, $coderef ) = @_;
+
+    if ( ref( $targetname ) ) {
+        _err(
+                "Function 'target' first requsres " .
+                "string type parameter 'target name'."
+                );
+    }
+
+    if( $targetname =~ /[^0-9a-z]/ ) {
+        _err( "Target name '$targetname' contains invalid character." );
+    }
+
+    if ( ref( $coderef ) ne 'CODE' ) {
+        _err( "Function 'target' seconde requires code reference parameter." );
+    }
 
     Blender::Declare->_setup_directory;
 
-    $condition = {
-        name        =>  $_[0],
-        version     =>  undef,
-        make_test   =>  undef,
-        modules     =>  undef,
+    $condition_ref = {
+        name        =>  $targetname,
     };
 
-    my $config = Blender::ConfigCollector->search( $condition->{name} );
+    my $config = Blender::App::Configuration->search_config( $targetname );
+    my $target = Blender::Target->new( $targetname, $config );
 
-    $_[1]->();
-
-    my $target = Blender::Target->new( $condition->{name}, $config );
+    $coderef->();
 
     my $installed;
     eval {
-        my $condition = Blender::Condition->new( %{ $condition } );
+        my $condition = Blender::Condition->new( %{ $condition_ref } );
         $installed = $target->install_declared( $condition );
     };
 
-    if ( Blender::Error->caught or Blender::Exception->caught ) {
-        Blender::Message->notify( $@ );
-        say "\nPlease check build logile:" . Blender::Logger->logfile;
+    undef $condition_ref;
 
-        undef $condition;
+    if ( Blender::Error->caught ) {
+        Blender::Message->notify( $@ );
+
+        print "\n";
+        print "Please check build logile:" . Blender::Logger->logfile . "\n";
+
         return;
     }
 
-    if ( $@ ) {
-        die $@;
-    }
-
-    undef $condition;
+    die $@ if ( $@ );
 
     return unless $installed;
-    Blender::ConfigCollector->set( $installed );
+
+    Blender::App::Configuration->set_config( $installed );
 }
 
 sub define(&) {
-    return $_[0];
+    my $coderef = shift;
+
+    return $coderef;
 }
 
 sub version($) {
-    $condition->{version} = $_[0];
+    my $version = shift;
+
+    if ( ref( $version ) ) {
+        _err( "Function 'version' requsres string type parameter." );
+    }
+
+    $condition_ref->{version} = $version;
 }
 
 sub make_test(;$) {
-    $condition->{make_test} = $_[0];
+    my $make_test = shift;
+
+    if ( $make_test && ref( $make_test ) ) {
+        _err( "Function 'make_test' requsres string type parameter." );
+    }
+
+    $condition_ref->{make_test} = $_[0] if $make_test;
 }
 
 sub modules($) {
     my $modules = shift;
 
-    if ( ! $modules ) {
-        die( "ERROR:condition 'modules' requires module parameter.\n" );
-    }
-
     if ( ref( $modules ) ne 'HASH' ) {
-        die( "ERROR:condition 'modules' must set hash reference.\n" );
+        _err( "Function 'modules' requires HASH reference type parameter." );
     }
 
-    $condition->{modules} = $modules;
+    $condition_ref->{modules} = $modules;
+}
+
+our $rcfile_condition;
+
+sub conf($$) {
+    my ( $filepath, $coderef ) = @_;    
+
+    if ( ref( $filepath ) ) {
+        _err( "Function 'conf' first requsres string type parameter." );
+    }
+
+    if ( $filepath =~ /\s/ ) {
+        _err(
+                "Configuration file path parameter must " .
+                "not contain space character."
+                );
+    }
+
+    if ( ref( $coderef ) ne 'CODE' ) {
+        _err( "Function 'conf' requires code reference type parameter." );
+    }
+
+    $coderef->();
+
+    $rcfile_condition->{filepath} = $filepath;
+
+    my $rcfile;
+    eval {
+        $rcfile = Blender::RcFile->new( %{ $rcfile_condition } );
+        $rcfile->do;
+    };
+
+    if ( Blender::Error->caught ) {
+        Blender::Message->notify( $@ );
+
+        print "\n";
+        print "Please check build logile:" . Blender::Logger->logfile . "\n";
+
+        undef $rcfile_condition;
+        undef $rcfile;
+
+        return;
+    }
+
+    die $@ if ( $@ );
+
+    Blender::App::Configuration->set_rcfile( $rcfile );
+
+    undef $rcfile_condition;
+    undef $rcfile;
+}
+
+sub load(&) {
+    $rcfile_condition->{command} = 'load';
+
+    return $_[0];
+}
+
+sub set(&) {
+    $rcfile_condition->{command} = 'set';
+
+    return $_[0];
+}
+
+sub from($) {
+    my $url = shift;
+
+    if ( ref( $url ) ) {
+        _err( "Function 'from' requsres string type parameter." );
+    }
+
+    my $pattern = q{s?https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+};
+
+    if ( $url !~ /$pattern/ ) {
+        _err( "Function 'from' requires valid URL parameter.", $url );
+    }
+
+    $rcfile_condition->{url} = $url;
+}
+
+sub to($) {
+    my $to = shift;
+
+    if ( ref( $to ) ) {
+        _err( "Function 'to' requsres string type parameter." );
+    }
+
+    if ( $rcfile_condition->{directory} =~ /\s/ ) {
+        _err( "Function 'to' must not contain space character." );
+    }
+
+    $rcfile_condition->{directory} = shift;
+}
+
+sub content($) {
+    my $content = shift;
+
+    if ( ref( $content ) ) {
+        _err( "Function 'content' reuqires string type parameter." );
+    }
+
+    chomp( $content );
+
+    $rcfile_condition->{contents} .= $content . "\n";
 }
 
 our $setuped;
@@ -150,6 +298,12 @@ sub parse_option {
             force       =>  $force,
             deploy      =>  $deploy_path,
             );
+}
+
+sub _err {
+    my ( $msg, $param ) = @_;
+
+    die( Blender::Error->new( $msg, $param ) );
 }
 
 1;

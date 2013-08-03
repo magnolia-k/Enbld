@@ -72,8 +72,7 @@ sub _is_install_ok {
 }
 
 sub install_declared {
-    my $self = shift;
-    my $condition = shift;
+    my ( $self, $condition ) = @_;
 
     $self->{attributes}->add( 'VersionCondition', $condition->version );
 
@@ -278,10 +277,6 @@ sub _build {
     Blender::Message->notify( $finish_msg );
 
     $self->{config}->set_enabled( $self->{attributes}->Version, $condition );
-
-    if ( $condition->modules ) {
-        $self->{config}->set_modules( $condition->modules );
-    }
 }
 
 sub _solve_dependencies {
@@ -291,23 +286,23 @@ sub _solve_dependencies {
 
     Blender::Message->notify( "=====> Found dependencies." );
 
-    require Blender::ConfigCollector;
+    require Blender::App::Configuration;
     require Blender::ConditionCollector;
 
     foreach my $dependency ( @{ $self->{attributes}->Dependencies } ) {
 
-        Blender::Message->notify( "-----> Dependency '$dependency'." );
+        Blender::Message->notify( "--> Dependency '$dependency'." );
 
-        my $config = Blender::ConfigCollector->search( $dependency );
+        my $config = Blender::App::Configuration->search_config( $dependency );
         my $target = Blender::Target->new( $dependency, $config );
 
         if ( ( ! Blender::Feature->is_deploy_mode ) && $target->is_installed ) {
-            my $installed_msg = "-----> $dependency is already installed.";
+            my $installed_msg = "--> $dependency is already installed.";
             Blender::Message->notify( $installed_msg );
             next;
         }
 
-        Blender::Message->notify( "-----> $dependency is not installed yet. " );
+        Blender::Message->notify( "--> $dependency is not installed yet. " );
  
         my $condition = Blender::ConditionCollector->search( $dependency );
 
@@ -318,7 +313,7 @@ sub _solve_dependencies {
             $installed = $target->install;
         }
 
-        Blender::ConfigCollector->set( $installed );
+        Blender::App::Configuration->set_config( $installed );
     }
 }
 
@@ -432,7 +427,7 @@ sub _exec {
     require Blender::Logger;
     my $logfile = Blender::Logger->logfile;
 
-    Blender::Message->notify( "-----> $cmd" );
+    Blender::Message->notify( "--> $cmd" );
 
     system( "$cmd >> $logfile 2>&1" );
 
@@ -463,7 +458,7 @@ sub _apply_patchfiles {
         my $path = File::Spec->catfile( $self->{build}, $parse[-1] );
 
         Blender::HTTP->new( $patchfile )->download( $path );
-        Blender::Message->notify( "-----> Apply patch $parse[-1]." );
+        Blender::Message->notify( "--> Apply patch $parse[-1]." );
 
         system( "patch -p0 < $path >> $logfile 2>&1" );
     }

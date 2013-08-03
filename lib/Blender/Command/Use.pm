@@ -7,7 +7,7 @@ use parent qw/Blender::Command/;
 
 require Blender::Home;
 require Blender::Error;
-require Blender::ConfigCollector;
+require Blender::App::Configuration;
 require Blender::Target;
 
 sub do {
@@ -21,20 +21,20 @@ sub do {
     }
 
     Blender::Home->initialize;
-    Blender::ConfigCollector->read_configuration_file;
+    Blender::App::Configuration->read_file;
 
-    my $config = Blender::ConfigCollector->search( $target_name );
+    my $config = Blender::App::Configuration->search_config( $target_name );
     my $target = Blender::Target->new( $target_name, $config );
 
     my $used;
     eval { $used = $target->use( $target_version ) };
 
     if ( $used ) {
-        Blender::ConfigCollector->set( $used );
+        Blender::App::Configuration->set_config( $used );
     }
 
 
-    Blender::ConfigCollector->write_configuration_file;
+    Blender::App::Configuration->write_file;
 
     if ( Blender::Error->caught or Blender::Exception->caught ) {
         Blender::Message->notify( $@ );

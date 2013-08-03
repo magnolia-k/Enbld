@@ -9,7 +9,7 @@ use Module::Load::Conditional qw/can_load/;
 require Blender::Message;
 require Blender::Home;
 require Blender::Logger;
-require Blender::ConfigCollector;
+require Blender::App::Configuration;
 
 sub new {
     my $class = shift;
@@ -35,11 +35,11 @@ sub setup {
     Blender::Home->create_build_directory;
     Blender::Logger->rotate( Blender::Home->log );
 
-    Blender::ConfigCollector->read_configuration_file;
+    Blender::App::Configuration->read_file;
 }
 
 sub teardown {
-    Blender::ConfigCollector->write_configuration_file;
+    Blender::App::Configuration->write_file;
 }
 
 sub validate_target_name {

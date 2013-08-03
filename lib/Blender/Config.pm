@@ -15,7 +15,6 @@ sub new {
         name        =>  undef,
         installed   =>  {},
         enabled     =>  undef,
-        modules     =>  {},
         @_,
     };
 
@@ -99,31 +98,46 @@ sub set_enabled {
     return $self->{enabled};
 }
 
-sub modules {
-    my $self = shift;
-
-    return $self->{modules} if ( keys %{ $self->{modules} } );
-
-    return;
-}
-
-sub set_modules {
-    my ( $self, $modules ) = @_;
-
-    $self->{modules} = $modules;
-
-    return $self->modules;
-}
-
 sub serialize {
     my $self = shift;
 
-    my %serialized;
-    foreach my $key ( keys %{ $self } ) {
-        $serialized{ $key } = $self->{$key};
+    my $serialized;
+    foreach my $key ( sort keys %{ $self } ) {
+        $serialized->{$key} = $self->{$key};
     }
 
-    return \%serialized;
+    return $serialized;
+}
+
+sub DSL {
+    my $self = shift;
+
+    my @config;
+
+    require Blender::Feature;
+    my $version = Blender::Feature->is_current_mode ?
+        $self->enabled : $self->condition->version;
+
+    push @config, "target '" . $self->name . "' => define {\n";
+    push @config, "    version '". $version . "';\n";
+    if ( $self->condition->make_test ) {
+        push @config, "    make_test '" . $self->condition->make_test . "';\n";
+    }
+
+    if ( $self->condition->modules ) {
+        push @config, "    modules {\n";
+
+        foreach my $module ( sort keys %{ $self->condition->modules } ) {
+            push @config, ' ' x 8 . "'" . $module . "' => " . 
+                $self->condition->modules->{$module} . ",\n";
+        }
+
+        push @config, "    };\n";
+    }
+
+    push @config, "};\n";
+
+    return \@config;
 }
 
 1;
