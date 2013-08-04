@@ -48,11 +48,15 @@ sub do {
         _err( "Configuration 'set' command don't need 'from' command." );
     }
 
+    my $result;
+
     if ( $self->{command} eq 'load' ) {
-        $self->load;
+        $result = $self->load;
     } elsif ( $self->{command} eq 'set' ) {
-        $self->set;
+        $result = $self->set;
     }
+
+    return $result;
 }
 
 sub _parse_filepath {
@@ -128,7 +132,7 @@ sub load {
                 "=====> Finish configuration file '$self->{filename}'"
                 );
 
-        return $self->{fullpath};
+        return $self->{filename};
     }
 
     _err( "Can't write $self->{fullpath}:$!" );    
@@ -154,7 +158,7 @@ sub set {
             "=====> Finish configuration file '$self->{filename}'"
             );
 
-    return $self->{fullpath};
+    return $self->{filename};
 }
 
 sub filename {

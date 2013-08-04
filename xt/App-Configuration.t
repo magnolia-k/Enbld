@@ -19,6 +19,8 @@ subtest 'blendname' => sub {
     is( $blendname, 'blend', 'blend name' );
 
     Blender::App::Configuration->destroy;
+
+    done_testing();
 };
 
 subtest 'no write configuration file' => sub {
@@ -40,6 +42,8 @@ subtest 'no write configuration file' => sub {
     Blender::App::Configuration->write_file;
 
     ok( ! -e $conf, 'not write configuration file - deploy mode' );
+
+    done_testing();
 };
 
 subtest 'write and read config to configuration file' => sub {

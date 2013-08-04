@@ -271,6 +271,8 @@ sub _build {
 
     $self->_postbuild;
 
+    $self->_clean_module_directory if $condition->modules;
+
     $self->_install_module( $condition ) if $condition->modules;
 
     my $finish_msg = "=====> Finish building target '$self->{name}'.";
@@ -386,18 +388,22 @@ sub _install {
     return $self;
 }
 
+sub _clean_module_directory {
+    my $self = shift;
+
+    return if ( Blender::Feature->is_deploy_mode );
+
+    my $module_path = File::Spec->catdir(
+            Blender::Home->modules,
+            $self->{attributes}->ArchiveName,
+            $self->{attributes}->Version,
+            );
+
+    remove_tree( $module_path ) if ( -d $module_path );
+}
+
 sub _install_module {
     my ( $self, $condition ) = @_;
-
-    unless ( Blender::Feature->is_deploy_mode ) {
-        my $module_path = File::Spec->catdir(
-                Blender::Home->modules,
-                $self->{attributes}->ArchiveName,
-                $self->{attributes}->Version,
-                );
-
-        remove_tree( $module_path ) if ( -d $module_path );
-    }
 
     require Blender::Module;
     my $module = Blender::Module->new( name => $self->{name} );
@@ -408,9 +414,7 @@ sub _install_module {
 sub _postbuild {
     my $self = shift;
 
-    if ( Blender::Feature->is_deploy_mode ) {
-        return;
-    }
+    return if ( Blender::Feature->is_deploy_mode );
 
     my $path = File::Spec->catdir(
             Blender::Home->depository,
@@ -483,8 +487,7 @@ sub _setup_install_directory {
     my $self = shift;
   
     if ( Blender::Feature->is_deploy_mode ) {
-        $self->{install} = Blender::Home->deploy_path;
-        return $self->{install};
+        return ( $self->{install} = Blender::Home->deploy_path );
     }
 
     my $depository = File::Spec->catdir(
@@ -493,9 +496,7 @@ sub _setup_install_directory {
             $self->{attributes}->Version,
             );
 
-    if ( -d $depository ) {
-        remove_tree( $depository );
-    }
+    remove_tree( $depository ) if ( -d $depository );
 
     return ( $self->{install} = $depository );
 }

@@ -16,6 +16,10 @@ our $CONFIGURATIONFILE;
 
 our $dirty;
 
+sub is_dirty {
+    return $dirty;
+}
+
 sub config {
     return $config_ref;
 }
@@ -76,7 +80,7 @@ sub write_file {
     require Blender::Feature;
     return if Blender::Feature->is_deploy_mode;
 
-    return unless $dirty;
+    return unless is_dirty();
 
     $CONFIGURATIONFILE = {
         blendname   =>  $blendname,

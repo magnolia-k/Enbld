@@ -80,8 +80,10 @@ lib/Blender/Target/Symlink.pm
 lib/Test/Blender/Definition.pm
 MANIFEST			This list of files
 README
-sample/DSL.plx
-sample/DSL_perl.plx
+sample/git_install.plx
+sample/magnolia.plx
+sample/perl_install.plx
+sample/vim_install.plx
 setup.plx
 t/00-load.t
 t/boilerplate.t

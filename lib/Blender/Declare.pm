@@ -3,6 +3,7 @@ package Blender::Declare;
 use 5.012;
 use warnings;
 
+use FindBin qw/$Script/;
 use Getopt::Long;
 
 our $VERSION = '0.6002';
@@ -33,7 +34,9 @@ require Blender::Error;
 require Blender::Exception;
 require Blender::RcFile;
 
-our $condition_ref;
+our $initialized;
+our %target_result;
+our %rcfile_result;
 
 sub blend($$) {
     my ( $blendname, $coderef ) = @_;
@@ -46,37 +49,95 @@ sub blend($$) {
     }
 
     if ( $blendname =~ /[^0-9a-zA-Z_]/ ) {
-        _err( "Blend name '$blendname' contains invalid character.", $blendname );
+        _err(
+                "Blend name '$blendname' contains invalid character.",
+                $blendname
+                );
     }
 
     if ( ref( $coderef ) ne 'CODE' ) {
         _err( "Function 'blend' seconde requires code reference parameter." );
     }
 
+    require Blender::Message;
+    Blender::Message->set_verbose;
+
     parse_option();
 
     require Blender::Home;
     Blender::Home->initialize;
 
-    require Blender::Message;
-    Blender::Message->set_verbose;
-
     Blender::App::Configuration->read_file;
     Blender::App::Configuration->set_blendname( $_[0] );
 
+    $initialized++;
+
     $_[1]->();
-    
-    Blender::App::Configuration->write_file;
+
+    undef $initialized;
+
+    show_result_message();
+
+    check_targets_in_DSL();
+
+    if ( ! Blender::App::Configuration->is_dirty ) {
+        Blender::Message->notify(
+                "INFO:No builded targets & loaded configuration file."
+                );
+    }
 
     return 1;
+}
+
+sub check_targets_in_DSL {
+
+    return if Blender::Feature->is_deploy_mode;
+
+    my %not_in_dsl;
+    foreach my $name ( keys %{ Blender::App::Configuration->config } ) {
+        my $config = Blender::App::Configuration->search_config( $name );
+
+        $not_in_dsl{$name}++ unless defined $target_result{$name};
+    }
+
+    if ( keys %not_in_dsl ) {
+        Blender::Message->notify(
+                "WARN:The following targets are not defined in DSL $Script.\n" .
+                "Please check $Script."
+                );
+
+        foreach my $target ( sort keys %not_in_dsl ) {
+            Blender::Message->notify( "    " . $target );
+        }
+    }
+}
+
+sub show_result_message {
+
+    foreach my $target ( sort keys %target_result ) {
+        Blender::Message->notify( $target_result{$target} );
+    }
+
+    foreach my $file ( sort keys %rcfile_result ) {
+        Blender::Message->notify( $rcfile_result{$file} );
+    }
 }
 
 sub build(&) {
     return $_[0];
 }
 
+our $condition_ref;
+
 sub target($$) {
     my ( $targetname, $coderef ) = @_;
+
+    if ( ! $initialized ) {
+        _err(
+                "Environment is not initialized.".
+                "Isn't the syntax of DSL possibly mistaken?"
+                );
+    }
 
     if ( ref( $targetname ) ) {
         _err(
@@ -112,20 +173,35 @@ sub target($$) {
 
     undef $condition_ref;
 
+    # Catch exception.
     if ( Blender::Error->caught ) {
         Blender::Message->notify( $@ );
 
         print "\n";
         print "Please check build logile:" . Blender::Logger->logfile . "\n";
 
+        $target_result{$targetname} = $targetname . ' is failure to build.';
+
         return;
     }
 
     die $@ if ( $@ );
 
-    return unless $installed;
+    # Target is installed.
+    if ( $installed ) {
+        $target_result{$targetname} = $targetname . ' ' . $installed->enabled .
+            " is installed.";
 
-    Blender::App::Configuration->set_config( $installed );
+        Blender::App::Configuration->set_config( $installed );
+        Blender::App::Configuration->write_file;
+
+        return $installed->enabled;
+    }
+
+    # Target is up-to-date.
+    $target_result{$targetname} = $targetname . ' is up-to-date.';
+
+    return;
 }
 
 sub define(&) {
@@ -169,6 +245,13 @@ our $rcfile_condition;
 sub conf($$) {
     my ( $filepath, $coderef ) = @_;    
 
+    if ( ! $initialized ) {
+        _err(
+                "Environment is not initialized.".
+                "Isn't the syntax of DSL possibly mistaken?"
+                );
+    }
+
     if ( ref( $filepath ) ) {
         _err( "Function 'conf' first requsres string type parameter." );
     }
@@ -189,29 +272,43 @@ sub conf($$) {
     $rcfile_condition->{filepath} = $filepath;
 
     my $rcfile;
+    my $result;
     eval {
         $rcfile = Blender::RcFile->new( %{ $rcfile_condition } );
-        $rcfile->do;
+        $result = $rcfile->do;
     };
 
+    undef $rcfile_condition;
+
+    # Catch exception.
     if ( Blender::Error->caught ) {
         Blender::Message->notify( $@ );
 
         print "\n";
         print "Please check build logile:" . Blender::Logger->logfile . "\n";
 
-        undef $rcfile_condition;
-        undef $rcfile;
+        $rcfile_result{$filepath} = $filepath . ' is failure to load or set.';
 
         return;
     }
 
     die $@ if ( $@ );
 
-    Blender::App::Configuration->set_rcfile( $rcfile );
+    # Configuration file is loaded or set.
+    if ( $result ) {
 
-    undef $rcfile_condition;
-    undef $rcfile;
+        Blender::App::Configuration->set_rcfile( $rcfile );
+        Blender::App::Configuration->write_file;
+
+        $rcfile_result{$filepath} = $filepath . ' is loaded or set.';
+
+        return $result;
+    }
+
+    # Configuration file is not loaded or set.
+    $rcfile_result{$filepath} = $filepath . ' is not loaded or set.';
+
+    return;
 }
 
 sub load(&) {
@@ -287,8 +384,8 @@ sub parse_option {
 
     Getopt::Long::Configure( "bundling" );
     Getopt::Long::GetOptions(
-            't|test'        => sub { $make_test = 1 },
-            'f|force'       => sub { $force = 1 },
+            't|test'        => sub { $make_test++ },
+            'f|force'       => sub { $force++ },
             'd|deploy=s'    => \$deploy_path,
             );
 
@@ -298,6 +395,28 @@ sub parse_option {
             force       =>  $force,
             deploy      =>  $deploy_path,
             );
+
+    if ( Blender::Feature->is_deploy_mode ) {
+        Blender::Message->notify(
+                "INFO:Blender::Declare is set 'deploy mode'.\n" .
+                "All targets will be deployed in $deploy_path."
+                );
+    }
+
+    if ( Blender::Feature->is_make_test_all ) {
+        Blender::Message->notify(
+                "INFO:Blender::Declare is set 'make test mode'.\n" .
+                "All targets will be tested."
+                );
+    }
+
+    if ( Blender::Feature->is_force_install ) {
+        Blender::Message->notify(
+                "INFO:Blender::Declare is set 'force install mode'.\n" .
+                "All targets will be builded by force."
+                );
+    }
+
 }
 
 sub _err {
