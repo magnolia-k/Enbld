@@ -41,7 +41,7 @@ sub set_filename {
 sub set_index_parser_form {
     my $attributes = shift;
 
-    my $parser = '<a href="' .quotemeta( $attributes->DownloadSite ). 
+    my $parser = 'href="' .quotemeta( $attributes->DownloadSite ). 
         quotemeta( $attributes->ArchiveName ). '-' . $attributes->VersionForm .
         '-stable.' . quotemeta( $attributes->Extension ) . '">';
 
