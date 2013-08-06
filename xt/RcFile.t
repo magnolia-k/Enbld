@@ -23,7 +23,7 @@ subtest 'set contents' => sub {
             command     =>  'set',
             );
 
-    is( $rcfile->do, $fullpath, 'set rcfile' );
+    is( $rcfile->do, $filename, 'set rcfile' );
 
     ok( -e $fullpath, 'create rc file' );
     
@@ -74,7 +74,7 @@ SKIP: {
                       command   =>  'load',
                       );
               
-              is( $rcfile->do, $fullpath, 'set rcfile' );
+              is( $rcfile->do, $filepath, 'set rcfile' );
               ok( -e $fullpath, 'create rc file' );
               
               open my $fh, '<', $fullpath;
@@ -111,7 +111,7 @@ SKIP: {
                       command   =>  'load',
                       );
               
-              is( $rcfile->do, $fullpath, 'set rcfile' );
+              is( $rcfile->do, $filepath, 'set rcfile' );
               ok( -e $fullpath, 'create rc file' );
               
               open my $fh, '<', $fullpath;
