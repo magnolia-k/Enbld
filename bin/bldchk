@@ -22,16 +22,8 @@ if ( $target =~ /[^a-z0-9]/ ) {
     die( Blender::Error->new( "invalid target name '$target'" ));
 }
 
-my $module = 'Blender::Definition::' . ucfirst( $target );
-
-require Blender::Require;
-eval { Blender::Require->try_require( $module ) };
-
-if ( $@ ) {
-    die( Blender::Error->new( "no definition for target '$target'" ));
-}
-
-my $attributes = $module->new->parse;
+require Blender::Definition;
+my $attributes = Blender::Definition->new( $target )->parse;
 
 if ( $condition ) {
     $attributes->add( 'VersionCondition', $condition );
