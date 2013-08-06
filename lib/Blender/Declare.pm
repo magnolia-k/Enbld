@@ -30,6 +30,7 @@ require Blender::App::Configuration;
 require Blender::Logger;
 require Blender::Target;
 require Blender::Condition;
+require Blender::ConditionCollector;
 require Blender::Error;
 require Blender::Exception;
 require Blender::RcFile;
@@ -38,6 +39,8 @@ require Blender::Deployed;
 our $initialized;
 our %target_result;
 our %rcfile_result;
+
+our %rcfile_collection;
 
 sub blend($$) {
     my ( $blendname, $coderef ) = @_;
@@ -75,6 +78,18 @@ sub blend($$) {
 
     $_[1]->();
 
+    Blender::Declare->_setup_directory;
+
+    my $condition_collection = Blender::ConditionCollector->collection;
+
+    foreach my $name ( sort keys %{ $condition_collection } ) {
+        build_target( $name );
+    }
+
+    foreach my $filepath ( sort keys %rcfile_collection ) {
+        load_or_set_rcfile( $rcfile_collection{$filepath} );
+    }
+
     undef $initialized;
 
     show_result_message();
@@ -88,6 +103,56 @@ sub blend($$) {
     }
 
     return 1;
+}
+
+sub build_target {
+    my $name = shift;
+
+    my $config = Blender::Feature->is_deploy_mode ? undef :
+        Blender::App::Configuration->search_config( $name );
+
+    my $target = Blender::Target->new( $name, $config );
+
+    my $condition = Blender::ConditionCollector->search( $name );
+
+    my $installed;
+    eval {
+        $installed = $target->install_declared( $condition );
+    };
+
+    # Catch exception.
+    if ( Blender::Error->caught ) {
+        Blender::Message->notify( $@ );
+
+        print "\n";
+        print "Please check build logile:" . Blender::Logger->logfile . "\n";
+
+        $target_result{$name} = $name . ' is failure to build.';
+
+        return;
+    }
+
+    die $@ if ( $@ );
+
+    # Target is installed.
+    if ( $installed ) {
+        $target_result{$name} = $name . ' ' . $installed->enabled .
+            " is installed.";
+
+        Blender::App::Configuration->set_config( $installed );
+        Blender::App::Configuration->write_file;
+
+        if ( Blender::Feature->is_deploy_mode ) {
+            Blender::Deployed->add( $installed );
+        }
+
+        return $name;
+    }
+
+    # Target is up-to-date.
+    $target_result{$name} = $name . ' is up-to-date.';
+
+    return $name;
 }
 
 sub check_targets_in_DSL {
@@ -155,58 +220,16 @@ sub target($$) {
         _err( "Function 'target' seconde requires code reference parameter." );
     }
 
-    Blender::Declare->_setup_directory;
-
     $condition_ref = {
         name        =>  $targetname,
     };
 
-    my $config = Blender::App::Configuration->search_config( $targetname );
-    my $target = Blender::Target->new( $targetname, $config );
-
     $coderef->();
 
-    my $installed;
-    eval {
-        my $condition = Blender::Condition->new( %{ $condition_ref } );
-        $installed = $target->install_declared( $condition );
-    };
+    my $condition = Blender::Condition->new( %{ $condition_ref } );
+    Blender::ConditionCollector->add( $condition );
 
     undef $condition_ref;
-
-    # Catch exception.
-    if ( Blender::Error->caught ) {
-        Blender::Message->notify( $@ );
-
-        print "\n";
-        print "Please check build logile:" . Blender::Logger->logfile . "\n";
-
-        $target_result{$targetname} = $targetname . ' is failure to build.';
-
-        return;
-    }
-
-    die $@ if ( $@ );
-
-    # Target is installed.
-    if ( $installed ) {
-        $target_result{$targetname} = $targetname . ' ' . $installed->enabled .
-            " is installed.";
-
-        Blender::App::Configuration->set_config( $installed );
-        Blender::App::Configuration->write_file;
-
-        if ( Blender::Feature->is_deploy_mode ) {
-            Blender::Deployed->add( $installed );
-        }
-
-        return $installed->enabled;
-    }
-
-    # Target is up-to-date.
-    $target_result{$targetname} = $targetname . ' is up-to-date.';
-
-    return;
 }
 
 sub define(&) {
@@ -246,7 +269,6 @@ sub modules($) {
 }
 
 our $rcfile_condition;
-
 sub conf($$) {
     my ( $filepath, $coderef ) = @_;    
 
@@ -275,15 +297,18 @@ sub conf($$) {
     $coderef->();
 
     $rcfile_condition->{filepath} = $filepath;
-
-    my $rcfile;
-    my $result;
-    eval {
-        $rcfile = Blender::RcFile->new( %{ $rcfile_condition } );
-        $result = $rcfile->do;
-    };
+    $rcfile_collection{$filepath} = Blender::RcFile->new( %{ $rcfile_condition } );
 
     undef $rcfile_condition;
+}
+
+sub load_or_set_rcfile {
+    my $rcfile = shift;
+
+    my $result;
+    eval {
+        $result = $rcfile->do;
+    };
 
     # Catch exception.
     if ( Blender::Error->caught ) {
@@ -292,7 +317,8 @@ sub conf($$) {
         print "\n";
         print "Please check build logile:" . Blender::Logger->logfile . "\n";
 
-        $rcfile_result{$filepath} = $filepath . ' is failure to load or set.';
+        $rcfile_result{$rcfile->filepath} =
+            $rcfile->filepath . ' is failure to load or set.';
 
         return;
     }
@@ -305,13 +331,15 @@ sub conf($$) {
         Blender::App::Configuration->set_rcfile( $rcfile );
         Blender::App::Configuration->write_file;
 
-        $rcfile_result{$filepath} = $filepath . ' is loaded or set.';
+        $rcfile_result{$rcfile->filepath} =
+            $rcfile->filepath . ' is loaded or set.';
 
         return $result;
     }
 
     # Configuration file is not loaded or set.
-    $rcfile_result{$filepath} = $filepath . ' is not loaded or set.';
+    $rcfile_result{$rcfile->filepath} =
+        $rcfile->filepath . ' is not loaded or set.';
 
     return;
 }

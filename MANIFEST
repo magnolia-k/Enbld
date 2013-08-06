@@ -36,6 +36,7 @@ lib/Blender/Definition/Tmux.pm
 lib/Blender/Definition/Tree.pm
 lib/Blender/Definition/Vim.pm
 lib/Blender/Definition/Wget.pm
+lib/Blender/Deployed.pm
 lib/Blender/Error.pm
 lib/Blender/Exception.pm
 lib/Blender/Feature.pm

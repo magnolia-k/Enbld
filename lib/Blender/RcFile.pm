@@ -108,7 +108,7 @@ sub load {
 
     Blender::Message->notify(
             "=====> Load configuration file '$self->{filename}'" .
-            " from '$self-{url}'."
+            " from '$self->{url}'."
             );
 
     system( 'curl', '-O', $self->{url}, '-s' );
@@ -165,6 +165,12 @@ sub filename {
     my $self = shift;
 
     return $self->{filename};
+}
+
+sub filepath {
+    my $self = shift;
+
+    return $self->{filepath};
 }
 
 sub serialize {

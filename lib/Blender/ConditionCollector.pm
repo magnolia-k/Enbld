@@ -7,6 +7,10 @@ use Carp;
 
 our %collection;
 
+sub collection {
+    return \%collection;
+}
+
 sub destroy {
     # method for only test code.
     undef %collection;
