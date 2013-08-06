@@ -10,6 +10,7 @@ require Blender::Home;
 require Blender::Logger;
 require Blender::App::Configuration;
 require Blender::Target;
+require Blender::Deployed;
 
 sub do {
     my $self = shift;
@@ -37,6 +38,23 @@ sub do {
 
         my $installed;
         eval { $installed = $target->install_declared( $condition ) };
+
+        # Catch exception.
+        if ( Blender::Error->caught ) {
+            Blender::Message->notify( $@ );
+
+            say "";
+            say "Please check build logile:" . Blender::Logger->logfile;
+
+            return;
+        }
+
+        die $@ if ( $@ );
+
+        # installed
+        if ( $installed ) {
+            Blender::Deployed->add( $installed );
+        }
     }        
 }
 

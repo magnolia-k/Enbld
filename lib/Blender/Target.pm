@@ -21,6 +21,7 @@ require Blender::HTTP;
 require Blender::Target::Symlink;
 require Blender::Error;
 require Blender::Exception;
+require Blender::Deployed;
 
 sub new {
     my ( $class, $name, $config ) = @_;
@@ -299,6 +300,13 @@ sub _solve_dependencies {
         my $target = Blender::Target->new( $dependency, $config );
 
         if ( ( ! Blender::Feature->is_deploy_mode ) && $target->is_installed ) {
+            my $installed_msg = "--> $dependency is already installed.";
+            Blender::Message->notify( $installed_msg );
+            next;
+        }
+
+        if ( Blender::Feature->is_deploy_mode &&
+            Blender::Deployed->is_deployed( $dependency )) {
             my $installed_msg = "--> $dependency is already installed.";
             Blender::Message->notify( $installed_msg );
             next;

@@ -33,6 +33,7 @@ require Blender::Condition;
 require Blender::Error;
 require Blender::Exception;
 require Blender::RcFile;
+require Blender::Deployed;
 
 our $initialized;
 our %target_result;
@@ -194,6 +195,10 @@ sub target($$) {
 
         Blender::App::Configuration->set_config( $installed );
         Blender::App::Configuration->write_file;
+
+        if ( Blender::Feature->is_deploy_mode ) {
+            Blender::Deployed->add( $installed );
+        }
 
         return $installed->enabled;
     }
