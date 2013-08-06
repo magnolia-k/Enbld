@@ -1,5 +1,9 @@
 Revision history for Blender-Declare
 
+0.6003 2013/08/06
+        [Improvement]
+        - Add support for load configuration file.
+
 0.6002 2013/07/20
         [New Definition]
         - Groff
