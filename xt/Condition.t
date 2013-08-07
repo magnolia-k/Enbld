@@ -103,6 +103,18 @@ subtest 'serialize' => sub {
 
 subtest 'collector method' => sub {
 
+    subtest 'get collection' => sub {
+        my $condition = Blender::Condition->new( name => 'app' );
+        Blender::ConditionCollector->add( $condition );
+        my $collection = Blender::ConditionCollector->collection;
+
+        ok( exists $collection->{app}, 'collection method' );
+
+        Blender::ConditionCollector->destroy;
+
+        done_testing();
+    };
+
     subtest 'no return' => sub {
         is( Blender::ConditionCollector->search, undef, 'no param' );
 

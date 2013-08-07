@@ -76,37 +76,15 @@ subtest 'condition method' => sub {
 };
 
 subtest 'set enabled method' => sub {
-    subtest 'method exception' => sub {
-        eval{ Blender::Config->new( name => 'app' )->set_enabled };
-        like(
-                $@,
-                qr/ABORT:set_enabled method requires version string parameter/,
-                'no param'
-                );
+    my $config = Blender::Config->new( name =>  'app' );
+    is( $config->enabled, undef, 'null enabled' );
 
-        eval{ Blender::Config->new( name => 'app' )->set_enabled( '1.0' ) };
-        like(
-                $@,
-                qr/ABORT:set_enabled method requires condition object/,
-                'no condition param'
-            );
-
-        done_testing();
-    };
-
-    subtest 'method success' => sub {
-        my $config = Blender::Config->new( name =>  'app' );
-        is( $config->enabled, undef, 'null enabled' );
-
-        require Blender::Condition;
-        my $condition =
-            Blender::Condition->new( name => 'app', version => '1.0' );
-        is( $config->set_enabled( '1.0', $condition ), '1.0', 'set enabled' );
-        is( $config->enabled, '1.0', 'enabled' );
-        is( $config->is_installed_version( '1.0' ), '1.0', 'installed' );
- 
-        done_testing();
-    };
+    require Blender::Condition;
+    my $condition =
+        Blender::Condition->new( name => 'app', version => '1.0' );
+    is( $config->set_enabled( '1.0', $condition ), '1.0', 'set enabled' );
+    is( $config->enabled, '1.0', 'enabled' );
+    is( $config->is_installed_version( '1.0' ), '1.0', 'installed' );
 
     done_testing();
 };
@@ -147,6 +125,50 @@ subtest 'is installed version method' => sub {
 
         done_testing();
     };
+
+    done_testing();
+};
+
+subtest 'DSL' => sub {
+
+    my $config = Blender::Config->new( name => 'app' );
+
+    require Blender::Condition;
+    my $condition = Blender::Condition->new( name => 'app' );
+    $config->set_enabled( '1.0', $condition );
+ 
+    my $DSL = $config->DSL;
+    like( $DSL->[0], qr/target 'app' => define/, 'target name' );
+    like( $DSL->[1], qr/version 'latest'/, 'version condition' );
+
+    Blender::Feature->initialize( current => 1 );
+
+    my $current_DSL = $config->DSL;
+    like( $current_DSL->[1], qr/version '1\.0'/, 'current version' );
+
+    my $make_test_condition = Blender::Condition->new(
+            name => 'app',
+            make_test => 1,
+            );
+    my $make_test_config = Blender::Config->new( name => 'app' );
+    $make_test_config->set_enabled( '1.0', $make_test_condition );
+    my $make_test_DSL = $make_test_config->DSL;
+    like( $make_test_DSL->[2], qr/make_test '1'/, 'make test' );
+
+    my $modules_condition = Blender::Condition->new(
+            name => 'app',
+            modules => {
+                module_a => 0,
+                module_b => 0,
+            },
+            );
+
+    my $modules_config = Blender::Config->new( name => 'app' );
+    $modules_config->set_enabled( '1.0', $modules_condition );
+    my $modules_DSL = $modules_config->DSL;
+
+    like( $modules_DSL->[3], qr/module_a/, 'module condition first' );
+    like( $modules_DSL->[4], qr/module_b/, 'module condition second' );
 
     done_testing();
 };

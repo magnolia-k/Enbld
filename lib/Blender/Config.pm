@@ -77,21 +77,6 @@ sub drop_enabled {
 sub set_enabled {
     my ( $self, $version, $condition ) = @_;
 
-    if ( ! $version ) {
-        my $err = "set_enabled method requires version string parameter"; 
-        croak( Blender::Exception->new( $err ));
-    }
-
-    if ( ! $condition ) {
-        my $err = "set_enabled method requires condition object";
-        croak( Blender::Exception->new( $err ));
-    }
-
-    if ( $self->name ne $condition->name ) {
-        my $err = "condition's name don't match config's name";
-        croak( Blender::Exception->new( $err ));
-    }
-
     $self->{enabled} = $version;
     $self->{installed}{$version} = $condition->serialize_without_name;
 
