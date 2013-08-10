@@ -118,7 +118,7 @@ sub _search_patchfiles {
     my $html_list = Blender::HTTP->new( $url )->get_html;
     my $dir_list = $html_list->parse_version( '<a href="7\.\d/">', $major );
 
-    return unless ( @{ $dir_list } );
+    return unless ( $dir_list );
 
     my $html_patchfiles = Blender::HTTP->new( $url . $major )->get_html;
     my $patchfiles = $html_patchfiles->parse_version(
