@@ -33,8 +33,8 @@ sub do {
 
     $self->teardown;
 
-    if ( Blender::Error->caught or Blender::Exception->caught ) {
-        Blender::Message->notify( $@ );
+    if ( Blender::Error->caught ) {
+        Blender::Message->alert( $@ );
         say "\nPlease check build logile:" . Blender::Logger->logfile;
         return;
     }

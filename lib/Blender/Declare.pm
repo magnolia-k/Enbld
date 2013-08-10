@@ -30,7 +30,6 @@ require Blender::App::Configuration;
 require Blender::Logger;
 require Blender::Target;
 require Blender::Condition;
-require Blender::ConditionCollector;
 require Blender::Error;
 require Blender::Exception;
 require Blender::RcFile;
@@ -41,6 +40,7 @@ our %target_result;
 our %rcfile_result;
 
 our %rcfile_collection;
+our %target_collection;
 
 sub blend($$) {
     my ( $blendname, $coderef ) = @_;
@@ -80,9 +80,7 @@ sub blend($$) {
 
     Blender::Declare->_setup_directory;
 
-    my $condition_collection = Blender::ConditionCollector->collection;
-
-    foreach my $name ( sort keys %{ $condition_collection } ) {
+    foreach my $name ( sort keys %target_collection ) {
         build_target( $name );
     }
 
@@ -113,16 +111,18 @@ sub build_target {
 
     my $target = Blender::Target->new( $name, $config );
 
-    my $condition = Blender::ConditionCollector->search( $name );
-
     my $installed;
     eval {
-        $installed = $target->install_declared( $condition );
+        if ( Blender::Feature->is_deploy_mode ) {
+            $installed = $target->deploy_declared( \%target_collection );
+        } else {
+            $installed = $target->install_declared( \%target_collection );
+        }
     };
 
     # Catch exception.
     if ( Blender::Error->caught ) {
-        Blender::Message->notify( $@ );
+        Blender::Message->alert( $@ );
 
         print "\n";
         print "Please check build logile:" . Blender::Logger->logfile . "\n";
@@ -227,7 +227,7 @@ sub target($$) {
     $coderef->();
 
     my $condition = Blender::Condition->new( %{ $condition_ref } );
-    Blender::ConditionCollector->add( $condition );
+    $target_collection{$targetname} = $condition;
 
     undef $condition_ref;
 }
@@ -312,7 +312,7 @@ sub load_or_set_rcfile {
 
     # Catch exception.
     if ( Blender::Error->caught ) {
-        Blender::Message->notify( $@ );
+        Blender::Message->alert( $@ );
 
         print "\n";
         print "Please check build logile:" . Blender::Logger->logfile . "\n";

@@ -10,15 +10,9 @@ use File::Temp;
 
 require_ok( 'Blender::Config' );
 
-subtest 'constructor method' => sub {
-    eval { Blender::Config->new };
-    like( $@, qr/ABORT:'Blender::Config' requires name/, 'construct fail' );
-
-    done_testing();
-};
+require Blender::Condition;
 
 subtest 'getter method' => sub {
-    require Blender::Condition;
     my $old = Blender::Condition->new( name => 'app', version => '1.0' );
     my $new = Blender::Condition->new( name => 'app', version => '1.1' );
 
@@ -38,33 +32,30 @@ subtest 'getter method' => sub {
 subtest 'condition method' => sub {
     subtest 'set parameter' => sub {
         my $config = Blender::Config->new( name => 'app' );
-        require Blender::Condition;
-        my $condition = Blender::Condition->new( name => 'app' );
+
+        my $condition = Blender::Condition->new;
         $config->set_enabled( '1.0', $condition );
 
-        is( $config->condition( '1.0' )->name, 'app', 'condition name' );
-        is( $config->condition( '1.0' )->version,
-                'latest', 'condition version' );
+        is( $config->condition( '1.0' )->version, 'latest', 'version' );
 
         done_testing();
     };
 
     subtest 'not set parameter' => sub {
         my $config = Blender::Config->new( name => 'app' );
-        require Blender::Condition;
-        my $condition = Blender::Condition->new( name => 'app' );
+
+        my $condition = Blender::Condition->new;
         $config->set_enabled( '1.0', $condition );
 
-        is( $config->condition->name, 'app', 'condition name' );
-        is( $config->condition->version, 'latest', 'condition version' );
+        is( $config->condition->version, 'latest', 'version' );
 
         done_testing();
     };
 
-    subtest 'not exists exception' => sub {
+    subtest 'not exists' => sub {
         my $config = Blender::Config->new( name => 'app' );
-        require Blender::Condition;
-        my $condition = Blender::Condition->new( name => 'app' );
+
+        my $condition = Blender::Condition->new;
         $config->set_enabled( '1.0', $condition );
 
         is( $config->condition( '1.1' ), undef, 'not exists');
@@ -76,12 +67,11 @@ subtest 'condition method' => sub {
 };
 
 subtest 'set enabled method' => sub {
-    my $config = Blender::Config->new( name =>  'app' );
-    is( $config->enabled, undef, 'null enabled' );
 
-    require Blender::Condition;
-    my $condition =
-        Blender::Condition->new( name => 'app', version => '1.0' );
+    my $config = Blender::Config->new( name =>  'app' );
+    is( $config->enabled, undef, 'not enabled yet' );
+
+    my $condition = Blender::Condition->new( version => '1.0' );
     is( $config->set_enabled( '1.0', $condition ), '1.0', 'set enabled' );
     is( $config->enabled, '1.0', 'enabled' );
     is( $config->is_installed_version( '1.0' ), '1.0', 'installed' );
@@ -105,8 +95,7 @@ subtest 'is installed version method' => sub {
     };
 
     subtest 'installed' => sub {
-        require Blender::Condition;
-        my $condition = Blender::Condition->new( name => 'app' );
+        my $condition = Blender::Condition->new;
         my $config = Blender::Config->new( name => 'app' );
         $config->set_enabled( '1.0', $condition );
 
@@ -116,8 +105,7 @@ subtest 'is installed version method' => sub {
     };
 
     subtest 'not installed' => sub {
-        require Blender::Condition;
-        my $condition = Blender::Condition->new( name => 'app' );
+        my $condition = Blender::Condition->new;
         my $config = Blender::Config->new( name => 'app' );
         $config->set_enabled( '1.0', $condition );
 
@@ -133,8 +121,7 @@ subtest 'DSL' => sub {
 
     my $config = Blender::Config->new( name => 'app' );
 
-    require Blender::Condition;
-    my $condition = Blender::Condition->new( name => 'app' );
+    my $condition = Blender::Condition->new;
     $config->set_enabled( '1.0', $condition );
  
     my $DSL = $config->DSL;
@@ -146,22 +133,16 @@ subtest 'DSL' => sub {
     my $current_DSL = $config->DSL;
     like( $current_DSL->[1], qr/version '1\.0'/, 'current version' );
 
-    my $make_test_condition = Blender::Condition->new(
-            name => 'app',
-            make_test => 1,
-            );
+    my $make_test_condition = Blender::Condition->new( make_test => 1 );
     my $make_test_config = Blender::Config->new( name => 'app' );
     $make_test_config->set_enabled( '1.0', $make_test_condition );
     my $make_test_DSL = $make_test_config->DSL;
     like( $make_test_DSL->[2], qr/make_test '1'/, 'make test' );
 
-    my $modules_condition = Blender::Condition->new(
-            name => 'app',
-            modules => {
+    my $modules_condition = Blender::Condition->new( modules => {
                 module_a => 0,
                 module_b => 0,
-            },
-            );
+            });
 
     my $modules_config = Blender::Config->new( name => 'app' );
     $modules_config->set_enabled( '1.0', $modules_condition );

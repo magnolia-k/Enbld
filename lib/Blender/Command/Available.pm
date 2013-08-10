@@ -42,7 +42,9 @@ sub do {
             load $module;
 
             my $attributes = Blender::Definition->new( $output )->parse;
-            say $output . ' ' x 8 . $attributes->WebSite;
+            my $line = $output . ' ' x 15;
+            print substr( $line, 0, 15 );
+            print $attributes->WebSite . "\n";
         }
    }
 

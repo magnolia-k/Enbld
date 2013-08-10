@@ -19,7 +19,7 @@ sub do {
     Blender::Home->initialize;
     Blender::App::Configuration->read_file;
 
-    my $config = Blender::App::Configuration->search_search( $target_name );
+    my $config = Blender::App::Configuration->search_config( $target_name );
     my $target = Blender::Target->new( $target_name, $config );
 
     my $offed;
@@ -29,10 +29,11 @@ sub do {
         Blender::App::Configuration->set_config( $offed );
     } 
 
-    Blender::Configuration->write_file;
+    Blender::App::Configuration->write_file;
 
-    if ( Blender::Error->caught or Blender::Exception->caught ) {
+    if ( Blender::Error->caught ) {
         Blender::Message->notify( $@ );
+        say "\nPlease check build logile:" . Blender::Logger->logfile;
         return;
     }
 

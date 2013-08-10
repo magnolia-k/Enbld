@@ -23,8 +23,17 @@ sub do {
 
     foreach my $name ( sort keys %{ $collection } ) {
         my $config = Blender::App::Configuration->search_config( $name );
-        print $name;
-        print '    ' . $config->enabled if $config->enabled;
+        
+        my $line = $name . ' ' x 15;
+        
+        print substr( $line, 0, 15 );
+
+        if ( $config->enabled ) {
+            print $config->enabled;
+        } else {
+            print 'Not enabled now...';
+        }
+
         print "\n";
     }
 

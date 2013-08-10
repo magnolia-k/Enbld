@@ -34,16 +34,16 @@ sub do {
         next unless $config->enabled;
 
         my $target = Blender::Target->new( $name, $config );
-        my $condition = $config->condition( $config->enabled );
+        my $condition = {
+            $name   =>  $config->condition( $config->enabled ),
+        };
 
         my $installed;
-        eval { $installed = $target->install_declared( $condition ) };
+        eval { $installed = $target->deploy_declared( $condition ) };
 
         # Catch exception.
         if ( Blender::Error->caught ) {
-            Blender::Message->notify( $@ );
-
-            say "";
+            Blender::Message->alert( $@ );
             say "Please check build logile:" . Blender::Logger->logfile;
 
             return;

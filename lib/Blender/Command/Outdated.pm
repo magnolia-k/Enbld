@@ -36,8 +36,12 @@ sub do {
     foreach my $name ( sort keys %outdated ) {
         my $config = Blender::App::Configuration->search_config( $name );
 
-        print $name . ' ' x 4 . $config->enabled;
-        print " < " . $outdated{$name} . "\n";
+        my $line = $name . ' ' x 15;
+        print substr( $line, 0, 15 );
+        print $config->enabled;
+        print " < ";
+        print $outdated{$name};
+        print "\n";
     }
 
     return $self;

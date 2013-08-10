@@ -14,6 +14,18 @@ sub notify {
     require Blender::Logger;
     Blender::Logger->write( $msg ) if Blender::Logger->logfile;
     
+    print $msg if $VERBOSE;
+}
+
+sub alert {
+    my ( $pkg, $msg ) = @_;
+
+    chomp( $msg );
+    $msg .= "\n";
+
+    require Blender::Logger;
+    Blender::Logger->write( $msg ) if Blender::Logger->logfile;
+    
     print STDERR $msg if $VERBOSE;
 }
 

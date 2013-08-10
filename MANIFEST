@@ -19,7 +19,6 @@ lib/Blender/Command/Usage.pm
 lib/Blender/Command/Use.pm
 lib/Blender/Command/Version.pm
 lib/Blender/Condition.pm
-lib/Blender/ConditionCollector.pm
 lib/Blender/Config.pm
 lib/Blender/Declare.pm
 lib/Blender/Definition.pm

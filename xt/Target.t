@@ -15,12 +15,6 @@ use Test::More;
 require_ok( 'Blender::Target' );
 
 subtest 'constructor' => sub {
-    eval { Blender::Target->new };
-    like( $@, qr/ABORT:'Blender::Target' require name/, 'no name' );
-
-    eval { Blender::Target->new( '---app---' ) };
-    like( $@, qr/ERROR:invalid target name '---app---'/, 'invalid name' );
-
     eval { Blender::Target->new( 'noname' ) };
     like( $@, qr/ERROR:no definition for target 'noname'/, 'no definition' );
 
@@ -110,16 +104,17 @@ subtest "install" => sub {
         
         my $config = Blender::Target->new( 'testapp' )->install;
 
-        my $deploy_path = File::Temp->newdir;
         teardown();
+
+        my $deploy_path = File::Temp->newdir;
         setup( deploy => $deploy_path );
 
-        Blender::Target->new( 'testapp', $config )->install;
-
+        Blender::Target->new( 'testapp', $config )->deploy;
         my $app = File::Spec->catdir( $deploy_path, 'bin', 'blendertestapp' );
         ok( -e $app, 'deploy' );
 
         teardown();
+
         done_testing();
     };
 
@@ -163,17 +158,18 @@ subtest 'install dependant' => sub {
     subtest 'install by specific condition' => sub {
         setup();
 
-        my $condition = Blender::Condition->new(
-                name => 'testapp',
-                version => '1.0'
-                );
-        Blender::ConditionCollector->add( $condition );
+        my $conditions = {
+            testapp         => Blender::Condition->new( version => '1.0' ),
+            testdependant   => Blender::Condition->new,
+        };
 
-        my $dependant = Blender::Target->new( 'testdependant' )->install;
+        my $dependant =
+            Blender::Target->new( 'testdependant' )->install_declared(
+                    $conditions
+                    );
         is( $dependant->enabled, '1.1', 'enabled' );
 
         my $config = Blender::App::Configuration->search_config( 'testapp' );
-        is( $config->name, 'testapp', 'target name' );
         is( $config->enabled, '1.0', 'target enabled' );
 
         teardown();
@@ -188,47 +184,45 @@ subtest 'install declared' => sub {
     subtest 'installed declared condition' => sub {
         setup();
 
-        my $old = Blender::Condition->new(
-                name => 'testapp',
-                version => '1.0'
-                );
+        my $old = {
+            testapp => Blender::Condition->new( version => '1.0' ),
+        };
 
         my $testapp =
             Blender::Target->new( 'testapp' )->install_declared( $old );
 
-        is( $testapp->name, 'testapp', 'target name' );
         is( $testapp->enabled, '1.0', 'target version' );
 
         is( Blender::Target->new(
                     'testapp', $testapp )->install_declared( $old ),
                 undef, 'not installed' );
 
-        my $new = Blender::Condition->new(
-                name => 'testapp',
-                version => '1.1'
-                );
+        my $new = {
+            testapp => Blender::Condition->new( version => '1.1' )
+        };
 
         my $config = Blender::Target->new( 'testapp',
                     $testapp )->install_declared( $new );
         is( $config->enabled, '1.1', 'installed' );
 
         teardown();
+
         done_testing();
     };
 
     subtest 'force install' => sub {
         setup();
 
-        my $condition = Blender::Condition->new(
-                name => 'testapp',
-                version => '1.0'
-                );
+        my $condition = {
+            testapp => Blender::Condition->new( version => '1.0' ),
+        };
 
         my $target_first = Blender::Target->new( 'testapp' );
         my $config_first = $target_first->install_declared( $condition );
         is( $config_first->enabled, '1.0', 'install first' );
 
         teardown();
+
         setup( force => 1 );
 
         my $target_twice = Blender::Target->new( 'testapp' );
@@ -236,31 +230,32 @@ subtest 'install declared' => sub {
         is( $config_twice->enabled, '1.0', 'install twice by force' );
 
         teardown();
-        done_testing();
 
+        done_testing();
     };
 
     subtest 'install deploy' => sub {
         setup();
         
-        my $con = Blender::Condition->new(
-                name => 'testapp',
-                version => '1.0'
-                );
+        my $condition = {
+            testapp =>  Blender::Condition->new( version => '1.0' ),
+        };
 
         my $config =
-            Blender::Target->new( 'testapp' )->install_declared( $con );
+            Blender::Target->new( 'testapp' )->install_declared( $condition );
 
         teardown();
+
         my $deploy_path = File::Temp->newdir;
         setup( deploy => $deploy_path );
 
-        Blender::Target->new( 'testapp', $config )->install_declared( $con );
+        Blender::Target->new( 'testapp', $config )->deploy_declared( $condition );
 
         my $app = File::Spec->catdir( $deploy_path, 'bin', 'blendertestapp' );
         ok( -e $app, 'deploy' );
 
         teardown();
+
         done_testing();
     };
 
@@ -282,23 +277,22 @@ subtest 'upgrade' => sub {
     subtest 'not upgrade' => sub {
         setup();
 
-        my $old = Blender::Condition->new(
-                name => 'testapp',
-                version => '1.1'
-                );
+        my $old = {
+            testapp =>  Blender::Condition->new( version => '1.1' ),
+        };
+
         my $config =
             Blender::Target->new( 'testapp' )->install_declared( $old );
 
-        my $new = Blender::Condition->new(
-                name => 'testapp',
-                version => 'latest'
-                );
+        my $new = Blender::Condition->new( version => 'latest' );
+
         $config->set_enabled( '1.1', $new );
 
         eval{ Blender::Target->new( 'testapp', $config )->upgrade };
         like( $@, qr/ERROR:'testapp' is up to date/, 'not upgrade' );
 
         teardown();
+
         done_testing();
     };
 
@@ -306,23 +300,21 @@ subtest 'upgrade' => sub {
         setup();
 
         my $target = Blender::Target->new( 'testapp' );
-        my $old = Blender::Condition->new(
-                name => 'testapp',
-                version => '1.0'
-                );
+        my $old = {
+            testapp => Blender::Condition->new( version => '1.0' ),
+        };
         my $config =
             Blender::Target->new( 'testapp' )->install_declared( $old );
 
-        my $new = Blender::Condition->new(
-                name => 'testapp',
-                version => 'latest'
-                );
+        my $new = Blender::Condition->new( version => 'latest' );
+
         $config->set_enabled( '1.0', $new );
 
         my $upgraded = Blender::Target->new( 'testapp', $config )->upgrade;
         is( $upgraded->enabled, '1.1', 'upgraded' );
 
         teardown();
+
         done_testing();
     };
 
@@ -337,23 +329,22 @@ subtest 'is outdated' => sub {
         is( $target->is_outdated, undef, 'not installed' );
 
         teardown();
+
         done_testing();
     };
 
     subtest 'outdated' => sub {
         setup();
 
-        my $old = Blender::Condition->new(
-                name => 'testapp',
-                version => '1.0'
-                );
+        my $old = {
+            testapp =>  Blender::Condition->new( version => '1.0' ),
+        };
+
         my $config =
             Blender::Target->new( 'testapp' )->install_declared( $old );
 
-        my $new = Blender::Condition->new(
-                name => 'testapp',
-                version => 'latest'
-                );
+        my $new = Blender::Condition->new( version => 'latest' );
+
         $config->set_enabled( '1.0', $new );
         my $outdated = Blender::Target->new( 'testapp', $config );
 
@@ -361,23 +352,21 @@ subtest 'is outdated' => sub {
                 '1.1', 'outdated' );
 
         teardown();
+
         done_testing();
     };
 
     subtest 'not outdated' => sub {
         setup();
 
-        my $old = Blender::Condition->new(
-                name => 'testapp',
-                version => '1.1'
-                );
+        my $old = {
+            testapp =>  Blender::Condition->new( version => '1.1' ),
+        };
+
         my $config =
             Blender::Target->new( 'testapp' )->install_declared( $old );
 
-        my $new = Blender::Condition->new(
-                name => 'testapp',
-                version => 'latest'
-                );
+        my $new = Blender::Condition->new( version => 'latest' );
         $config->set_enabled( '1.1', $new );
         my $uptodate = Blender::Target->new( 'testapp', $config );
 
@@ -385,6 +374,7 @@ subtest 'is outdated' => sub {
                 undef, 'up to date' );
 
         teardown();
+
         done_testing();
     };
 
@@ -396,7 +386,7 @@ subtest 'use method' => sub {
     subtest 'version form exception' => sub {
         setup();
 
-        my $condition = Blender::Condition->new( name => 'testapp' );
+        my $condition = Blender::Condition->new;
         my $config = Blender::Config->new( name => 'testapp' );
         $config->set_enabled( '1.0', $condition );
  
@@ -405,13 +395,14 @@ subtest 'use method' => sub {
         like( $@, qr/ERROR:'10' is not valid version form/, 'form exception' );
 
         teardown();
+
         done_testing();
     };
 
     subtest 'current version exception' => sub {
         setup();
 
-        my $condition = Blender::Condition->new( name => 'testapp' );
+        my $condition = Blender::Condition->new;
         my $config = Blender::Config->new( name => 'testapp' );
         $config->set_enabled( '1.0', $condition );
 
@@ -420,13 +411,14 @@ subtest 'use method' => sub {
         like( $@, qr/ERROR:'1.0' is current enabled version/, 'current' );
 
         teardown();
+
         done_testing();
     };
 
     subtest 'not installed yet' => sub {
         setup();
 
-        my $condition = Blender::Condition->new( name => 'testapp' );
+        my $condition = Blender::Condition->new;
         my $config = Blender::Config->new( name => 'testapp' );
         $config->set_enabled( '1.0', $condition );
 
@@ -435,16 +427,19 @@ subtest 'use method' => sub {
         like( $@, qr/ERROR:'1.1' isn't installed yet/, 'not installed' );
 
         teardown();
+
         done_testing();
     };
 
     subtest 'use already installed' => sub {
         setup();
 
-        my $old_condition =
-            Blender::Condition->new( name => 'testapp',version => '1.0' );
-        my $new_condition =
-            Blender::Condition->new( name => 'testapp',version => 'latest' );
+        my $old_condition = {
+            testapp =>  Blender::Condition->new( version => '1.0' ),
+        };
+        my $new_condition = {
+            testapp =>  Blender::Condition->new( version => 'latest' ),
+        };
         my $old_config = Blender::Config->new( name => 'testapp' );
         my $old_target = Blender::Target->new( 'testapp' );
 
@@ -460,6 +455,7 @@ subtest 'use method' => sub {
         is( $config->condition->version, '1.0', 'after installed condition' );
 
         teardown();
+
         done_testing();
     };
 
@@ -479,6 +475,7 @@ subtest 'off method' => sub {
     like( $@, qr/ERROR:'testapp' is not installed yet/, "can't off" );
 
     teardown();
+
     done_testing();
 };
 
@@ -506,12 +503,10 @@ sub setup {
     Blender::Logger->rotate( Blender::Home->log );
 
     require Blender::App::Configuration;
-    require Blender::ConditionCollector;
 }
 
 sub teardown {
     Blender::App::Configuration->destroy;
-    Blender::ConditionCollector->destroy;
 
     Blender::Feature->reset;
 

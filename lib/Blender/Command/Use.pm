@@ -31,13 +31,12 @@ sub do {
 
     if ( $used ) {
         Blender::App::Configuration->set_config( $used );
+        Blender::App::Configuration->write_file;
     }
 
-
-    Blender::App::Configuration->write_file;
-
-    if ( Blender::Error->caught or Blender::Exception->caught ) {
-        Blender::Message->notify( $@ );
+    if ( Blender::Error->caught ) {
+        Blender::Message->alert( $@ );
+        say "\nPlease check build logile:" . Blender::Logger->logfile;
         return;
     }
 

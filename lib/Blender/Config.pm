@@ -13,16 +13,12 @@ sub new {
 
     my $self = {
         name        =>  undef,
-        installed   =>  {},
         enabled     =>  undef,
+        installed   =>  {},
         @_,
     };
 
     bless $self, $class;
-
-    unless ( $self->{name} ) {
-        croak( Blender::Exception->new( "'$class' requires name" ) );
-    }
 
     return $self;
 }
@@ -38,14 +34,12 @@ sub condition {
 
     if ( ! $version ) {
         return  Blender::Condition->new(
-                name => $self->{name},
                 %{ $self->{installed}{$self->enabled} }
                 );
     }
 
     if ( exists $self->{installed}{$version} ) {
         return Blender::Condition->new(
-                name => $self->{name},
                 %{ $self->{installed}{$version} }
                 );
     }
@@ -71,14 +65,14 @@ sub enabled {
 sub drop_enabled {
     my $self = shift;
 
-    $self->{enabled} = undef;
+    return ( $self->{enabled} = undef );
 }
 
 sub set_enabled {
     my ( $self, $version, $condition ) = @_;
 
     $self->{enabled} = $version;
-    $self->{installed}{$version} = $condition->serialize_without_name;
+    $self->{installed}{$version} = $condition->serialize;
 
     return $self->{enabled};
 }
