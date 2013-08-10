@@ -1,5 +1,10 @@
 Revision history for Blender-Declare
 
+0.6004 2013/08/10
+        [Fix]
+        - A normal message is corrected so that it may output to STDOUT. 
+        - 'Blender Off' command now work.
+
 0.6003 2013/08/06
         [Improvement]
         - Add support for load configuration file.
