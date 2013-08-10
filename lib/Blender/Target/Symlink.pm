@@ -15,7 +15,12 @@ our $dir_list = {
         'dir'   => 'bin',
         'omit'  => undef,
     },
-    
+
+    'sbin' => {
+        'dir'   => 'sbin',
+        'omit'  => undef,
+    },
+
     'lib' => {
         'dir'   => 'lib',
         'omit'  => [ 'pkgconfig', 'perl5' ],
@@ -30,6 +35,23 @@ our $dir_list = {
         'dir'   => 'include',
         'omit'  => undef,
     },
+
+    'logs'   => {
+        'dir'   => 'logs',
+        'omit'  => undef,
+    },
+
+    'conf'   => {
+        'dir'   => 'conf',
+        'omit'  => undef,
+    },
+
+    'html'   => {
+        'dir'   => 'html',
+        'omit'  => undef,
+    },
+
+
 
     'man1'      => {
         'dir'   => File::Spec->catdir( 'share', 'man', 'man1' ),
