@@ -30,6 +30,21 @@ sub do {
     say "blend '" . Blender::App::Configuration->blendname . "' => build {";
     say "";
 
+    output_targets();
+
+    print "\n";
+
+    output_rcfiles();
+
+
+    say "};";
+
+    return $self;
+}
+
+sub output_targets {
+    return unless Blender::App::Configuration->config;
+
     foreach my $name ( sort keys %{ Blender::App::Configuration->config } ) {
         my $config = Blender::App::Configuration->search_config( $name );
 
@@ -41,8 +56,10 @@ sub do {
 
         print "\n";
     }
+}
 
-    print "\n";
+sub output_rcfiles {
+    return unless Blender::App::Configuration->rcfile;
 
     foreach my $file ( sort keys %{ Blender::App::Configuration->rcfile } ) {
         my $rcfile = Blender::App::Configuration->search_rcfile( $file );
@@ -55,10 +72,6 @@ sub do {
 
         print "\n";
     }
-
-    say "};";
-
-    return $self;
 }
 
 1;
