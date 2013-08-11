@@ -36,23 +36,6 @@ our $dir_list = {
         'omit'  => undef,
     },
 
-    'logs'   => {
-        'dir'   => 'logs',
-        'omit'  => undef,
-    },
-
-    'conf'   => {
-        'dir'   => 'conf',
-        'omit'  => undef,
-    },
-
-    'html'   => {
-        'dir'   => 'html',
-        'omit'  => undef,
-    },
-
-
-
     'man1'      => {
         'dir'   => File::Spec->catdir( 'share', 'man', 'man1' ),
         'omit'  => undef,

@@ -45,6 +45,20 @@ sub set_argument {
 
     my $argument = "--with-http_ssl_module --with-pcre=" . $build;
 
+    require Blender::Feature;
+    if ( ! Blender::Feature->is_deploy_mode ) {
+        $argument .= ' --user=nginx';
+        $argument .= ' --group=nginx';
+        $argument .= ' --pid-path='       .
+            File::Spec->catfile( Blender::Home->log, 'nginx.pid' );
+        $argument .= ' --error-log-path=' .
+            File::Spec->catfile( Blender::Home->log, 'error.log' );
+        $argument .= ' --http-log-path='  .
+            File::Spec->catfile( Blender::Home->log, 'access.log' );
+        $argument .= ' --conf-path='      .
+            File::Spec->catfile( Blender::Home->conf, 'nginx.conf' );
+    }
+
     return $argument;
 }
 
