@@ -1,5 +1,13 @@
 Revision history for Blender-Declare
 
+0.6006 2013/08/11
+        [Fix Definition]
+        - Nginx's logs and confs are not linked to symbolic link.
+
+        [Fix Command]
+        - The freeze command operates correctly, even when there is
+          no configuration file now. 
+
 0.6005 2013/08/11
         [New Definition]
         - Nginx
