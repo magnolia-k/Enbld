@@ -7,15 +7,13 @@ use Test::More;
 use Test::Blender::Definition;
 
 require Blender::Condition;
-my $condition = Blender::Condition->new(
-        name    => 'perl',
-        modules =>  { 'App::cpanminus' => 0 },
-        );
+my $condition = {
+    perl => Blender::Condition->new( modules =>  { 'App::cpanminus' => 0 } ),
+        };
 
-my $dev = Blender::Condition->new(
-        name    => 'perl',
-        version => 'development',
-        );
+my $dev = {
+    perl => Blender::Condition->new( version => 'development' ),
+};
 
 SKIP: {
           skip "Skip build Perl test because none of test env.",

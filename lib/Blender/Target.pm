@@ -276,12 +276,12 @@ sub _build {
     $self->_setup_install_directory;
     $self->_exec_build_command( $condition );
 
+    $self->_postbuild;
+
     if ( $condition->modules ) {
         $self->_clean_module_directory;
         $self->_install_module( $condition );
     }
-
-    $self->_postbuild;
 
     my $finish_msg = "=====> Finish building target '$self->{name}'.";
     Blender::Message->notify( $finish_msg );
