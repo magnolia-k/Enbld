@@ -1,5 +1,12 @@
 Revision history for Blender-Declare
 
+0.6007 2013/08/21
+        [New Command]
+        - Add 'rehash' command.
+        'rehash' command remakes the symbolic link of a target. 
+        This is used when a excecutable command is installed with
+        the module managerial system of a target.
+
 0.6006 2013/08/11
         [Fix Definition]
         - Nginx's logs and confs are not linked to symbolic link.
