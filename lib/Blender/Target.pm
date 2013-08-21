@@ -163,8 +163,24 @@ sub off {
     return $self->{config};
 }
 
+sub rehash {
+    my $self = shift;
+
+    if ( ! $self->is_installed ) {
+        die( Blender::Error->new( "'$self->{name}' isn't installed yet." ) );
+    }
+
+    $self->_switch( $self->{config}->enabled );
+
+    return $self->{config};
+}
+
 sub use {
     my ( $self, $version ) = @_;
+
+    if ( ! $self->is_installed ) {
+        die( Blender::Error->new( "'$self->{name}' isn't installed yet." ) );
+    }
 
     my $form = $self->{attributes}->VersionForm;
     if ( $version !~ /^$form$/ ) {
@@ -276,12 +292,11 @@ sub _build {
     $self->_setup_install_directory;
     $self->_exec_build_command( $condition );
 
-    $self->_postbuild;
-
     if ( $condition->modules ) {
-        $self->_clean_module_directory;
         $self->_install_module( $condition );
     }
+
+    $self->_postbuild;
 
     my $finish_msg = "=====> Finish building target '$self->{name}'.";
     Blender::Message->notify( $finish_msg );
@@ -468,23 +483,14 @@ sub _install {
     return $self;
 }
 
-sub _clean_module_directory {
-    my $self = shift;
-
-    my $module_path = File::Spec->catdir(
-            Blender::Home->modules,
-            $self->{attributes}->ArchiveName,
-            $self->{attributes}->Version,
-            );
-
-    remove_tree( $module_path ) if ( -d $module_path );
-}
-
 sub _install_module {
     my ( $self, $condition ) = @_;
 
     require Blender::Module;
-    my $module = Blender::Module->new( name => $self->{name} );
+    my $module = Blender::Module->new(
+            name    => $self->{name},
+            path    => $self->{install},
+            );
 
     $module->install( $condition->modules );
 }

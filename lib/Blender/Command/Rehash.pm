@@ -1,4 +1,4 @@
-package Blender::Command::Off;
+package Blender::Command::Rehash;
 
 use 5.012;
 use warnings;
@@ -6,9 +6,8 @@ use warnings;
 use parent qw/Blender::Command/;
 
 require Blender::Home;
-require Blender::App::Configuration;
 require Blender::Error;
-require Blender::Exception;
+require Blender::App::Configuration;
 require Blender::Target;
 
 sub do {
@@ -22,17 +21,10 @@ sub do {
     my $config = Blender::App::Configuration->search_config( $target_name );
     my $target = Blender::Target->new( $target_name, $config );
 
-    my $offed;
-    eval { $offed = $target->off };
-
-    if ( $offed ) {
-        Blender::App::Configuration->set_config( $offed );
-    } 
-
-    Blender::App::Configuration->write_file;
+    eval { $target->rehash };
 
     if ( Blender::Error->caught ) {
-        Blender::Message->notify( $@ );
+        Blender::Message->alert( $@ );
         return;
     }
 
@@ -40,7 +32,7 @@ sub do {
         die $@;
     }
 
-    return $offed;
+    return $target_name;
 }
 
 1;

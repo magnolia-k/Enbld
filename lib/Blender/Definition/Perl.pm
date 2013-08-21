@@ -81,20 +81,10 @@ sub parse_version_list {
 sub set_argument {
     my $attributes = shift;
 
-    require Blender::Home;
-    my $path = File::Spec->catdir(
-            Blender::Home->modules,
-            $attributes->ArchiveName,
-            $attributes->Version,
-            );
-
-    my $argument = "";
-    unless ( Blender::Feature->is_deploy_mode ) {
-        $argument = ' ' . "-Dsiteprefix=" . $path 
-    }
+    my $argument = " ";
 
     unless ( _is_stable( $attributes ) ) {
-        $argument .= ' ' . '-Dusedevel';
+        $argument .= '-Dusedevel';
     }
 
     return $argument;

@@ -14,13 +14,7 @@ require Blender::Error;
 sub initialize {
     my $self = shift;
 
-    if ( Blender::Feature->is_deploy_mode ) {
-        $self->{command} =
-            File::Spec->catfile( Blender::Home->deploy_path, 'bin','cpan' );
-    } else {
-        $self->{command} =
-            File::Spec->catfile( Blender::Home->home, 'bin', 'cpan' );
-    }
+    $self->{command} = File::Spec->catfile( $self->{path}, 'bin', 'cpan' );
 }
 
 sub module {

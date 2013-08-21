@@ -36,7 +36,6 @@ sub do {
 
     if ( Blender::Error->caught ) {
         Blender::Message->alert( $@ );
-        say "\nPlease check build logile:" . Blender::Logger->logfile;
         return;
     }
 

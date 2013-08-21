@@ -14,7 +14,7 @@ sub new {
 
     my $self = {
         name            =>  undef,
-        install_path    =>  undef,
+        path            =>  undef,
         command         =>  undef,
         option          =>  undef,
         @_,
