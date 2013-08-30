@@ -5,6 +5,8 @@ use warnings;
 
 use parent qw/Blender::Command/;
 
+use Blender::Catchme;
+
 require Blender::Home;
 require Blender::Error;
 require Blender::App::Configuration;
@@ -23,14 +25,10 @@ sub do {
 
     eval { $target->rehash };
 
-    if ( Blender::Error->caught ) {
+	catchme 'Blender::Error' => sub {
         Blender::Message->alert( $@ );
         return;
-    }
-
-    if ( $@ ) {
-        die $@;
-    }
+	};
 
     return $target_name;
 }

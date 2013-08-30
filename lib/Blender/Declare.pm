@@ -26,6 +26,8 @@ our @EXPORT = qw/
     content
 /;
 
+use Blender::Catchme;
+
 require Blender::App::Configuration;
 require Blender::Logger;
 require Blender::Target;
@@ -120,8 +122,7 @@ sub build_target {
         }
     };
 
-    # Catch exception.
-    if ( Blender::Error->caught ) {
+	catchme 'Blender::Error' => sub {
         Blender::Message->alert( $@ );
 
         print "\n";
@@ -130,9 +131,7 @@ sub build_target {
         $target_result{$name} = $name . ' is failure to build.';
 
         return;
-    }
-
-    die $@ if ( $@ );
+    };
 
     # Target is installed.
     if ( $installed ) {

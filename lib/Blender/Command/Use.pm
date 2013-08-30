@@ -5,6 +5,8 @@ use warnings;
 
 use parent qw/Blender::Command/;
 
+use Blender::Catchme;
+
 require Blender::Home;
 require Blender::Error;
 require Blender::App::Configuration;
@@ -26,21 +28,16 @@ sub do {
     my $config = Blender::App::Configuration->search_config( $target_name );
     my $target = Blender::Target->new( $target_name, $config );
 
-    my $used;
-    eval { $used = $target->use( $target_version ) };
+    my $used = eval { $target->use( $target_version ) };
+
+	catchme 'Blender::Error' => sub {
+        Blender::Message->alert( $@ );
+        return;
+	};
 
     if ( $used ) {
         Blender::App::Configuration->set_config( $used );
         Blender::App::Configuration->write_file;
-    }
-
-    if ( Blender::Error->caught ) {
-        Blender::Message->alert( $@ );
-        return;
-    }
-
-    if ( $@ ) {
-        die $@;
     }
 
     return $used;

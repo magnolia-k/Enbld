@@ -5,6 +5,8 @@ use warnings;
 
 use parent qw/Blender::Command/;
 
+use Blender::Catchme;
+
 require Blender::App::Configuration;
 require Blender::Error;
 require Blender::Exception;
@@ -22,24 +24,21 @@ sub do {
     my $config = Blender::App::Configuration->search_config( $target_name );
     my $target = Blender::Target->new( $target_name, $config );
 
-    my $installed;
-    eval{ $installed = $target->upgrade };
+    my $installed = eval{
+		$target->upgrade
+	};
+
+	catchme 'Blender::Error' => sub {
+        Blender::Message->alert( $@ );
+        say "\nPlease check build logile:" . Blender::Logger->logfile;
+        return;
+	};
 
     if ( $installed ) {
         Blender::App::Configuration->set_config( $installed );
     }
     
     $self->teardown;
-
-    if ( Blender::Error->caught or Blender::Exception->caught ) {
-        Blender::Message->alert( $@ );
-        say "\nPlease check build logile:" . Blender::Logger->logfile;
-        return;
-    }
-
-    if ( $@ ) {
-        die $@;
-    }
 
     return $installed;
 }

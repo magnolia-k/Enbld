@@ -5,6 +5,8 @@ use warnings;
 
 use parent qw/Blender::Command/;
 
+use Blender::Catchme;
+
 require Blender::Home;
 require Blender::App::Configuration;
 require Blender::Error;
@@ -22,23 +24,18 @@ sub do {
     my $config = Blender::App::Configuration->search_config( $target_name );
     my $target = Blender::Target->new( $target_name, $config );
 
-    my $offed;
-    eval { $offed = $target->off };
+    my $offed = eval { $target->off };
+
+	catchme 'Blender::Error' => sub {
+        Blender::Message->notify( $@ );
+        return;
+	};
 
     if ( $offed ) {
         Blender::App::Configuration->set_config( $offed );
     } 
 
     Blender::App::Configuration->write_file;
-
-    if ( Blender::Error->caught ) {
-        Blender::Message->notify( $@ );
-        return;
-    }
-
-    if ( $@ ) {
-        die $@;
-    }
 
     return $offed;
 }

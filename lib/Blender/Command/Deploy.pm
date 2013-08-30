@@ -5,6 +5,8 @@ use warnings;
 
 use parent qw/Blender::Command/;
 
+use Blender::Catchme;
+
 require Blender::Feature;
 require Blender::Home;
 require Blender::Logger;
@@ -38,18 +40,14 @@ sub do {
             $name   =>  $config->condition( $config->enabled ),
         };
 
-        my $installed;
-        eval { $installed = $target->deploy_declared( $condition ) };
+        my $installed = eval { $target->deploy_declared( $condition ) };
 
-        # Catch exception.
-        if ( Blender::Error->caught ) {
+		catchme 'Blender::Error' => sub {
             Blender::Message->alert( $@ );
             say "Please check build logile:" . Blender::Logger->logfile;
 
             return;
-        }
-
-        die $@ if ( $@ );
+		}
 
         # installed
         if ( $installed ) {
