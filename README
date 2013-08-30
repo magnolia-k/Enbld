@@ -44,10 +44,10 @@ Build your development environment.
 
 SUPPORT AND DOCUMENTATION
 
-After installing, you can find documentation for this module with the
-perldoc command.
+After installing, you can find documentation for blender command by
+help command.
 
-    blender help
+    $ blender help
 
 
 LICENSE AND COPYRIGHT
