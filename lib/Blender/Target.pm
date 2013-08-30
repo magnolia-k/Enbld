@@ -336,7 +336,7 @@ sub _exec_build_command {
 
     $self->_prebuild;
 
-    $self->_configure;
+    $self->_configure( $condition );
     $self->_make;
 
     if ( $condition->make_test or Blender::Feature->is_make_test_all ) {
@@ -421,7 +421,8 @@ sub _prebuild {
 }
 
 sub _configure {
-    my $self = shift;
+    my $self      = shift;
+    my $condition = shift;
 
     return $self unless $self->{attributes}->CommandConfigure;
 
@@ -432,6 +433,10 @@ sub _configure {
 
     if( $self->{attributes}->AdditionalArgument ) {
         $configure .= ' ' . $self->{attributes}->AdditionalArgument;
+    }
+
+    if ( $condition->arguments ) {
+        $configure .= ' ' . $condition->arguments;
     }
 
     $self->_exec( $configure );

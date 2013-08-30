@@ -18,6 +18,8 @@ our @EXPORT = qw/
     version
     make_test
     modules
+    arguments
+    annotation
     conf
     load
     set
@@ -255,6 +257,26 @@ sub make_test(;$) {
     }
 
     $condition_ref->{make_test} = $_[0] if $make_test;
+}
+
+sub arguments($) {
+    my $arguments = shift;
+
+    if ( ref( $arguments ) ) {
+        _err( "Function 'arguments' requsres string type parameter." );
+    }
+
+    $condition_ref->{arguments} = $arguments;
+}
+
+sub annotation($) {
+    my $annotation = shift;
+
+    if ( ref( $annotation ) ) {
+        _err( "Function 'annotation' requsres string type parameter." );
+    }
+
+    $condition_ref->{annotation} = $annotation;
 }
 
 sub modules($) {

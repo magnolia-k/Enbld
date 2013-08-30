@@ -10,6 +10,8 @@ sub new {
         version     =>  'latest',
         make_test   =>  undef,
         modules     =>  undef,
+        arguments   =>  undef,
+        annotation  =>  undef,
         @_,
     };
 
@@ -34,6 +36,14 @@ sub modules {
     return $_[0]->{modules};
 }
 
+sub arguments {
+    return $_[0]->{arguments};
+}
+
+sub annotation {
+    return $_[0]->{annotation};
+}
+
 sub serialize {
     my $self = shift;
 
@@ -50,9 +60,11 @@ sub serialize {
 sub is_equal_to {
     my ( $self, $condition ) = @_;
 
-    return unless ( _is_equal( $self->{version},      $condition->version   ));
-    return unless ( _is_equal( $self->{make_test},    $condition->make_test ));
-    return unless ( _is_equal_hash( $self->{modules}, $condition->modules   ));
+    return unless ( _is_equal( $self->{version},      $condition->version    ));
+    return unless ( _is_equal( $self->{make_test},    $condition->make_test  ));
+    return unless ( _is_equal( $self->{arguments},    $condition->arguments  ));
+    return unless ( _is_equal( $self->{annotation},   $condition->annotation ));
+    return unless ( _is_equal_hash( $self->{modules}, $condition->modules    ));
 
     return $self; 
 }

@@ -5,6 +5,8 @@ use warnings;
 
 use parent qw/Blender::Command/;
 
+use Encode;
+
 require Blender::Home;
 require Blender::App::Configuration;
 require Blender::Message;
@@ -26,12 +28,19 @@ sub do {
         
         my $line = $name . ' ' x 15;
         
-        print substr( $line, 0, 15 );
+        print substr( $name . ' ' x 15 , 0, 15 );
 
+        my $version;
         if ( $config->enabled ) {
-            print $config->enabled;
+            $version = $config->enabled;
         } else {
-            print 'Not enabled now...';
+            $version = 'Not enabled now...';
+        }
+
+        print substr( $version . ' ' x 20, 0, 20 );
+
+        if ( $config->condition->annotation ) {
+            print encode( 'UTF-8', $config->condition->annotation );
         }
 
         print "\n";
