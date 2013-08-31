@@ -103,6 +103,14 @@ sub DSL {
         push @config, "    make_test '" . $self->condition->make_test . "';\n";
     }
 
+    if ( $self->condition->arguments ) {
+        push @config, "    arguments '" . $self->condition->arguments . "';\n";
+    }
+
+    if ( $self->condition->annotation ) {
+        push @config, "    annotation '" . $self->condition->annotation ."';\n";
+    }
+
     if ( $self->condition->modules ) {
         push @config, "    modules {\n";
 

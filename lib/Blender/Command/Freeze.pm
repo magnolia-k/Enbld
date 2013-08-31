@@ -5,6 +5,8 @@ use warnings;
 
 use parent qw/Blender::Command/;
 
+use Encode;
+
 require Blender::App::Configuration;
 require Blender::Error;
 require Blender::Message;
@@ -51,7 +53,7 @@ sub output_targets {
         my $lines = $config->DSL;
 
         foreach my $line ( @{ $lines } ) {
-            print '    ' . $line;
+            print '    ' . encode( 'UTF-8', $line );
         }
 
         print "\n";
