@@ -118,6 +118,21 @@ subtest "install" => sub {
         done_testing();
     };
 
+
+    subtest 'fail to install' => sub {
+        setup();
+
+        eval {
+            Blender::Target->new( 'brokenapp' )->install;
+        };
+
+        like( $@, qr/make/, 'fail to install' );
+
+        teardown();
+
+        done_testing();
+    };
+
     done_testing();
 };
 
@@ -538,6 +553,8 @@ __DATA__
 <body>
 <a href="TestApp-1.0.tar.gz">TestApp-1.0.tar.gz</a>
 <a href="TestApp-1.1.tar.gz">TestApp-1.1.tar.gz</a>
+
+<a href="BrokenApp-1.0.tar.gz">BrokenApp-1.0.tar.gz</a>
 </body>
 </html>
 
