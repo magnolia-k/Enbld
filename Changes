@@ -1,5 +1,20 @@
 Revision history for Blender-Declare
 
+0.6008 2013/08/31
+        [New Definition]
+        - Rakudo Star
+
+        [New Feature]
+        - Add 'arguments' condition.
+
+        The contents specified by 'arguments' are passed to
+        the configure command as it is. 
+
+        - Add 'annotation' condition.
+
+        'annotation' is used to make a note of the conditions of building. 
+        Set-up annotation is expressed as the 'blender list' command. 
+
 0.6007 2013/08/21
         [New Command]
         - Add 'rehash' command.
