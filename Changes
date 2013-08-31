@@ -1,5 +1,9 @@
 Revision history for Blender-Declare
 
+0.6009 2013/08/31
+        [Fix]
+        - 'freeze' command displays correct annotation.
+
 0.6008 2013/08/31
         [New Definition]
         - Rakudo Star
