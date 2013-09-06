@@ -1,5 +1,16 @@
 Revision history for Blender-Declare
 
+0.6010 2013/09/06
+        [Fix]
+        - Rewrite README.
+        - Rename directory.
+          sample -> samples
+        - Rename setup script.
+          setup.plx -> setup
+
+        [Bugfix]
+        - It corrects so that man of perl may be set up correctly. 
+
 0.6009 2013/08/31
         [Fix]
         - 'freeze' command displays correct annotation.

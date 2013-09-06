@@ -36,16 +36,25 @@ our $dir_list = {
         'omit'  => undef,
     },
 
-    'man1'      => {
-        'dir'   => File::Spec->catdir( 'share', 'man', 'man1' ),
-        'omit'  => undef,
-    },
-    
-    'man3'      => {
-        'dir'   => File::Spec->catdir( 'share', 'man', 'man3' ),
+    'man-man1'      => {
+        'dir'   => File::Spec->catdir( 'man', 'man1' ),
         'omit'  => undef,
     },
 
+    'man-man3'      => {
+        'dir'   => File::Spec->catdir( 'man', 'man3' ),
+        'omit'  => undef,
+    },
+
+    'share-man1'      => {
+        'dir'   => File::Spec->catdir( 'share', 'man', 'man1' ),
+        'omit'  => undef,
+    },
+
+    'share-man3'      => {
+        'dir'   => File::Spec->catdir( 'share', 'man', 'man3' ),
+        'omit'  => undef,
+    },
     'share'     => {
         'dir'   => 'share',
         'omit'  => [ 'emacs', 'info', 'man', 'doc' ],

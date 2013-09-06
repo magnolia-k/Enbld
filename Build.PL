@@ -5,9 +5,9 @@ use Module::Build;
 
 my $builder = Module::Build->new(
     module_name         => 'Blender::Declare',
-    license             => 'artistic_2',
+    license             => 'perl',
     dist_author         => q{magnolia <magnolia.k@me.com>},
-    dist_abstract       => 'build up your development environment',
+    dist_abstract       => 'Blend your development environment',
     dist_version_from   => 'lib/Blender/Declare.pm',
     release_status      => 'testing',
     requires            => {
