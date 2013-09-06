@@ -5,6 +5,7 @@ Changes
 lib/Blender/App.pm
 lib/Blender/App/Configuration.pm
 lib/Blender/Archivefile.pm
+lib/Blender/Catchme.pm
 lib/Blender/Command.pm
 lib/Blender/Command/Available.pm
 lib/Blender/Command/Deploy.pm
@@ -14,6 +15,7 @@ lib/Blender/Command/Install.pm
 lib/Blender/Command/List.pm
 lib/Blender/Command/Off.pm
 lib/Blender/Command/Outdated.pm
+lib/Blender/Command/Rehash.pm
 lib/Blender/Command/Upgrade.pm
 lib/Blender/Command/Usage.pm
 lib/Blender/Command/Use.pm
@@ -21,6 +23,7 @@ lib/Blender/Command/Version.pm
 lib/Blender/Condition.pm
 lib/Blender/Config.pm
 lib/Blender/Declare.pm
+lib/Blender/Declare/Tutorial.pm
 lib/Blender/Definition.pm
 lib/Blender/Definition/Autoconf.pm
 lib/Blender/Definition/Automake.pm
@@ -29,8 +32,11 @@ lib/Blender/Definition/Groff.pm
 lib/Blender/Definition/Hello.pm
 lib/Blender/Definition/Libevent.pm
 lib/Blender/Definition/Libidn.pm
+lib/Blender/Definition/Nginx.pm
+lib/Blender/Definition/Pcre.pm
 lib/Blender/Definition/Perl.pm
 lib/Blender/Definition/Pkgconfig.pm
+lib/Blender/Definition/Rakudostar.pm
 lib/Blender/Definition/Tmux.pm
 lib/Blender/Definition/Tree.pm
 lib/Blender/Definition/Vim.pm
@@ -79,12 +85,12 @@ lib/Blender/Target/AttributeExtension/Word.pm
 lib/Blender/Target/Symlink.pm
 lib/Test/Blender/Definition.pm
 MANIFEST			This list of files
-README
-sample/git_install.plx
-sample/magnolia.plx
-sample/perl_install.plx
-sample/vim_install.plx
-setup.plx
+README.md
+samples/git_install.plx
+samples/magnolia.plx
+samples/perl_install.plx
+samples/vim_install.plx
+setup
 t/00-load.t
 t/boilerplate.t
 t/manifest.t
@@ -92,6 +98,8 @@ t/pod-coverage.t
 t/pod.t
 xt/App-Configuration.t
 xt/Archivefile.t
+xt/BrokenApp-1.0.tar.gz
+xt/Catchme.t
 xt/Condition.t
 xt/Config.t
 xt/Definition-Autoconf.t
@@ -101,8 +109,11 @@ xt/Definition-Groff.t
 xt/Definition-Hello.t
 xt/Definition-Libevent.t
 xt/Definition-Libidn.t
+xt/Definition-Nginx.t
+xt/Definition-Pcre.t
 xt/Definition-Perl.t
 xt/Definition-Pkgconfig.t
+xt/Definition-Rakudostar
 xt/Definition-Tmux.t
 xt/Definition-Tree.t
 xt/Definition-Vim.t
@@ -141,6 +152,7 @@ xt/Target.t
 xt/TestApp-1.0.tar.gz
 xt/TestApp-1.1.tar.gz
 xt/TestAppPatch.txt
+xt/testlib/Blender/Definition/Brokenapp.pm
 xt/testlib/Blender/Definition/Dummy.pm
 xt/testlib/Blender/Definition/Testapp.pm
 xt/testlib/Blender/Definition/Testdependant.pm
