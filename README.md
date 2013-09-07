@@ -164,7 +164,38 @@ Blender-Declare also can create target software's configuration file(.dotfile).
 
 '.vimrc' is downloaded from 'https://raw.github.com/magnolia-k/vimrc/master/.vimrc'.
 
+## MAKE TEST AT INSTALLATION
 
+Blender-Declare can make test at installation.
+
+    target 'git' => define {
+        version 'latest';
+        make_test 1;
+    };
+
+As default, this function is OFF. 
+
+## UTILITY COMMAND 'blender'
+
+Blender-Declare installs utility command 'blender'.
+
+### Displays available software
+
+Subcommand 'available' displays software that can install by Blender-Declare.
+
+    $ blender available
+
+### Displays installed software
+
+Subcommand 'list' displays software that is installed.
+
+    $ blender list
+
+### Displays DSL
+
+Subcommand 'freeze ' displays DSL that is condition of installed software.
+
+    $ blender freeze
 
 # SEE ALSO
 

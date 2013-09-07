@@ -6,7 +6,7 @@ use warnings;
 use FindBin qw/$Script/;
 use Getopt::Long;
 
-our $VERSION = '0.6011';
+our $VERSION = '0.6012';
 
 require Exporter;
 our @ISA    = qw(Exporter);
@@ -256,7 +256,7 @@ sub make_test(;$) {
         _err( "Function 'make_test' requires string type parameter." );
     }
 
-    $condition_ref->{make_test} = $_[0] if $make_test;
+    $condition_ref->{make_test} = $make_test if $make_test;
 }
 
 sub arguments($) {

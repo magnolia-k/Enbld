@@ -1,5 +1,16 @@
 Revision history for Blender-Declare
 
+0.6012 2013/09/07
+        [Fix]
+        - Fix README.
+
+        [Bugfix]
+        - It corrects so that make_test can make test in DSL.
+
+0.6011 2013/09/07
+        [Fix]
+        - fix README
+
 0.6010 2013/09/06
         [Fix]
         - Rewrite README.
