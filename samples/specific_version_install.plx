@@ -11,12 +11,8 @@ use Blender::Declare;
 
 blend 'myblendedenv' => build {
 
-    target 'vim' => define {
-        version 'latest';
-    };
-
-    conf '.vimrc' => load {
-        from 'https://raw.github.com/magnolia-k/vimrc/master/.vimrc';
+    target 'tmux' => define {
+        version '1.8';
     };
 
 };

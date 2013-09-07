@@ -89,6 +89,7 @@ README.md
 samples/git_install.plx
 samples/magnolia.plx
 samples/perl_install.plx
+samples/specific_version_install.plx
 samples/vim_install.plx
 setup
 t/00-load.t
