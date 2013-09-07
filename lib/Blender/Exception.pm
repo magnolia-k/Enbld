@@ -5,7 +5,6 @@ use warnings;
 
 use Carp;
 use Data::Dumper;
-use Scalar::Util qw/ blessed /;
 
 use overload (
         q{""} => \&to_string,
@@ -27,13 +26,6 @@ sub new {
     };
 
     return bless $self, $class;
-}
-
-sub caught {
-    my $pkg = shift;
-
-    return if ! blessed $@;
-    return $@->isa( $pkg );
 }
 
 sub to_string {

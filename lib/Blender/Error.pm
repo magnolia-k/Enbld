@@ -20,15 +20,6 @@ sub new {
     return bless $self, $class;
 }
 
-sub caught {
-    my $pkg = shift;
-
-    use Scalar::Util qw/ blessed /;
-
-    return if ! blessed $@;
-    return $@->isa( $pkg );
-}
-
 sub to_string {
     my $self = shift;
 
