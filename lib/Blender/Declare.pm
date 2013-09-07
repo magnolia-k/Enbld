@@ -243,7 +243,7 @@ sub version($) {
     my $version = shift;
 
     if ( ref( $version ) ) {
-        _err( "Function 'version' requsres string type parameter." );
+        _err( "Function 'version' requires string type parameter." );
     }
 
     $condition_ref->{version} = $version;
@@ -253,7 +253,7 @@ sub make_test(;$) {
     my $make_test = shift;
 
     if ( $make_test && ref( $make_test ) ) {
-        _err( "Function 'make_test' requsres string type parameter." );
+        _err( "Function 'make_test' requires string type parameter." );
     }
 
     $condition_ref->{make_test} = $_[0] if $make_test;
@@ -263,7 +263,7 @@ sub arguments($) {
     my $arguments = shift;
 
     if ( ref( $arguments ) ) {
-        _err( "Function 'arguments' requsres string type parameter." );
+        _err( "Function 'arguments' requires string type parameter." );
     }
 
     $condition_ref->{arguments} = $arguments;
@@ -273,7 +273,7 @@ sub annotation($) {
     my $annotation = shift;
 
     if ( ref( $annotation ) ) {
-        _err( "Function 'annotation' requsres string type parameter." );
+        _err( "Function 'annotation' requires string type parameter." );
     }
 
     $condition_ref->{annotation} = $annotation;
@@ -301,7 +301,7 @@ sub conf($$) {
     }
 
     if ( ref( $filepath ) ) {
-        _err( "Function 'conf' first requsres string type parameter." );
+        _err( "Function 'conf' first requires string type parameter." );
     }
 
     if ( $filepath =~ /\s/ ) {
