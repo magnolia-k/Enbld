@@ -58,7 +58,7 @@ It works on Mac OS X only.
 And set Blender-Declare's path.
 
     export $PATH=$HOME/blended/bin:$HOME/blended/Blender-Declare/bin:$PATH
-    export MANPATH=$HOME/share/man:$MANPATH
+    export MANPATH=$HOME/blended/share/man:$HOME/blended/man:$MANPATH
 
 # GETTING STARTED
 
