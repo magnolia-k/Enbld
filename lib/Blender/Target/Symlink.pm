@@ -55,9 +55,10 @@ our $dir_list = {
         'dir'   => File::Spec->catdir( 'share', 'man', 'man3' ),
         'omit'  => undef,
     },
+
     'share'     => {
         'dir'   => 'share',
-        'omit'  => [ 'emacs', 'info', 'man', 'doc' ],
+        'omit'  => [ 'emacs', 'info', 'man', 'doc', 'aclocal' ],
     },
 
     'doc'       => {
@@ -67,6 +68,11 @@ our $dir_list = {
 
     'site-lisp' => {
         'dir'   => File::Spec->catdir( 'share', 'emacs', 'site-lisp' ),
+        'omit'  => undef,
+    },
+
+    'aclocal' => {
+        'dir'   => File::Spec->catdir( 'share', 'aclocal' ),
         'omit'  => undef,
     },
 };
