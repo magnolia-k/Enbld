@@ -1,0 +1,32 @@
+#!/usr/bin/perl
+
+use 5.012;
+use warnings;
+
+use FindBin;
+use lib "$FindBin::Bin/../lib/perl5";
+
+my $target  = shift @ARGV;
+my $version = shift @ARGV;
+
+unless ( $target ) {
+    die "you must set target's name parameter";
+}
+
+if ( $target =~ /[^a-z0-9]/ ) {
+    die( Blender::Error->new( "invalid target name '$target'" ));
+}
+
+require Blender::Definition;
+my $attributes = Blender::Definition->new( $target )->parse;
+
+if ( $version ) {
+    $attributes->add( 'VersionCondition', $version );
+} else {
+    $attributes->add( 'VersionCondition' );
+}
+
+require Blender::Message;
+Blender::Message->set_verbose;
+my $http = Blender::HTTP->new( $attributes->URL );
+$http->download( $attributes->Filename );
