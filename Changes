@@ -1,5 +1,10 @@
 Revision history for Blender-Declare
 
+0.6013 2013/09/10
+        [New Definition]
+        - Cmake
+        - MySQL
+
 0.6012 2013/09/07
         [Fix]
         - Fix README.
