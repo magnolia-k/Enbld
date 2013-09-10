@@ -23,13 +23,13 @@ sub main {
 
     print "Please add following path to PATH.\n";
     print "\n";
-    print " " x 4 . '$HOME/blended/Blender-Declare/bin' . "\n";
-    print " " x 4 . '$HOME/blended/bin' . "\n";
+    print " " x 4 . '$HOME/Blender-Declare/bin' . "\n";
+    print " " x 4 . '$HOME/bin' . "\n";
     print "\n";
     print "Please add following path to MANPATH.\n";
     print "\n";
-    print " " x 4 . '$HOME/blended/share/man' . "\n";
-    print " " x 4 . '$HOME/blended/man' . "\n";
+    print " " x 4 . '$HOME/share/man' . "\n";
+    print " " x 4 . '$HOME/man' . "\n";
     print "\n";
 }
 
