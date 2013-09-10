@@ -36,6 +36,16 @@ our $dir_list = {
         'omit'  => undef,
     },
 
+    'script'    => {
+        'dir'   => 'script',
+        'omit'  => undef,
+    },
+
+    'support-files' => {
+        'dir'   => 'support-files',
+        'omit'  => undef,
+    },
+
     'man-man1'      => {
         'dir'   => File::Spec->catdir( 'man', 'man1' ),
         'omit'  => undef,
