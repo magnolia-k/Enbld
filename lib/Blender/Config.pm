@@ -27,6 +27,10 @@ sub name {
     return $_[0]->{name};
 }
 
+sub installed {
+    return $_[0]->{installed};
+}
+
 sub condition {
     my ( $self, $version ) = @_;
 

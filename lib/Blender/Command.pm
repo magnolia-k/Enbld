@@ -22,10 +22,7 @@ sub new {
 
     my $module = 'Blender::Command::' . ucfirst( $self->{cmd} );
 
-    if ( can_load( modules => { $module => undef } ) ) {
-        load $module;
-        return bless $self, $module;
-    }
+    return bless $self, $module if can_load( modules => { $module => undef } );
 
     die 'ERROR:Unknown command:' . $self->{cmd} . "\n";
 }

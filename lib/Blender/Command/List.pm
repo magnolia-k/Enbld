@@ -9,7 +9,6 @@ use Encode;
 
 require Blender::Home;
 require Blender::App::Configuration;
-require Blender::Message;
 
 sub do {
     my $self = shift;
