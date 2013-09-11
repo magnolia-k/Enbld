@@ -43,9 +43,8 @@ sub new {
     my $module = 'Blender::Definition::' . ucfirst( $name );
 
     if ( can_load( modules => { $module => undef } ) ) {
-        load $module;
-
         bless $self, $module;
+
         $self->initialize;
 
         return $self;
