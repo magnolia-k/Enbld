@@ -27,7 +27,6 @@ sub initialize {
     return $self;
 }
 
-use Data::Dumper;
 sub set_versionlist {
     my $attributes = shift;
 

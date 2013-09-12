@@ -10,7 +10,10 @@ use version;
 use File::Spec;
 use File::Path qw/make_path remove_tree/;
 use File::Find;
+use File::Copy;
 use autodie;
+
+use Blender::Copy;
 
 require Blender::Definition;
 require Blender::Feature;
@@ -336,14 +339,14 @@ sub _exec_build_command {
 
     $self->_prebuild;
 
-    $self->_configure( $condition );
-    $self->_make;
+    $self->_configure( $condition ) if $self->{attributes}->CommandConfigure;
+    $self->_make                    if $self->{attributes}->CommandMake;
 
     if ( $condition->make_test or Blender::Feature->is_make_test_all ) {
         $self->_test;
     }
 
-    $self->_install;
+    $self->_install                 if $self->{attributes}->CommandInstall;
 }
 
 sub _solve_dependencies {
@@ -503,6 +506,8 @@ sub _install_module {
 sub _postbuild {
     my $self = shift;
 
+    $self->_copy_files;
+
     my $path = File::Spec->catdir(
             Blender::Home->depository,
             $self->{attributes}->DistName,
@@ -510,6 +515,20 @@ sub _postbuild {
 
     Blender::Target::Symlink->delete_symlink( $path );
     Blender::Target::Symlink->create_symlink( $self->{install} );
+}
+
+sub _copy_files {
+    my $self = shift;
+
+    return $self unless ( my $dirs = $self->{attributes}->CopyFiles );
+
+    for my $dir ( @{ $dirs } ) {
+        recursive_copy(
+                File::Spec->catdir( $self->{build},   $dir ),
+                File::Spec->catdir( $self->{install}, $dir )
+                );
+    }
+
 }
 
 sub _exec {
