@@ -80,11 +80,7 @@ sub archived_versions {
                 '5\.\d' .
                 quotemeta( '&v=' ) .
                 $attributes->VersionForm .
-                quotemeta( '">' ) .
-                $attributes->VersionForm .
-                quotemeta( ' (' ) .
-                '\d{1,3}' .
-                quotemeta( ' files)</a>' ),
+                quotemeta( '">' ),
                 $attributes->VersionForm,
                 );
 

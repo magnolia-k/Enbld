@@ -34,7 +34,7 @@ sub set_versionlist {
     my $first_html = Blender::HTTP->new( $attributes->IndexSite )->get_html;
 
     my $first_list = $first_html->parse_version(
-            quotemeta( '<a href="v') . '\d\.\d/' . quotemeta( '">v' ) . '\d\.\d/' . quotemeta( '</a>'),
+            quotemeta( '<a href="v') . '\d\.\d/' . quotemeta( '">' ),
             'v\d\.\d'
             );
 

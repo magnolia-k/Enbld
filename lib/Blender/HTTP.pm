@@ -81,7 +81,7 @@ sub get {
         return $get_hook->( $self );
     }
 
-    my $res = `curl -L $self->{url} -s -f`;
+    my $res = `curl -L $self->{url} -s -f --compressed`;
 
     if ( $? >> 8 ) {
         my $err = 'HTTP get request returns error.';

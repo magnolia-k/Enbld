@@ -17,6 +17,7 @@ sub new {
             AdditionalArgument  =>  undef,
             AllowedCondition    =>  undef,
             ArchiveName         =>  undef,
+            CopyFiles           =>  undef,
             Dependencies        =>  undef,
             DistName            =>  undef,
             DownloadSite        =>  undef,
