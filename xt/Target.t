@@ -130,6 +130,8 @@ subtest "install" => sub {
 
         teardown();
 
+        $? = 0;
+
         done_testing();
     };
 

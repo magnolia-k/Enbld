@@ -26,20 +26,21 @@ SKIP: {
           skip "Skip message test because none of Test::Output.",
                3 if $skip_test;
 
-    stderr_is { Blender::Message->notify( 'message' ) } '', 'quiet';
+    stdout_is { Blender::Message->notify( 'message' ) } '', 'quiet';
 
     Blender::Message->set_verbose;
+
     my $dir = File::Temp->newdir;
     Blender::Logger->rotate( $dir );
 
-    stderr_is { Blender::Message->notify( 'message' ) } "message\n", 'verbose';
+    stdout_is { Blender::Message->notify( 'message' ) } "message\n", 'verbose';
 
     open my $fh, '<', Blender::Logger->logfile;
     my $logfile = ( <$fh> );
     close $fh;
     is( $logfile, "message\n", 'logfile' );
 
-    stderr_is { Blender::Message->notify( "message\n" ) } "message\n",
+    stdout_is { Blender::Message->notify( "message\n" ) } "message\n",
               'message with return code';
           };
 
