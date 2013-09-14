@@ -45,9 +45,9 @@ IndexParserForm
 IndexSite
 PatchFiles
 Prefix
+SortedVersionList
 URL
 Version
-VersionList
 VersionCondition
 VersionForm
 WebSite
@@ -76,7 +76,7 @@ foreach my $name ( sort @list ) {
         next;
     }
 
-    if ( ref( $value ) eq 'ARRAY' && $name ne 'VersionList' ) {
+    if ( ref( $value ) eq 'ARRAY' && $name ne 'SortedVersionList' ) {
         print "\n";
 
         foreach my $val ( sort @{ $value } ) {
@@ -87,13 +87,10 @@ foreach my $name ( sort @list ) {
         next;
     }
 
-    if ( $name eq 'VersionList' ) {
+    if ( $name eq 'SortedVersionList' ) {
         print "\n";
 
-        foreach my $val ( sort {
-                version->declare( $a ) cmp version->declare( $b)
-                } @{ $value } ) {
-
+        foreach my $val ( @{ $value } ) {
             print "    ";
             print $val . "\n";
         }

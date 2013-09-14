@@ -28,6 +28,7 @@ sub new {
             PatchFiles          =>  undef,
             Prefix              =>  undef,
             URL                 =>  undef,
+            SortedVersionList   =>  undef,
             Version             =>  undef,
             VersionList         =>  undef,
 #           VersionCondition    =>  undef,

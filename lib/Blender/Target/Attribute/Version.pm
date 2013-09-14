@@ -15,16 +15,11 @@ sub initialize {
         $self->{callback} = sub {
             my $attributes = shift;
 
-            my $list = $attributes->VersionList;
+            my $list = $attributes->SortedVersionList;
 
             if ( $attributes->VersionCondition eq 'latest' ) {
-                my @versions = sort {
-                    version->declare( $a ) cmp version->declare( $b )
-                } @{ $list };
-
-                return $versions[-1];
+                return $list->[-1];
             }
-
 
             if ( grep { $attributes->VersionCondition eq $_ } @{ $list} ) {
                 return $attributes->VersionCondition;

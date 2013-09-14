@@ -1,9 +1,10 @@
-package Blender::Target::Attribute::VersionList;
+package Blender::Target::Attribute::SortedVersionList;
 
 use 5.012;
 use warnings;
 
 use Carp;
+use version;
 
 use parent qw/Blender::Target::AttributeExtension::Word/;
 
@@ -16,14 +17,13 @@ sub initialize {
         $self->{callback} = sub {
             my $attributes = shift;
 
-            require Blender::HTTP;
-            my $html = Blender::HTTP->new( $attributes->IndexSite )->get_html;
-            my $list = $html->parse_version(
-                    $attributes->IndexParserForm,
-                    $attributes->VersionForm
-                    );
+            my $list = $attributes->VersionList;
 
-            return $list;
+            my @sorted = sort {
+                version->declare( $a ) cmp version->declare( $b )
+            } @{ $list };
+
+            return \@sorted;
         };
 
         return $self;
@@ -34,7 +34,7 @@ sub initialize {
         return $self;
     }
 
-    my $err = "Attribute 'VersionList' isn't defined";
+    my $err = "Attribute 'SortedVersionList' isn't defined";
     croak( Blender::Exception->new( $err ));
 }
 
@@ -45,12 +45,12 @@ sub validate {
         my $type = ref( $self );
         $type =~ s/.*:://;
 
-        my $err = "Attribute 'VersionList' isn't ARRAY reference";
+        my $err = "Attribute 'SortedVersionList' isn't ARRAY reference";
         croak( Blender::Exception->new( $err, $value ));
     }
 
     if ( ! @{ $value } ) {
-        my $err = "Attribute 'VersionList' is no version list";
+        my $err = "Attribute 'SortedVersionList' is no version list";
         croak( Blender::Exception->new( $err ));
     }
 

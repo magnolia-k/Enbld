@@ -95,7 +95,7 @@ sub _is_stable {
 
     my $version = $attributes->Version;
 
-    my @frag = split( '\.', $version );
+    my @frag = split( '.', $version );
 
     if ( $frag[1] % 2 == 0 ) {
         return $version;

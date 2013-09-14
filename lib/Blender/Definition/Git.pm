@@ -11,7 +11,7 @@ sub initialize {
     $self->SUPER::initialize;
 
     $self->{defined}{IndexSite}         =
-        'http://code.google.com/p/git-core/downloads/list';
+        'http://code.google.com/p/git-core/downloads/list?num=1000&start=0';
     $self->{defined}{ArchiveName}       =   'git';
     $self->{defined}{WebSite}           =   'http://git-scm.com';
     $self->{defined}{VersionForm}       =   '1\.\d\.\d{1,2}(\.\d{1,2})?';
