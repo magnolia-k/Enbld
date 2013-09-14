@@ -12,6 +12,7 @@ use File::Path qw/make_path remove_tree/;
 use File::Find;
 use File::Copy;
 use autodie;
+use List::Util qw/first/;
 
 use Blender::Copy;
 
@@ -143,7 +144,15 @@ sub upgrade {
     my $current = $self->{attributes}->Version;
     my $enabled = $self->{config}->enabled;
 
-    if ( version->declare( $current ) <= version->declare( $enabled ) ) {
+    my $VersionList = $self->{attributes}->SortedVersionList;
+
+    my $index_current =
+        first { ${ $VersionList }[$_] eq $current } 0..$#{ $VersionList };
+
+    my $index_enabled =
+        first { ${ $VersionList }[$_] eq $enabled } 0..$#{ $VersionList };
+
+    if ( $index_current <= $index_enabled ) {
         die( Blender::Error->new( "'$self->{name}' is up to date." ) );
     }
 
@@ -221,7 +230,15 @@ sub is_outdated {
     my $current = $self->{attributes}->Version;
     my $enabled = $self->{config}->enabled;
 
-    if ( version->declare( $current ) > version->declare( $enabled ) ) {
+    my $VersionList = $self->{attributes}->SortedVersionList;
+
+    my $index_current =
+        first { ${ $VersionList }[$_] eq $current } 0..$#{ $VersionList };
+
+    my $index_enabled =
+        first { ${ $VersionList }[$_] eq $enabled } 0..$#{ $VersionList };
+
+    if ( $index_current > $index_enabled ) {
         return $current;
     }
 

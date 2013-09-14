@@ -23,6 +23,8 @@ sub initialize {
     $self->{defined}{AdditionalArgument} =
         '--enable-multibyte --with-features=big';
 
+    $self->{defined}{VersionList}       =   \&set_versionlist;
+
     $self->{defined}{Filename}          =   \&set_filename;
     $self->{defined}{Version}           =   \&set_version;
     $self->{defined}{PatchFiles}        =   \&set_patchfiles;
@@ -92,7 +94,7 @@ sub _search_major_version {
         die( Blender::Error->new( "Can't get version list." ));
     }
 
-    my @sorted= sort {
+    my @sorted = sort {
         version->declare( $a ) cmp version->declare( $b )
     } @{ $list };
 
@@ -132,8 +134,28 @@ sub _search_patchfiles {
         version->declare( $a ) cmp version->declare( $b )
     } @{ $patchfiles };
 
-
     return \@sorted;
+}
+
+sub set_versionlist {
+    my $attributes = shift;
+
+    my $versionlist;
+
+    # search major version number
+    require Blender::HTTP;
+    my $html = Blender::HTTP->new( $attributes->IndexSite )->get_html;
+    my $list = $html->parse_version( '<a href="vim-7\.\d\.tar\.bz2">', '7\.\d');
+
+    push @{ $versionlist }, @{ $list };
+
+    # search patch number
+    for my $ver ( @{ $list } ) {
+        my $patchlist = _search_patchfiles( $attributes, $ver );
+        push @{ $versionlist }, @{ $patchlist };
+    }
+
+    return $versionlist;
 }
 
 1;
