@@ -13,7 +13,7 @@ use Test::More;
 require Blender::Target::AttributeCollector;
 
 my $empty = Blender::Target::AttributeCollector->new;
-$empty->add( 'VersionList' );
+$empty->add( 'SortedVersionList' );
 eval { $empty->add( 'Version', '' ) };
 like( $@, qr/ABORT:Attribute 'Version' isn't defined/, 'empty parameter' );
 
@@ -66,6 +66,7 @@ subtest 'invalid Version Condition' => sub {
     $invalid_condition->add( 'IndexParserForm' );
     $invalid_condition->add( 'VersionCondition', '1.2' );
     $invalid_condition->add( 'VersionList' );
+    $invalid_condition->add( 'SortedVersionList' );
     $invalid_condition->add( 'Version' );
 
     eval{ $invalid_condition->Version };

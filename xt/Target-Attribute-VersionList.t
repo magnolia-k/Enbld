@@ -16,7 +16,8 @@ $no->add( 'Extension', 'tar.gz' );
 $no->add( 'IndexParserForm' );
 $no->add( 'VersionForm', '\d\.\d' );
 $no->add( 'VersionList' );
-is_deeply( $no->VersionList, [ '1.0', '1.1' ], 'no parameter' );
+$no->add( 'SortedVersionList' );
+is_deeply( $no->SortedVersionList, [ '1.0', '1.1' ], 'no parameter' );
 
 my $empty_string = Blender::Target::AttributeCollector->new;
 eval { $empty_string->add( 'VersionList', '' ) };

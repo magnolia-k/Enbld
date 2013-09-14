@@ -1,5 +1,19 @@
 Revision history for Blender-Declare
 
+0.6014 2013/09/14
+        [New Definition]
+        - Ruby
+        - Python
+        - Node.js
+
+        [New Subcommand]
+        - 'blender info [target name]' displays installed versions of target.
+        - 'blender available [target name]' displays available versions
+          of target.
+
+        [New Attribute]
+        - add 'SortedVersionList'
+
 0.6013 2013/09/10
         [New Definition]
         - Cmake

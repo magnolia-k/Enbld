@@ -42,7 +42,9 @@ lib/Blender/Definition/Nodejs.pm
 lib/Blender/Definition/Pcre.pm
 lib/Blender/Definition/Perl.pm
 lib/Blender/Definition/Pkgconfig.pm
+lib/Blender/Definition/Python.pm
 lib/Blender/Definition/Rakudostar.pm
+lib/Blender/Definition/Ruby.pm
 lib/Blender/Definition/Scala.pm
 lib/Blender/Definition/Tmux.pm
 lib/Blender/Definition/Tree.pm
@@ -79,6 +81,7 @@ lib/Blender/Target/Attribute/IndexParserForm.pm
 lib/Blender/Target/Attribute/IndexSite.pm
 lib/Blender/Target/Attribute/PatchFiles.pm
 lib/Blender/Target/Attribute/Prefix.pm
+lib/Blender/Target/Attribute/SortedVersionList.pm
 lib/Blender/Target/Attribute/URL.pm
 lib/Blender/Target/Attribute/Version.pm
 lib/Blender/Target/Attribute/VersionCondition.pm
@@ -125,7 +128,9 @@ xt/Definition-Nodejs
 xt/Definition-Pcre.t
 xt/Definition-Perl.t
 xt/Definition-Pkgconfig.t
+xt/Definition-Python.t
 xt/Definition-Rakudostar
+xt/Definition-Ruby.t
 xt/Definition-Scala.t
 xt/Definition-Tmux.t
 xt/Definition-Tree.t
