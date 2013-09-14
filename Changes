@@ -1,5 +1,11 @@
 Revision history for Blender-Declare
 
+0.6015 2013/09/14
+        [Bugfix]
+        - Fix broken version comparision.
+        - Fix broken test at perl 5.12.
+        - Fix installation for development version of perl.
+
 0.6014 2013/09/14
         [New Definition]
         - Ruby
