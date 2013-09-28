@@ -18,29 +18,29 @@ BEGIN {
 
 };
 
-require Blender::Logger;
+require Enbld::Logger;
 
-require_ok( 'Blender::Message' );
+require_ok( 'Enbld::Message' );
 
 SKIP: {
           skip "Skip message test because none of Test::Output.",
                3 if $skip_test;
 
-    stdout_is { Blender::Message->notify( 'message' ) } '', 'quiet';
+    stdout_is { Enbld::Message->notify( 'message' ) } '', 'quiet';
 
-    Blender::Message->set_verbose;
+    Enbld::Message->set_verbose;
 
     my $dir = File::Temp->newdir;
-    Blender::Logger->rotate( $dir );
+    Enbld::Logger->rotate( $dir );
 
-    stdout_is { Blender::Message->notify( 'message' ) } "message\n", 'verbose';
+    stdout_is { Enbld::Message->notify( 'message' ) } "message\n", 'verbose';
 
-    open my $fh, '<', Blender::Logger->logfile;
+    open my $fh, '<', Enbld::Logger->logfile;
     my $logfile = ( <$fh> );
     close $fh;
     is( $logfile, "message\n", 'logfile' );
 
-    stdout_is { Blender::Message->notify( "message\n" ) } "message\n",
+    stdout_is { Enbld::Message->notify( "message\n" ) } "message\n",
               'message with return code';
           };
 

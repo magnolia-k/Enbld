@@ -7,10 +7,10 @@ use Carp;
 
 use Test::More;
 
-require_ok( 'Blender::Exception' );
+require_ok( 'Enbld::Exception' );
 
 eval {
-    croak Blender::Exception->new( 'exception message' );
+    croak Enbld::Exception->new( 'exception message' );
 };
 
 like( $@, qr/ABORT:exception message/, 'captured exception' );
@@ -20,7 +20,7 @@ my $param = {
 };
 
 eval {
-    croak Blender::Exception->new( 'exception message with parameter', $param );
+    croak Enbld::Exception->new( 'exception message with parameter', $param );
 };
 
 like( $@, qr/ABORT:exception message with parameter/,

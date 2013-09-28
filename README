@@ -1,6 +1,6 @@
 # NAME
 
-Blender-Declare - Blend your development environment by perl-based DSL.
+Enbld - Build your development environment by perl-based DSL.
 
 # SYNOPSIS
 
@@ -11,11 +11,11 @@ Blender-Declare - Blend your development environment by perl-based DSL.
 
     use utf8;
 
-    use lib "$ENV{HOME}/blended/Blender-Declare/lib/perl5/";
+    use lib "$ENV{HOME}/.enbld/extlib/lib/perl5/";
 
-    use Blender::Declare;
+    use Enbld;
 
-    blend 'myblendedenv' => build {
+    blend 'myenv' => build {
 
         # install latest version
         target 'git' => define {
@@ -39,7 +39,7 @@ Blender-Declare - Blend your development environment by perl-based DSL.
 
 # DESCRIPTION
 
-Blender-Declare is a tool for building(blending) development environment. 
+Enbld is a tool for building development environment. 
 
 If installation conditions (a version, the execution of a test code, configuration file etc.) are described to be software to install in perl-based DSL and it executes, download of a source code, building, and installation will be performed altogether automatically. 
 
@@ -51,14 +51,14 @@ It works on Mac OS X only.
 
 # INSTALLATION
 
-    $ git clone https://github.com/magnolia-k/Blender-Declare.git
-    $ cd Blender-Declare
+    $ git clone https://github.com/magnolia-k/Enbld.git
+    $ cd Enbld
     $ ./setup
 
-And set Blender-Declare's path.
+And set Enbld's path.
 
-    export $PATH=$HOME/blended/bin:$HOME/blended/Blender-Declare/bin:$PATH
-    export MANPATH=$HOME/blended/share/man:$HOME/blended/man:$MANPATH
+    export $PATH=$HOME/.enbld/bin:$HOME/.enbld/extlib/bin:$PATH
+    export MANPATH=$HOME/.enbld/share/man:$HOME/.enbld/man:$MANPATH
 
 # GETTING STARTED
 
@@ -74,11 +74,11 @@ And set Blender-Declare's path.
 
     use utf8;
 
-    use lib "$ENV{HOME}/blended/Blender-Declare/lib/perl5/";
+    use lib "$ENV{HOME}/.enbld/extlib/lib/perl5/";
 
-    use Blender::Declare;
+    use Enbld;
 
-    blend 'myblendedenv' => build {
+    blend 'myenv' => build {
 
         target 'git' => define {
             version 'latest';
@@ -115,11 +115,11 @@ A specific version is specified in DSL. -> version '1.8';
     
     use utf8;
     
-    use lib "$ENV{HOME}/blended/Blender-Declare/lib/perl5/";
+    use lib "$ENV{HOME}/.enbld/extlib/lib/perl5/";
     
-    use Blender::Declare;
+    use Enbld;
     
-    blend 'myblendedenv' => build {
+    blend 'myenv' => build {
     
         target 'tmux' => define {
             version '1.8';
@@ -134,7 +134,7 @@ A specific version is specified in DSL. -> version '1.8';
 
 ## CREATE CONFIGURATION FILE (DOTFILE)
 
-Blender-Declare also can create target software's configuration file(.dotfile).
+Enbld also can create target software's configuration file(.dotfile).
 
 'conf' function set configuration file to home directory.
 
@@ -146,11 +146,11 @@ Blender-Declare also can create target software's configuration file(.dotfile).
     
     use utf8;
     
-    use lib "$ENV{HOME}/blended/Blender-Declare/lib/perl5/";
+    use lib "$ENV{HOME}/.enbld/extlib/lib/perl5/";
     
-    use Blender::Declare;
+    use Enbld;
     
-    blend 'myblendedenv' => build {
+    blend 'myenv' => build {
     
         target 'vim' => define {
             version 'latest';
@@ -166,7 +166,7 @@ Blender-Declare also can create target software's configuration file(.dotfile).
 
 ## MAKE TEST AT INSTALLATION
 
-Blender-Declare can make test at installation.
+Enbld can make test at installation.
 
     target 'git' => define {
         version 'latest';
@@ -175,31 +175,31 @@ Blender-Declare can make test at installation.
 
 As default, this function is OFF. 
 
-## UTILITY COMMAND 'blender'
+## UTILITY COMMAND 'enbld'
 
-Blender-Declare installs utility command 'blender'.
+Enbld installs utility command 'enbld'.
 
 ### Displays available software
 
-Subcommand 'available' displays software that can install by Blender-Declare.
+Subcommand 'available' displays software that can install by Enbld.
 
-    $ blender available
+    $ enbld available
 
 ### Displays installed software
 
 Subcommand 'list' displays software that is installed.
 
-    $ blender list
+    $ enbld list
 
 ### Displays DSL
 
 Subcommand 'freeze ' displays DSL that is condition of installed software.
 
-    $ blender freeze
+    $ enbld	freeze
 
 # SEE ALSO
 
-- Blender::Declare::Tutorial
+- Enbld::Tutorial
 
 # COPYRIGHT
 

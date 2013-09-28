@@ -9,17 +9,17 @@ use File::Spec;
 
 use Test::More;
 
-require_ok( 'Blender::RcFile' );
+require_ok( 'Enbld::RcFile' );
 
 subtest 'set contents' => sub {
     my $dir = File::Temp->newdir;
     my $filename = '.blendrc';
     my $fullpath = File::Spec->catfile( $dir, $filename );
 
-    my $rcfile = Blender::RcFile->new(
+    my $rcfile = Enbld::RcFile->new(
             filepath    =>  $filename,
             directory   =>  $dir,
-            contents    =>  'blender',
+            contents    =>  'Enbld',
             command     =>  'set',
             );
 
@@ -31,12 +31,12 @@ subtest 'set contents' => sub {
     my $content = do { local $/; <$fh> };
     close $fh;
 
-    like( $content, qr/blender/, 'contents' );
+    like( $content, qr/Enbld/, 'contents' );
 
     my @DSL;
     push @DSL, "conf '.blendrc' => set {\n";
     push @DSL, "    to '" . $dir . "';\n";
-    push @DSL, "    content 'blender';\n";
+    push @DSL, "    content 'Enbld';\n";
     push @DSL, "};\n";
 
     my $DSLed = $rcfile->DSL;
@@ -49,7 +49,7 @@ subtest 'set contents' => sub {
             {
             filepath    => $filename,
             command     => 'set',
-            contents    => "blender",
+            contents    => "Enbld",
             directory   => $dir,
             },
             'serialized' );
@@ -59,7 +59,7 @@ subtest 'set contents' => sub {
 
 SKIP: {
           skip "Skip RcFile test because none of test env.",
-               2 unless ( $ENV{PERL_BLENDER_TEST} );
+               2 unless ( $ENV{PERL_ENBLD_TEST} );
 
           subtest 'load conf' => sub {
               my $dir = File::Temp->newdir;
@@ -67,7 +67,7 @@ SKIP: {
               my $fullpath = File::Spec->catfile( $dir, $filepath );
               my $url = 'https://raw.github.com/magnolia-k/vimrc/master/.vimrc';
 
-              my $rcfile = Blender::RcFile->new(
+              my $rcfile = Enbld::RcFile->new(
                       filepath  =>  $filepath,
                       directory =>  $dir,
                       url       =>  $url,
@@ -103,7 +103,7 @@ SKIP: {
               my $fullpath = File::Spec->catfile( $dir, $filepath );
               my $url = 'https://raw.github.com/magnolia-k/vimrc/master/.vimrc';
 
-              my $rcfile = Blender::RcFile->new(
+              my $rcfile = Enbld::RcFile->new(
                       filepath  =>  $filepath,
                       directory =>  $dir,
                       url       =>  $url,

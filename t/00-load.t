@@ -7,7 +7,7 @@ use Test::More;
 plan tests => 1;
 
 BEGIN {
-    use_ok( 'Blender::Declare' ) || print "Bail out!\n";
+    use_ok( 'Enbld' ) || print "Bail out!\n";
 }
 
-diag( "Testing Blender::Declare $Blender::Declare::VERSION, Perl $], $^X" );
+diag( "Testing Enbld $Enbld::VERSION, Perl $], $^X" );

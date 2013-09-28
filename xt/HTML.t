@@ -5,9 +5,9 @@ use warnings;
 
 use Test::More;
 
-require_ok( 'Blender::HTML' );
+require_ok( 'Enbld::HTML' );
 
-my $html = Blender::HTML->new( do { local $/; <DATA> } );
+my $html = Enbld::HTML->new( do { local $/; <DATA> } );
 
 my $list = $html->parse_version(
         '<a href="http://www.example.com/archive-\d\.\d{2}\.tar\.gz">',
@@ -16,7 +16,7 @@ my $list = $html->parse_version(
 
 ok( grep { $_ eq '1.10' } @{ $list} , 'version exists' );
 
-my $empty = Blender::HTML->new( '' );
+my $empty = Enbld::HTML->new( '' );
 my $empty_list = $empty->parse_version(
         '<a href="http://www.example.com/archive-\d\.\d{2}\.tar\.gz',
         '\d\.\d{2}'

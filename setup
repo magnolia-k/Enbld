@@ -12,10 +12,10 @@ sub main {
 
     check_env();
 
-    my $home = $ENV{PERL_BLENDER_HOME} ? $ENV{PERL_BLENDER_HOME} :
-        File::Spec->catdir( $ENV{HOME}, 'blended' );
+    my $home = $ENV{PERL_ENBLD_HOME} ? $ENV{PERL_ENBLD_HOME} :
+        File::Spec->catdir( $ENV{HOME}, '.enbld' );
 
-    print "=====> Install Blender-Declare to $home.\n";
+    print "=====> Install Enbld to $home.\n";
 
     install_app( $home );
 
@@ -23,13 +23,14 @@ sub main {
 
     print "Please add following path to PATH.\n";
     print "\n";
-    print " " x 4 . '$HOME/blended/Blender-Declare/bin' . "\n";
-    print " " x 4 . '$HOME/blended/bin' . "\n";
+    print " " x 4 . '$HOME/.enbld/extlib/bin' . "\n";
+    print " " x 4 . '$HOME/.enbld/bin'        . "\n";
+    print " " x 4 . '$HOME/.enbld/sbin'       . "\n";
     print "\n";
     print "Please add following path to MANPATH.\n";
     print "\n";
-    print " " x 4 . '$HOME/blended/share/man' . "\n";
-    print " " x 4 . '$HOME/blended/man' . "\n";
+    print " " x 4 . '$HOME/.enbld/share/man' . "\n";
+    print " " x 4 . '$HOME/.enbld/man'       . "\n";
     print "\n";
 }
 
@@ -37,28 +38,28 @@ sub check_env {
 
     # OS X check
     if ( $^O ne 'darwin' ) {
-        die "Sorry, Blender-Declare is executable on OS X only.\n";
+        die "Sorry, Enbld is executable on OS X only.\n";
     }
 
     # perl version check
     if ( $] < '5.012' ) {
-        die "Sorry, Blender-Declare requires perl 5.12.0 or above.\n";
+        die "Sorry, Enbld requires perl 5.12.0 or above.\n";
     }
 }
 
 sub install_app {
     my $home = shift;
 
-    print "-----> Install Blender-Declare's files.\n";
+    print "-----> Install Enbld's files.\n";
 
     my $dir = $FindBin::Bin;
-    my $app_install = File::Spec->catdir( $home, 'Blender-Declare' );
+    my $app_install = File::Spec->catdir( $home, 'extlib' );
 
     system( '/usr/bin/perl', File::Spec->catfile( $dir, 'Build.PL' ));
-    if ( $? >> 8 ) { die "Installing Blender-Declare fail!\n" }
+    if ( $? >> 8 ) { die "Installing Enbld fail!\n" }
 
     system( '/usr/bin/perl', File::Spec->catfile( $dir, 'Build' ));
-    if ( $? >> 8 ) { die "Installing Blender-Declare fail!\n" }
+    if ( $? >> 8 ) { die "Installing Enbld fail!\n" }
 
     system(
             '/usr/bin/perl',
@@ -67,7 +68,7 @@ sub install_app {
             '--install_base',
             $app_install
             );
-    if ( $? >> 8 ) { die "Installing Blender-Declare fail!\n" }
+    if ( $? >> 8 ) { die "Installing Enbld fail!\n" }
 
     return $app_install
 }

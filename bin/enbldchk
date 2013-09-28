@@ -1,0 +1,102 @@
+#!/usr/bin/perl
+
+use 5.012;
+use warnings;
+
+use version;
+
+use FindBin;
+use lib "$FindBin::Bin/../lib/perl5";
+
+require Enbld::Home;
+Enbld::Home->initialize;
+
+my $target = shift @ARGV;
+my $condition = shift @ARGV;
+
+unless ( $target ) {
+    die "you must set target name parameter";
+}
+
+if ( $target =~ /[^a-z0-9]/ ) {
+    die( Enbld::Error->new( "invalid target name '$target'" ));
+}
+
+require Enbld::Definition;
+my $attributes = Enbld::Definition->new( $target )->parse;
+
+if ( $condition ) {
+    $attributes->add( 'VersionCondition', $condition );
+} else {
+    $attributes->add( 'VersionCondition' );
+}
+
+
+my @list = qw/
+AdditionalArgument
+AllowedCondition
+ArchiveName
+Dependencies
+DistName
+DownloadSite
+Extension
+Filename
+IndexParserForm
+IndexSite
+PatchFiles
+Prefix
+SortedVersionList
+URL
+Version
+VersionCondition
+VersionForm
+WebSite
+CommandConfigure
+CommandMake
+CommandTest
+CommandInstall
+/;
+
+print "target:" . $target . "\n";
+print "\n";
+
+foreach my $name ( sort @list ) {
+
+    my $value = $attributes->$name;
+
+    print $name . ':';
+
+    if ( ! $value ) {
+        print "\n";
+        next;
+    }
+
+    if ( ! ref( $value ) ) {
+        print $value . "\n";
+        next;
+    }
+
+    if ( ref( $value ) eq 'ARRAY' && $name ne 'SortedVersionList' ) {
+        print "\n";
+
+        foreach my $val ( sort @{ $value } ) {
+            print "    ";
+            print $val . "\n";
+        }
+
+        next;
+    }
+
+    if ( $name eq 'SortedVersionList' ) {
+        print "\n";
+
+        foreach my $val ( @{ $value } ) {
+            print "    ";
+            print $val . "\n";
+        }
+
+        next;
+ 
+    }
+
+}   

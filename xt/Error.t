@@ -5,10 +5,10 @@ use warnings;
 
 use Test::More;
 
-require_ok( 'Blender::Error' );
+require_ok( 'Enbld::Error' );
 
 eval {
-    die Blender::Error->new( 'error message' );
+    die Enbld::Error->new( 'error message' );
 };
 
 is( $@, "ERROR:error message\n", 'captured message' );

@@ -5,11 +5,11 @@ use warnings;
 
 use utf8;
 
-use lib "$ENV{HOME}/blended/Blender-Declare/lib/perl5/";
+use lib "$ENV{HOME}/.enbld/extlib/lib/perl5/";
 
-use Blender::Declare;
+use Enbld;
 
-blend 'myblendedenv' => build {
+enbld 'myenv' => build {
 
     target 'vim' => define {
         version 'latest';

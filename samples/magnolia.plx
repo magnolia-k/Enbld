@@ -3,11 +3,11 @@
 use 5.012;
 use warnings;
 
-use lib "$ENV{HOME}/blended/Blender-Declare/lib/perl5/";
+use lib "$ENV{HOME}/.enbld/extlib/lib/perl5/";
 
-use Blender::Declare;
+use Enbld;
 
-blend 'blendedenv' => build {
+enbld 'myenv' => build {
 
     target 'autoconf' => define {
         version 'latest';

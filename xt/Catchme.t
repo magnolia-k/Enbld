@@ -7,17 +7,17 @@ use Test::More;
 
 BEGIN {
 
-    use_ok( 'Blender::Catchme' );
+    use_ok( 'Enbld::Catchme' );
 
 };
 
-require Blender::Error;
+require Enbld::Error;
 
 eval {
-    die Blender::Error->new( "Exception Raised" );
+    die Enbld::Error->new( "Exception Raised" );
 };
 
-catchme 'Blender::Error' => sub {
+catchme 'Enbld::Error' => sub {
     like( $@, qr/Exception Raised/, 'catch exception' );
 };
 

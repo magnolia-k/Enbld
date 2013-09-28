@@ -4,11 +4,11 @@ use 5.012;
 use warnings;
 
 use Test::More;
-use Test::Blender::Definition;
+use Test::Enbld::Definition;
 
 SKIP: {
           skip "Skip build tree test because none of test env.",
-               1 unless ( $ENV{PERL_BLENDER_TEST_DEFINITION} );
+               1 unless ( $ENV{PERL_ENBLD_TEST_DEFINITION} );
           
           build_ok( 'tree', undef, undef, 'first test' );
       };

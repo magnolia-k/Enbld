@@ -1,0 +1,36 @@
+package Enbld::Command::Rehash;
+
+use 5.012;
+use warnings;
+
+use parent qw/Enbld::Command/;
+
+use Enbld::Catchme;
+
+require Enbld::Home;
+require Enbld::Error;
+require Enbld::App::Configuration;
+require Enbld::Target;
+
+sub do {
+    my $self = shift;
+
+    my $target_name = $self->validate_target_name( shift @{ $self->{argv} } );
+
+    Enbld::Home->initialize;
+    Enbld::App::Configuration->read_file;
+
+    my $config = Enbld::App::Configuration->search_config( $target_name );
+    my $target = Enbld::Target->new( $target_name, $config );
+
+    eval { $target->rehash };
+
+	catchme 'Enbld::Error' => sub {
+        Enbld::Message->alert( $@ );
+        return;
+	};
+
+    return $target_name;
+}
+
+1;

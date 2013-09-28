@@ -5,9 +5,9 @@ use warnings;
 
 use Test::More;
 
-require_ok( 'Blender::Target::AttributeCollector' );
+require_ok( 'Enbld::Target::AttributeCollector' );
 
-my $attributes = Blender::Target::AttributeCollector->new;
+my $attributes = Enbld::Target::AttributeCollector->new;
 eval { $attributes->Invalid };
 like( $@, qr/ABORT:'Invalid' is invalid method/, 'invalid method' );
 

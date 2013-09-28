@@ -12,10 +12,10 @@ use lib "$FindBin::Bin/./testlib/";
 
 use Test::More;
 
-require_ok( 'Blender::Target' );
+require_ok( 'Enbld::Target' );
 
 subtest 'constructor' => sub {
-    eval { Blender::Target->new( 'noname' ) };
+    eval { Enbld::Target->new( 'noname' ) };
     like( $@, qr/ERROR:no definition for target 'noname'/, 'no definition' );
 
     done_testing();
@@ -28,7 +28,7 @@ subtest "install" => sub {
     subtest 'not installed' => sub {
         setup();
 
-        my $target = Blender::Target->new( 'testapp' );
+        my $target = Enbld::Target->new( 'testapp' );
         is( $target->is_installed, undef, 'not installed' );
 
         my $config = $target->install;
@@ -41,8 +41,8 @@ subtest "install" => sub {
     subtest 'installed' => sub {
         setup();
 
-        my $config = Blender::Target->new( 'testapp' )->install;
-        eval { Blender::Target->new( 'testapp', $config )->install };
+        my $config = Enbld::Target->new( 'testapp' )->install;
+        eval { Enbld::Target->new( 'testapp', $config )->install };
         like ( $@, qr/ERROR:'testapp' is already installed/, 'installed' );
 
         teardown();
@@ -52,13 +52,13 @@ subtest "install" => sub {
     subtest 'force install' => sub {
         setup();
 
-        my $config = Blender::Target->new( 'testapp' )->install;
+        my $config = Enbld::Target->new( 'testapp' )->install;
         is( $config->enabled, '1.1', 'install first' );
 
         teardown();
         setup( force => 1 );
 
-        my $target = Blender::Target->new( 'testapp', $config );
+        my $target = Enbld::Target->new( 'testapp', $config );
         my $installed = $target->install;
         is( $installed->enabled, '1.1', 'install twice' );
 
@@ -69,10 +69,10 @@ subtest "install" => sub {
     subtest 'install with make test' => sub {
         setup( make_test => 1 );
 
-        Blender::Target->new( 'testapp' )->install;
+        Enbld::Target->new( 'testapp' )->install;
 
         my $path = File::Spec->catfile(
-                Blender::Home->build,
+                Enbld::Home->build,
                 'TestApp-1.1',
                 'tested'
                 );
@@ -85,10 +85,10 @@ subtest "install" => sub {
     subtest 'install without make test' => sub {
         setup( make_test => undef );
 
-        Blender::Target->new( 'testapp' )->install;
+        Enbld::Target->new( 'testapp' )->install;
 
         my $path = File::Spec->catfile(
-                Blender::Home->build,
+                Enbld::Home->build,
                 'TestApp-1.1',
                 'tested'
                 );
@@ -102,15 +102,15 @@ subtest "install" => sub {
     subtest 'install deploy' => sub {
         setup();
         
-        my $config = Blender::Target->new( 'testapp' )->install;
+        my $config = Enbld::Target->new( 'testapp' )->install;
 
         teardown();
 
         my $deploy_path = File::Temp->newdir;
         setup( deploy => $deploy_path );
 
-        Blender::Target->new( 'testapp', $config )->deploy;
-        my $app = File::Spec->catdir( $deploy_path, 'bin', 'blendertestapp' );
+        Enbld::Target->new( 'testapp', $config )->deploy;
+        my $app = File::Spec->catdir( $deploy_path, 'bin', 'Enbldtestapp' );
         ok( -e $app, 'deploy' );
 
         teardown();
@@ -123,7 +123,7 @@ subtest "install" => sub {
         setup();
 
         eval {
-            Blender::Target->new( 'brokenapp' )->install;
+            Enbld::Target->new( 'brokenapp' )->install;
         };
 
         like( $@, qr/make/, 'fail to install' );
@@ -143,12 +143,12 @@ subtest 'install dependant' => sub {
     subtest 'install dependency' => sub {
         setup();
 
-        my $dependant = Blender::Target->new( 'testdependant' )->install;
+        my $dependant = Enbld::Target->new( 'testdependant' )->install;
         is( $dependant->name, 'testdependant', 'dependant name' );
         is( $dependant->enabled, '1.1', 'dependant enabled' );
 
-        require Blender::App::Configuration;
-        my $config = Blender::App::Configuration->search_config( 'testapp' );
+        require Enbld::App::Configuration;
+        my $config = Enbld::App::Configuration->search_config( 'testapp' );
         is( $config->name, 'testapp', 'dependency name' );
         is( $config->enabled, '1.1', 'dependency enabled' );
 
@@ -159,13 +159,13 @@ subtest 'install dependant' => sub {
     subtest 'not install dependency' => sub {
         setup();
     
-        my $dependency = Blender::Target->new( 'testapp' )->install;
-        Blender::App::Configuration->set_config( $dependency );
+        my $dependency = Enbld::Target->new( 'testapp' )->install;
+        Enbld::App::Configuration->set_config( $dependency );
 
-        my $installed = Blender::App::Configuration->search_config( 'testapp' );
+        my $installed = Enbld::App::Configuration->search_config( 'testapp' );
         is( $installed->enabled, '1.1', 'installed dependency' );
 
-        my $config = Blender::Target->new( 'testdependant' )->install;
+        my $config = Enbld::Target->new( 'testdependant' )->install;
         is( $config->enabled, '1.1', 'installed target' );
 
         teardown();
@@ -176,17 +176,17 @@ subtest 'install dependant' => sub {
         setup();
 
         my $conditions = {
-            testapp         => Blender::Condition->new( version => '1.0' ),
-            testdependant   => Blender::Condition->new,
+            testapp         => Enbld::Condition->new( version => '1.0' ),
+            testdependant   => Enbld::Condition->new,
         };
 
         my $dependant =
-            Blender::Target->new( 'testdependant' )->install_declared(
+            Enbld::Target->new( 'testdependant' )->install_declared(
                     $conditions
                     );
         is( $dependant->enabled, '1.1', 'enabled' );
 
-        my $config = Blender::App::Configuration->search_config( 'testapp' );
+        my $config = Enbld::App::Configuration->search_config( 'testapp' );
         is( $config->enabled, '1.0', 'target enabled' );
 
         teardown();
@@ -202,23 +202,23 @@ subtest 'install declared' => sub {
         setup();
 
         my $old = {
-            testapp => Blender::Condition->new( version => '1.0' ),
+            testapp => Enbld::Condition->new( version => '1.0' ),
         };
 
         my $testapp =
-            Blender::Target->new( 'testapp' )->install_declared( $old );
+            Enbld::Target->new( 'testapp' )->install_declared( $old );
 
         is( $testapp->enabled, '1.0', 'target version' );
 
-        is( Blender::Target->new(
+        is( Enbld::Target->new(
                     'testapp', $testapp )->install_declared( $old ),
                 undef, 'not installed' );
 
         my $new = {
-            testapp => Blender::Condition->new( version => '1.1' )
+            testapp => Enbld::Condition->new( version => '1.1' )
         };
 
-        my $config = Blender::Target->new( 'testapp',
+        my $config = Enbld::Target->new( 'testapp',
                     $testapp )->install_declared( $new );
         is( $config->enabled, '1.1', 'installed' );
 
@@ -231,10 +231,10 @@ subtest 'install declared' => sub {
         setup();
 
         my $condition = {
-            testapp => Blender::Condition->new( version => '1.0' ),
+            testapp => Enbld::Condition->new( version => '1.0' ),
         };
 
-        my $target_first = Blender::Target->new( 'testapp' );
+        my $target_first = Enbld::Target->new( 'testapp' );
         my $config_first = $target_first->install_declared( $condition );
         is( $config_first->enabled, '1.0', 'install first' );
 
@@ -242,7 +242,7 @@ subtest 'install declared' => sub {
 
         setup( force => 1 );
 
-        my $target_twice = Blender::Target->new( 'testapp' );
+        my $target_twice = Enbld::Target->new( 'testapp' );
         my $config_twice = $target_twice->install_declared( $condition );
         is( $config_twice->enabled, '1.0', 'install twice by force' );
 
@@ -255,20 +255,20 @@ subtest 'install declared' => sub {
         setup();
         
         my $condition = {
-            testapp =>  Blender::Condition->new( version => '1.0' ),
+            testapp =>  Enbld::Condition->new( version => '1.0' ),
         };
 
         my $config =
-            Blender::Target->new( 'testapp' )->install_declared( $condition );
+            Enbld::Target->new( 'testapp' )->install_declared( $condition );
 
         teardown();
 
         my $deploy_path = File::Temp->newdir;
         setup( deploy => $deploy_path );
 
-        Blender::Target->new( 'testapp', $config )->deploy_declared( $condition );
+        Enbld::Target->new( 'testapp', $config )->deploy_declared( $condition );
 
-        my $app = File::Spec->catdir( $deploy_path, 'bin', 'blendertestapp' );
+        my $app = File::Spec->catdir( $deploy_path, 'bin', 'Enbldtestapp' );
         ok( -e $app, 'deploy' );
 
         teardown();
@@ -284,7 +284,7 @@ subtest 'upgrade' => sub {
     subtest 'not installed' => sub {
         setup();
 
-        eval{ Blender::Target->new( 'testapp' )->upgrade };
+        eval{ Enbld::Target->new( 'testapp' )->upgrade };
         like( $@, qr/ERROR:'testapp' is not installed yet/, 'not installed' );
 
         teardown();
@@ -295,17 +295,17 @@ subtest 'upgrade' => sub {
         setup();
 
         my $old = {
-            testapp =>  Blender::Condition->new( version => '1.1' ),
+            testapp =>  Enbld::Condition->new( version => '1.1' ),
         };
 
         my $config =
-            Blender::Target->new( 'testapp' )->install_declared( $old );
+            Enbld::Target->new( 'testapp' )->install_declared( $old );
 
-        my $new = Blender::Condition->new( version => 'latest' );
+        my $new = Enbld::Condition->new( version => 'latest' );
 
         $config->set_enabled( '1.1', $new );
 
-        eval{ Blender::Target->new( 'testapp', $config )->upgrade };
+        eval{ Enbld::Target->new( 'testapp', $config )->upgrade };
         like( $@, qr/ERROR:'testapp' is up to date/, 'not upgrade' );
 
         teardown();
@@ -316,18 +316,18 @@ subtest 'upgrade' => sub {
     subtest 'upgrade install' => sub {
         setup();
 
-        my $target = Blender::Target->new( 'testapp' );
+        my $target = Enbld::Target->new( 'testapp' );
         my $old = {
-            testapp => Blender::Condition->new( version => '1.0' ),
+            testapp => Enbld::Condition->new( version => '1.0' ),
         };
         my $config =
-            Blender::Target->new( 'testapp' )->install_declared( $old );
+            Enbld::Target->new( 'testapp' )->install_declared( $old );
 
-        my $new = Blender::Condition->new( version => 'latest' );
+        my $new = Enbld::Condition->new( version => 'latest' );
 
         $config->set_enabled( '1.0', $new );
 
-        my $upgraded = Blender::Target->new( 'testapp', $config )->upgrade;
+        my $upgraded = Enbld::Target->new( 'testapp', $config )->upgrade;
         is( $upgraded->enabled, '1.1', 'upgraded' );
 
         teardown();
@@ -342,7 +342,7 @@ subtest 'is outdated' => sub {
     subtest 'not installed' => sub {
         setup();
 
-        my $target = Blender::Target->new( 'testapp' );
+        my $target = Enbld::Target->new( 'testapp' );
         is( $target->is_outdated, undef, 'not installed' );
 
         teardown();
@@ -354,18 +354,18 @@ subtest 'is outdated' => sub {
         setup();
 
         my $old = {
-            testapp =>  Blender::Condition->new( version => '1.0' ),
+            testapp =>  Enbld::Condition->new( version => '1.0' ),
         };
 
         my $config =
-            Blender::Target->new( 'testapp' )->install_declared( $old );
+            Enbld::Target->new( 'testapp' )->install_declared( $old );
 
-        my $new = Blender::Condition->new( version => 'latest' );
+        my $new = Enbld::Condition->new( version => 'latest' );
 
         $config->set_enabled( '1.0', $new );
-        my $outdated = Blender::Target->new( 'testapp', $config );
+        my $outdated = Enbld::Target->new( 'testapp', $config );
 
-        is( Blender::Target->new( 'testapp', $config )->is_outdated,
+        is( Enbld::Target->new( 'testapp', $config )->is_outdated,
                 '1.1', 'outdated' );
 
         teardown();
@@ -377,17 +377,17 @@ subtest 'is outdated' => sub {
         setup();
 
         my $old = {
-            testapp =>  Blender::Condition->new( version => '1.1' ),
+            testapp =>  Enbld::Condition->new( version => '1.1' ),
         };
 
         my $config =
-            Blender::Target->new( 'testapp' )->install_declared( $old );
+            Enbld::Target->new( 'testapp' )->install_declared( $old );
 
-        my $new = Blender::Condition->new( version => 'latest' );
+        my $new = Enbld::Condition->new( version => 'latest' );
         $config->set_enabled( '1.1', $new );
-        my $uptodate = Blender::Target->new( 'testapp', $config );
+        my $uptodate = Enbld::Target->new( 'testapp', $config );
 
-        is( Blender::Target->new( 'testapp', $config )->is_outdated,
+        is( Enbld::Target->new( 'testapp', $config )->is_outdated,
                 undef, 'up to date' );
 
         teardown();
@@ -403,11 +403,11 @@ subtest 'use method' => sub {
     subtest 'version form exception' => sub {
         setup();
 
-        my $condition = Blender::Condition->new;
-        my $config = Blender::Config->new( name => 'testapp' );
+        my $condition = Enbld::Condition->new;
+        my $config = Enbld::Config->new( name => 'testapp' );
         $config->set_enabled( '1.0', $condition );
  
-        eval{ Blender::Target->new( 'testapp', $config )->use( '10' ) };
+        eval{ Enbld::Target->new( 'testapp', $config )->use( '10' ) };
 
         like( $@, qr/ERROR:'10' is not valid version form/, 'form exception' );
 
@@ -419,11 +419,11 @@ subtest 'use method' => sub {
     subtest 'current version exception' => sub {
         setup();
 
-        my $condition = Blender::Condition->new;
-        my $config = Blender::Config->new( name => 'testapp' );
+        my $condition = Enbld::Condition->new;
+        my $config = Enbld::Config->new( name => 'testapp' );
         $config->set_enabled( '1.0', $condition );
 
-        eval{ Blender::Target->new( 'testapp', $config )->use( '1.0' ) };
+        eval{ Enbld::Target->new( 'testapp', $config )->use( '1.0' ) };
 
         like( $@, qr/ERROR:'1.0' is current enabled version/, 'current' );
 
@@ -435,11 +435,11 @@ subtest 'use method' => sub {
     subtest 'not installed yet' => sub {
         setup();
 
-        my $condition = Blender::Condition->new;
-        my $config = Blender::Config->new( name => 'testapp' );
+        my $condition = Enbld::Condition->new;
+        my $config = Enbld::Config->new( name => 'testapp' );
         $config->set_enabled( '1.0', $condition );
 
-        eval{ Blender::Target->new( 'testapp', $config )->use( '1.1' ) };
+        eval{ Enbld::Target->new( 'testapp', $config )->use( '1.1' ) };
 
         like( $@, qr/ERROR:'1.1' isn't installed yet/, 'not installed' );
 
@@ -452,19 +452,19 @@ subtest 'use method' => sub {
         setup();
 
         my $old_condition = {
-            testapp =>  Blender::Condition->new( version => '1.0' ),
+            testapp =>  Enbld::Condition->new( version => '1.0' ),
         };
         my $new_condition = {
-            testapp =>  Blender::Condition->new( version => 'latest' ),
+            testapp =>  Enbld::Condition->new( version => 'latest' ),
         };
-        my $old_config = Blender::Config->new( name => 'testapp' );
-        my $old_target = Blender::Target->new( 'testapp' );
+        my $old_config = Enbld::Config->new( name => 'testapp' );
+        my $old_target = Enbld::Target->new( 'testapp' );
 
         my $new_config = $old_target->install_declared( $old_condition );
-        my $new_target = Blender::Target->new( 'testapp', $new_config );
+        my $new_target = Enbld::Target->new( 'testapp', $new_config );
         my $installed_config = $new_target->install_declared( $new_condition );
 
-        my $target = Blender::Target->new( 'testapp', $installed_config );
+        my $target = Enbld::Target->new( 'testapp', $installed_config );
 
         my $config = $target->use( '1.0' );
         is( $config->enabled, '1.0', 'use already installed version' );
@@ -482,13 +482,13 @@ subtest 'use method' => sub {
 subtest 'off method' => sub {
     setup();
 
-    my $config = Blender::Target->new( 'testapp' )->install;
+    my $config = Enbld::Target->new( 'testapp' )->install;
     is( $config->enabled, '1.1', 'target install' );
 
-    my $offed = Blender::Target->new( 'testapp', $config )->off;
+    my $offed = Enbld::Target->new( 'testapp', $config )->off;
     is( $offed->enabled, undef, 'target off' );
 
-    eval { Blender::Target->new( 'testapp', $offed )->off };
+    eval { Enbld::Target->new( 'testapp', $offed )->off };
     like( $@, qr/ERROR:'testapp' is not installed yet/, "can't off" );
 
     teardown();
@@ -500,7 +500,7 @@ done_testing();
 
 sub setup {
 
-    local $ENV{PERL_BLENDER_HOME} = File::Temp->newdir;
+    local $ENV{PERL_ENBLD_HOME} = File::Temp->newdir;
 
     my $param = {
         force       =>  undef,
@@ -509,23 +509,23 @@ sub setup {
         @_,
     };
 
-    require Blender::Feature;
-    Blender::Feature->initialize( %{ $param } );
+    require Enbld::Feature;
+    Enbld::Feature->initialize( %{ $param } );
 
-    require Blender::Home;
-    Blender::Home->initialize;
-    Blender::Home->create_build_directory;
+    require Enbld::Home;
+    Enbld::Home->initialize;
+    Enbld::Home->create_build_directory;
 
-    require Blender::Logger;
-    Blender::Logger->rotate( Blender::Home->log );
+    require Enbld::Logger;
+    Enbld::Logger->rotate( Enbld::Home->log );
 
-    require Blender::App::Configuration;
+    require Enbld::App::Configuration;
 }
 
 sub teardown {
-    Blender::App::Configuration->destroy;
+    Enbld::App::Configuration->destroy;
 
-    Blender::Feature->reset;
+    Enbld::Feature->reset;
 
     chdir;
 };
@@ -534,9 +534,9 @@ sub set_http_hook {
 
     my $html = do { local $/; <DATA> };
 
-    require Blender::HTTP;
-    Blender::HTTP->register_get_hook( sub{ return $html } );
-    Blender::HTTP->register_download_hook( \&download_hook );
+    require Enbld::HTTP;
+    Enbld::HTTP->register_get_hook( sub{ return $html } );
+    Enbld::HTTP->register_download_hook( \&download_hook );
 }
 
 sub download_hook {

@@ -8,15 +8,15 @@ use Test::More;
 use File::Spec;
 use File::Temp;
 
-require_ok( 'Blender::Config' );
+require_ok( 'Enbld::Config' );
 
-require Blender::Condition;
+require Enbld::Condition;
 
 subtest 'getter method' => sub {
-    my $old = Blender::Condition->new( name => 'app', version => '1.0' );
-    my $new = Blender::Condition->new( name => 'app', version => '1.1' );
+    my $old = Enbld::Condition->new( name => 'app', version => '1.0' );
+    my $new = Enbld::Condition->new( name => 'app', version => '1.1' );
 
-    my $config = Blender::Config->new( name => 'app' );
+    my $config = Enbld::Config->new( name => 'app' );
     $config->set_enabled( '1.0', $old );
     $config->set_enabled( '1.1', $new );
 
@@ -31,9 +31,9 @@ subtest 'getter method' => sub {
 
 subtest 'condition method' => sub {
     subtest 'set parameter' => sub {
-        my $config = Blender::Config->new( name => 'app' );
+        my $config = Enbld::Config->new( name => 'app' );
 
-        my $condition = Blender::Condition->new;
+        my $condition = Enbld::Condition->new;
         $config->set_enabled( '1.0', $condition );
 
         is( $config->condition( '1.0' )->version, 'latest', 'version' );
@@ -42,9 +42,9 @@ subtest 'condition method' => sub {
     };
 
     subtest 'not set parameter' => sub {
-        my $config = Blender::Config->new( name => 'app' );
+        my $config = Enbld::Config->new( name => 'app' );
 
-        my $condition = Blender::Condition->new;
+        my $condition = Enbld::Condition->new;
         $config->set_enabled( '1.0', $condition );
 
         is( $config->condition->version, 'latest', 'version' );
@@ -53,9 +53,9 @@ subtest 'condition method' => sub {
     };
 
     subtest 'not exists' => sub {
-        my $config = Blender::Config->new( name => 'app' );
+        my $config = Enbld::Config->new( name => 'app' );
 
-        my $condition = Blender::Condition->new;
+        my $condition = Enbld::Condition->new;
         $config->set_enabled( '1.0', $condition );
 
         is( $config->condition( '1.1' ), undef, 'not exists');
@@ -68,10 +68,10 @@ subtest 'condition method' => sub {
 
 subtest 'set enabled method' => sub {
 
-    my $config = Blender::Config->new( name =>  'app' );
+    my $config = Enbld::Config->new( name =>  'app' );
     is( $config->enabled, undef, 'not enabled yet' );
 
-    my $condition = Blender::Condition->new( version => '1.0' );
+    my $condition = Enbld::Condition->new( version => '1.0' );
     is( $config->set_enabled( '1.0', $condition ), '1.0', 'set enabled' );
     is( $config->enabled, '1.0', 'enabled' );
     is( $config->is_installed_version( '1.0' ), '1.0', 'installed' );
@@ -81,22 +81,22 @@ subtest 'set enabled method' => sub {
 
 subtest 'is installed version method' => sub {
     subtest 'no param' => sub {
-        my $config = Blender::Config->new( name => 'app' );
+        my $config = Enbld::Config->new( name => 'app' );
         is( $config->is_installed_version, undef, 'no param' );
 
         done_testing();
     };
 
     subtest 'not enabled yet' => sub {
-        my $config = Blender::Config->new( name => 'app' );
+        my $config = Enbld::Config->new( name => 'app' );
         is( $config->is_installed_version( '1.0' ), undef, 'not enabled yet' );
 
         done_testing();
     };
 
     subtest 'installed' => sub {
-        my $condition = Blender::Condition->new;
-        my $config = Blender::Config->new( name => 'app' );
+        my $condition = Enbld::Condition->new;
+        my $config = Enbld::Config->new( name => 'app' );
         $config->set_enabled( '1.0', $condition );
 
         is( $config->is_installed_version( '1.0' ), '1.0', 'installed' );
@@ -105,8 +105,8 @@ subtest 'is installed version method' => sub {
     };
 
     subtest 'not installed' => sub {
-        my $condition = Blender::Condition->new;
-        my $config = Blender::Config->new( name => 'app' );
+        my $condition = Enbld::Condition->new;
+        my $config = Enbld::Config->new( name => 'app' );
         $config->set_enabled( '1.0', $condition );
 
         is( $config->is_installed_version( '1.1' ), undef, 'not installed' );
@@ -119,32 +119,32 @@ subtest 'is installed version method' => sub {
 
 subtest 'DSL' => sub {
 
-    my $config = Blender::Config->new( name => 'app' );
+    my $config = Enbld::Config->new( name => 'app' );
 
-    my $condition = Blender::Condition->new;
+    my $condition = Enbld::Condition->new;
     $config->set_enabled( '1.0', $condition );
  
     my $DSL = $config->DSL;
     like( $DSL->[0], qr/target 'app' => define/, 'target name' );
     like( $DSL->[1], qr/version 'latest'/, 'version condition' );
 
-    Blender::Feature->initialize( current => 1 );
+    Enbld::Feature->initialize( current => 1 );
 
     my $current_DSL = $config->DSL;
     like( $current_DSL->[1], qr/version '1\.0'/, 'current version' );
 
-    my $make_test_condition = Blender::Condition->new( make_test => 1 );
-    my $make_test_config = Blender::Config->new( name => 'app' );
+    my $make_test_condition = Enbld::Condition->new( make_test => 1 );
+    my $make_test_config = Enbld::Config->new( name => 'app' );
     $make_test_config->set_enabled( '1.0', $make_test_condition );
     my $make_test_DSL = $make_test_config->DSL;
     like( $make_test_DSL->[2], qr/make_test '1'/, 'make test' );
 
-    my $modules_condition = Blender::Condition->new( modules => {
+    my $modules_condition = Enbld::Condition->new( modules => {
                 module_a => 0,
                 module_b => 0,
             });
 
-    my $modules_config = Blender::Config->new( name => 'app' );
+    my $modules_config = Enbld::Config->new( name => 'app' );
     $modules_config->set_enabled( '1.0', $modules_condition );
     my $modules_DSL = $modules_config->DSL;
 

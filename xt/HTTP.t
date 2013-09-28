@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More;
 
-require_ok( 'Blender::HTTP' );
+require_ok( 'Enbld::HTTP' );
 
 use File::Spec;
 use File::Temp;
@@ -19,15 +19,15 @@ my $path_archivefile    = File::Spec->catfile( $dir, '01mailrc.txt.gz' );
 my $url_site    = 'http://cpan.perl.org';
 my $url_invalid = 'ftp://www.example.com';
 
-eval { Blender::HTTP->new( $url_invalid ) };
+eval { Enbld::HTTP->new( $url_invalid ) };
 like( $@, qr/ABORT:'$url_invalid' isn't valid URL string/, 'invalid URL' );
 
 SKIP: {
           skip "Skip HTTP client test because none of test env.",
-               8 unless ( $ENV{PERL_BLENDER_TEST} );
+               8 unless ( $ENV{PERL_ENBLD_TEST} );
 
 # download
-          my $http_archivefile = Blender::HTTP->new( $url_archivefile );
+          my $http_archivefile = Enbld::HTTP->new( $url_archivefile );
           my $downloaded = $http_archivefile->download( $path_archivefile );
           ok( -e $downloaded, 'download file' );
 
@@ -40,22 +40,22 @@ SKIP: {
           my $obj_archivefile =
               $http_archivefile->download_archivefile( $path_archivefile );
 
-          isa_ok( $obj_archivefile, 'Blender::Archivefile' );
+          isa_ok( $obj_archivefile, 'Enbld::Archivefile' );
 
 # get
-          my $http_html = Blender::HTTP->new( $url_site );
+          my $http_html = Enbld::HTTP->new( $url_site );
           my $content = $http_html->get;
           like( $content, qr/html/, 'get html' );
           my $obj_html = $http_html->get_html;
-          isa_ok( $obj_html, 'Blender::HTML' );
+          isa_ok( $obj_html, 'Enbld::HTML' );
 
 # conversion attribute string
           my $url_author = 'http://cpan.perl.org/authors/02authors.txt.gz';
-          require Blender::Target::Attribute;
-          my $authorfile = Blender::Target::Attribute->new( 'URL', $url_author);
+          require Enbld::Target::Attribute;
+          my $authorfile = Enbld::Target::Attribute->new( 'URL', $url_author);
           my $path_authorfile = File::Spec->catfile( $dir, '02authors.txt.gz' );
 
-          my $http_authorfile = Blender::HTTP->new( $authorfile->to_value );
+          my $http_authorfile = Enbld::HTTP->new( $authorfile->to_value );
           my $authorfile_downloaded =
               $http_authorfile->download( $path_authorfile );
           ok( -e $authorfile_downloaded , 'download file by attribute obj' );
