@@ -1,4 +1,8 @@
-Revision history for Blender-Declare
+Revision history for Enbld.
+
+0.7000 2013/09/28
+		- Rename product name 'Blender-Declare' to 'Enbld'.
+		  In order to avoid confusion with 3D CG soft 'blender'.
 
 0.6015 2013/09/14
         [Bugfix]
