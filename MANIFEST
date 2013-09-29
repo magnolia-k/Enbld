@@ -26,7 +26,6 @@ lib/Enbld/Command/Version.pm
 lib/Enbld/Condition.pm
 lib/Enbld/Config.pm
 lib/Enbld/Copy.pm
-lib/Enbld/Declare/Tutorial.pm
 lib/Enbld/Definition.pm
 lib/Enbld/Definition/Autoconf.pm
 lib/Enbld/Definition/Automake.pm
@@ -94,6 +93,7 @@ lib/Enbld/Target/AttributeExtension/RegEx.pm
 lib/Enbld/Target/AttributeExtension/URL.pm
 lib/Enbld/Target/AttributeExtension/Word.pm
 lib/Enbld/Target/Symlink.pm
+lib/Enbld/Tutorial.pm
 lib/Test/Enbld/Definition.pm
 MANIFEST			This list of files
 README
@@ -170,7 +170,7 @@ xt/Target.t
 xt/TestApp-1.0.tar.gz
 xt/TestApp-1.1.tar.gz
 xt/TestAppPatch.txt
-xt/testlib/Blender/Definition/Brokenapp.pm
-xt/testlib/Blender/Definition/Dummy.pm
-xt/testlib/Blender/Definition/Testapp.pm
-xt/testlib/Blender/Definition/Testdependant.pm
+xt/testlib/Enbld/Definition/Brokenapp.pm
+xt/testlib/Enbld/Definition/Dummy.pm
+xt/testlib/Enbld/Definition/Testapp.pm
+xt/testlib/Enbld/Definition/Testdependant.pm

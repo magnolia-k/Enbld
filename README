@@ -15,7 +15,7 @@ Enbld - Build your development environment by perl-based DSL.
 
     use Enbld;
 
-    blend 'myenv' => build {
+    enbld 'myenv' => build {
 
         # install latest version
         target 'git' => define {
@@ -78,7 +78,7 @@ And set Enbld's path.
 
     use Enbld;
 
-    blend 'myenv' => build {
+    enbld 'myenv' => build {
 
         target 'git' => define {
             version 'latest';
@@ -119,7 +119,7 @@ A specific version is specified in DSL. -> version '1.8';
     
     use Enbld;
     
-    blend 'myenv' => build {
+    enbld 'myenv' => build {
     
         target 'tmux' => define {
             version '1.8';
@@ -150,7 +150,7 @@ Enbld also can create target software's configuration file(.dotfile).
     
     use Enbld;
     
-    blend 'myenv' => build {
+    enbld 'myenv' => build {
     
         target 'vim' => define {
             version 'latest';
