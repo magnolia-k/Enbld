@@ -1,0 +1,401 @@
+{
+   "abstract" : "Build your development environment by perl-based DSL",
+   "author" : [
+      "magnolia <magnolia.k@me.com>"
+   ],
+   "dynamic_config" : 1,
+   "generated_by" : "Module::Build version 0.4003, CPAN::Meta::Converter version 2.120921",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "Enbld",
+   "prereqs" : {
+      "configure" : {
+         "requires" : {
+            "Module::Build" : "0.40"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "perl" : "5.012"
+         }
+      }
+   },
+   "provides" : {
+      "Enbld" : {
+         "file" : "lib/Enbld.pm",
+         "version" : "0.7000"
+      },
+      "Enbld::App" : {
+         "file" : "lib/Enbld/App.pm",
+         "version" : 0
+      },
+      "Enbld::App::Configuration" : {
+         "file" : "lib/Enbld/App/Configuration.pm",
+         "version" : 0
+      },
+      "Enbld::Archivefile" : {
+         "file" : "lib/Enbld/Archivefile.pm",
+         "version" : 0
+      },
+      "Enbld::Catchme" : {
+         "file" : "lib/Enbld/Catchme.pm",
+         "version" : 0
+      },
+      "Enbld::Command" : {
+         "file" : "lib/Enbld/Command.pm",
+         "version" : 0
+      },
+      "Enbld::Command::Available" : {
+         "file" : "lib/Enbld/Command/Available.pm",
+         "version" : 0
+      },
+      "Enbld::Command::Deploy" : {
+         "file" : "lib/Enbld/Command/Deploy.pm",
+         "version" : 0
+      },
+      "Enbld::Command::Freeze" : {
+         "file" : "lib/Enbld/Command/Freeze.pm",
+         "version" : 0
+      },
+      "Enbld::Command::Help" : {
+         "file" : "lib/Enbld/Command/Help.pm",
+         "version" : 0
+      },
+      "Enbld::Command::Info" : {
+         "file" : "lib/Enbld/Command/Info.pm",
+         "version" : 0
+      },
+      "Enbld::Command::Install" : {
+         "file" : "lib/Enbld/Command/Install.pm",
+         "version" : 0
+      },
+      "Enbld::Command::List" : {
+         "file" : "lib/Enbld/Command/List.pm",
+         "version" : 0
+      },
+      "Enbld::Command::Off" : {
+         "file" : "lib/Enbld/Command/Off.pm",
+         "version" : 0
+      },
+      "Enbld::Command::Outdated" : {
+         "file" : "lib/Enbld/Command/Outdated.pm",
+         "version" : 0
+      },
+      "Enbld::Command::Rehash" : {
+         "file" : "lib/Enbld/Command/Rehash.pm",
+         "version" : 0
+      },
+      "Enbld::Command::Upgrade" : {
+         "file" : "lib/Enbld/Command/Upgrade.pm",
+         "version" : 0
+      },
+      "Enbld::Command::Usage" : {
+         "file" : "lib/Enbld/Command/Usage.pm",
+         "version" : 0
+      },
+      "Enbld::Command::Use" : {
+         "file" : "lib/Enbld/Command/Use.pm",
+         "version" : 0
+      },
+      "Enbld::Command::Version" : {
+         "file" : "lib/Enbld/Command/Version.pm",
+         "version" : 0
+      },
+      "Enbld::Condition" : {
+         "file" : "lib/Enbld/Condition.pm",
+         "version" : 0
+      },
+      "Enbld::Config" : {
+         "file" : "lib/Enbld/Config.pm",
+         "version" : 0
+      },
+      "Enbld::Copy" : {
+         "file" : "lib/Enbld/Copy.pm",
+         "version" : 0
+      },
+      "Enbld::Definition" : {
+         "file" : "lib/Enbld/Definition.pm",
+         "version" : 0
+      },
+      "Enbld::Definition::Autoconf" : {
+         "file" : "lib/Enbld/Definition/Autoconf.pm",
+         "version" : 0
+      },
+      "Enbld::Definition::Automake" : {
+         "file" : "lib/Enbld/Definition/Automake.pm",
+         "version" : 0
+      },
+      "Enbld::Definition::Cmake" : {
+         "file" : "lib/Enbld/Definition/Cmake.pm",
+         "version" : 0
+      },
+      "Enbld::Definition::Git" : {
+         "file" : "lib/Enbld/Definition/Git.pm",
+         "version" : 0
+      },
+      "Enbld::Definition::Groff" : {
+         "file" : "lib/Enbld/Definition/Groff.pm",
+         "version" : 0
+      },
+      "Enbld::Definition::Hello" : {
+         "file" : "lib/Enbld/Definition/Hello.pm",
+         "version" : 0
+      },
+      "Enbld::Definition::Libevent" : {
+         "file" : "lib/Enbld/Definition/Libevent.pm",
+         "version" : 0
+      },
+      "Enbld::Definition::Libidn" : {
+         "file" : "lib/Enbld/Definition/Libidn.pm",
+         "version" : 0
+      },
+      "Enbld::Definition::Mysql" : {
+         "file" : "lib/Enbld/Definition/Mysql.pm",
+         "version" : 0
+      },
+      "Enbld::Definition::Nginx" : {
+         "file" : "lib/Enbld/Definition/Nginx.pm",
+         "version" : 0
+      },
+      "Enbld::Definition::Nodejs" : {
+         "file" : "lib/Enbld/Definition/Nodejs.pm",
+         "version" : 0
+      },
+      "Enbld::Definition::Pcre" : {
+         "file" : "lib/Enbld/Definition/Pcre.pm",
+         "version" : 0
+      },
+      "Enbld::Definition::Perl" : {
+         "file" : "lib/Enbld/Definition/Perl.pm",
+         "version" : 0
+      },
+      "Enbld::Definition::Pkgconfig" : {
+         "file" : "lib/Enbld/Definition/Pkgconfig.pm",
+         "version" : 0
+      },
+      "Enbld::Definition::Python" : {
+         "file" : "lib/Enbld/Definition/Python.pm",
+         "version" : 0
+      },
+      "Enbld::Definition::Rakudostar" : {
+         "file" : "lib/Enbld/Definition/Rakudostar.pm",
+         "version" : 0
+      },
+      "Enbld::Definition::Ruby" : {
+         "file" : "lib/Enbld/Definition/Ruby.pm",
+         "version" : 0
+      },
+      "Enbld::Definition::Scala" : {
+         "file" : "lib/Enbld/Definition/Scala.pm",
+         "version" : 0
+      },
+      "Enbld::Definition::Tmux" : {
+         "file" : "lib/Enbld/Definition/Tmux.pm",
+         "version" : 0
+      },
+      "Enbld::Definition::Tree" : {
+         "file" : "lib/Enbld/Definition/Tree.pm",
+         "version" : 0
+      },
+      "Enbld::Definition::Vim" : {
+         "file" : "lib/Enbld/Definition/Vim.pm",
+         "version" : 0
+      },
+      "Enbld::Definition::Wget" : {
+         "file" : "lib/Enbld/Definition/Wget.pm",
+         "version" : 0
+      },
+      "Enbld::Deployed" : {
+         "file" : "lib/Enbld/Deployed.pm",
+         "version" : 0
+      },
+      "Enbld::Error" : {
+         "file" : "lib/Enbld/Error.pm",
+         "version" : 0
+      },
+      "Enbld::Exception" : {
+         "file" : "lib/Enbld/Exception.pm",
+         "version" : 0
+      },
+      "Enbld::Feature" : {
+         "file" : "lib/Enbld/Feature.pm",
+         "version" : 0
+      },
+      "Enbld::HTML" : {
+         "file" : "lib/Enbld/HTML.pm",
+         "version" : 0
+      },
+      "Enbld::HTTP" : {
+         "file" : "lib/Enbld/HTTP.pm",
+         "version" : 0
+      },
+      "Enbld::Home" : {
+         "file" : "lib/Enbld/Home.pm",
+         "version" : 0
+      },
+      "Enbld::Logger" : {
+         "file" : "lib/Enbld/Logger.pm",
+         "version" : 0
+      },
+      "Enbld::Message" : {
+         "file" : "lib/Enbld/Message.pm",
+         "version" : 0
+      },
+      "Enbld::Module" : {
+         "file" : "lib/Enbld/Module.pm",
+         "version" : 0
+      },
+      "Enbld::Module::Perl" : {
+         "file" : "lib/Enbld/Module/Perl.pm",
+         "version" : 0
+      },
+      "Enbld::RcFile" : {
+         "file" : "lib/Enbld/RcFile.pm",
+         "version" : 0
+      },
+      "Enbld::Target" : {
+         "file" : "lib/Enbld/Target.pm",
+         "version" : 0
+      },
+      "Enbld::Target::Attribute" : {
+         "file" : "lib/Enbld/Target/Attribute.pm",
+         "version" : 0
+      },
+      "Enbld::Target::Attribute::AdditionalArgument" : {
+         "file" : "lib/Enbld/Target/Attribute/AdditionalArgument.pm",
+         "version" : 0
+      },
+      "Enbld::Target::Attribute::AllowedCondition" : {
+         "file" : "lib/Enbld/Target/Attribute/AllowedCondition.pm",
+         "version" : 0
+      },
+      "Enbld::Target::Attribute::ArchiveName" : {
+         "file" : "lib/Enbld/Target/Attribute/ArchiveName.pm",
+         "version" : 0
+      },
+      "Enbld::Target::Attribute::CommandConfigure" : {
+         "file" : "lib/Enbld/Target/Attribute/CommandConfigure.pm",
+         "version" : 0
+      },
+      "Enbld::Target::Attribute::CommandInstall" : {
+         "file" : "lib/Enbld/Target/Attribute/CommandInstall.pm",
+         "version" : 0
+      },
+      "Enbld::Target::Attribute::CommandMake" : {
+         "file" : "lib/Enbld/Target/Attribute/CommandMake.pm",
+         "version" : 0
+      },
+      "Enbld::Target::Attribute::CommandTest" : {
+         "file" : "lib/Enbld/Target/Attribute/CommandTest.pm",
+         "version" : 0
+      },
+      "Enbld::Target::Attribute::CopyFiles" : {
+         "file" : "lib/Enbld/Target/Attribute/CopyFiles.pm",
+         "version" : 0
+      },
+      "Enbld::Target::Attribute::Dependencies" : {
+         "file" : "lib/Enbld/Target/Attribute/Dependencies.pm",
+         "version" : 0
+      },
+      "Enbld::Target::Attribute::DistName" : {
+         "file" : "lib/Enbld/Target/Attribute/DistName.pm",
+         "version" : 0
+      },
+      "Enbld::Target::Attribute::DownloadSite" : {
+         "file" : "lib/Enbld/Target/Attribute/DownloadSite.pm",
+         "version" : 0
+      },
+      "Enbld::Target::Attribute::Extension" : {
+         "file" : "lib/Enbld/Target/Attribute/Extension.pm",
+         "version" : 0
+      },
+      "Enbld::Target::Attribute::Filename" : {
+         "file" : "lib/Enbld/Target/Attribute/Filename.pm",
+         "version" : 0
+      },
+      "Enbld::Target::Attribute::IndexParserForm" : {
+         "file" : "lib/Enbld/Target/Attribute/IndexParserForm.pm",
+         "version" : 0
+      },
+      "Enbld::Target::Attribute::IndexSite" : {
+         "file" : "lib/Enbld/Target/Attribute/IndexSite.pm",
+         "version" : 0
+      },
+      "Enbld::Target::Attribute::PatchFiles" : {
+         "file" : "lib/Enbld/Target/Attribute/PatchFiles.pm",
+         "version" : 0
+      },
+      "Enbld::Target::Attribute::Prefix" : {
+         "file" : "lib/Enbld/Target/Attribute/Prefix.pm",
+         "version" : 0
+      },
+      "Enbld::Target::Attribute::SortedVersionList" : {
+         "file" : "lib/Enbld/Target/Attribute/SortedVersionList.pm",
+         "version" : 0
+      },
+      "Enbld::Target::Attribute::URL" : {
+         "file" : "lib/Enbld/Target/Attribute/URL.pm",
+         "version" : 0
+      },
+      "Enbld::Target::Attribute::Version" : {
+         "file" : "lib/Enbld/Target/Attribute/Version.pm",
+         "version" : 0
+      },
+      "Enbld::Target::Attribute::VersionCondition" : {
+         "file" : "lib/Enbld/Target/Attribute/VersionCondition.pm",
+         "version" : 0
+      },
+      "Enbld::Target::Attribute::VersionForm" : {
+         "file" : "lib/Enbld/Target/Attribute/VersionForm.pm",
+         "version" : 0
+      },
+      "Enbld::Target::Attribute::VersionList" : {
+         "file" : "lib/Enbld/Target/Attribute/VersionList.pm",
+         "version" : 0
+      },
+      "Enbld::Target::Attribute::WebSite" : {
+         "file" : "lib/Enbld/Target/Attribute/WebSite.pm",
+         "version" : 0
+      },
+      "Enbld::Target::AttributeCollector" : {
+         "file" : "lib/Enbld/Target/AttributeCollector.pm",
+         "version" : 0
+      },
+      "Enbld::Target::AttributeExtension::Command" : {
+         "file" : "lib/Enbld/Target/AttributeExtension/Command.pm",
+         "version" : 0
+      },
+      "Enbld::Target::AttributeExtension::RegEx" : {
+         "file" : "lib/Enbld/Target/AttributeExtension/RegEx.pm",
+         "version" : 0
+      },
+      "Enbld::Target::AttributeExtension::URL" : {
+         "file" : "lib/Enbld/Target/AttributeExtension/URL.pm",
+         "version" : 0
+      },
+      "Enbld::Target::AttributeExtension::Word" : {
+         "file" : "lib/Enbld/Target/AttributeExtension/Word.pm",
+         "version" : 0
+      },
+      "Enbld::Target::Symlink" : {
+         "file" : "lib/Enbld/Target/Symlink.pm",
+         "version" : 0
+      },
+      "Test::Enbld::Definition" : {
+         "file" : "lib/Test/Enbld/Definition.pm",
+         "version" : 0
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "license" : [
+         "http://dev.perl.org/licenses/"
+      ]
+   },
+   "version" : "0.7000"
+}
