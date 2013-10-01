@@ -1,5 +1,9 @@
 Revision history for Enbld.
 
+0.7001 2013/10/01
+        - Fix README's typo.
+        - Add META.json.
+
 0.7000 2013/09/28
 		- Rename product name 'Blender-Declare' to 'Enbld'.
 		  In order to avoid confusion with 3D CG soft 'blender'.
