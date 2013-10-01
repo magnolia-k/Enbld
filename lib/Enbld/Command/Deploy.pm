@@ -47,7 +47,7 @@ sub do {
             say "Please check build logile:" . Enbld::Logger->logfile;
 
             return;
-		}
+		};
 
         # installed
         if ( $installed ) {
