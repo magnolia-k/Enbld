@@ -22,7 +22,6 @@ Commands:
   install   Install target.
   outdated  Display outdated targets.
   upgrade   Install target for newer version.
-  search    Display targets for supported by enbld.
   list      Display installed targets with current version.
   freeze    Display DSL that now installed targets' condition.
   available Display available definitions.
