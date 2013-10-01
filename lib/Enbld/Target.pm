@@ -190,7 +190,7 @@ sub rehash {
 sub use {
     my ( $self, $version ) = @_;
 
-    if ( ! $self->is_installed ) {
+    if ( ! $self->{config}->installed ) {
         die( Enbld::Error->new( "'$self->{name}' isn't installed yet." ) );
     }
 
