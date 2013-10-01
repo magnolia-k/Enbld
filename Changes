@@ -1,5 +1,11 @@
 Revision history for Enbld.
 
+0.7003 2013/10/01
+        [BugFix]
+        - Fix 'enbld help'...remove 'search' subcommand
+          'search' subcommand is not implimented yet.
+        - Fix 'enbld deploy'...fix syntax error...
+
 0.7002 2013/10/01
         [BugFix]
         - 'enbld use' subcommand can enable 'off'ed target.
