@@ -28,7 +28,7 @@
    "provides" : {
       "Enbld" : {
          "file" : "lib/Enbld.pm",
-         "version" : "0.7000"
+         "version" : "0.7001"
       },
       "Enbld::App" : {
          "file" : "lib/Enbld/App.pm",
@@ -397,5 +397,5 @@
          "http://dev.perl.org/licenses/"
       ]
    },
-   "version" : "0.7000"
+   "version" : "0.7001"
 }
