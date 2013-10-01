@@ -450,7 +450,7 @@ sub parse_option {
 
     if ( Enbld::Feature->is_deploy_mode ) {
         Enbld::Message->notify(
-                "INFO:Enbld::Declare is set 'deploy mode'.\n" .
+                "INFO:Enbld is set 'deploy mode'.\n" .
                 "All targets will be deployed in $deploy_path."
                 );
     }
