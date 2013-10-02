@@ -36,11 +36,6 @@ sub main {
 
 sub check_env {
 
-    # OS X check
-    if ( $^O ne 'darwin' ) {
-        die "Sorry, Enbld is executable on OS X only.\n";
-    }
-
     # perl version check
     if ( $] < '5.012' ) {
         die "Sorry, Enbld requires perl 5.12.0 or above.\n";

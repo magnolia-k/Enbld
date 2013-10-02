@@ -47,7 +47,11 @@ If DSL is performed once again when the software of a later more high version is
 
 All the software is installed in a home directory. 
 
-It works on Mac OS X only.
+Enbld is performing verification of operation by Mac OS X 10.8 Mountain Lion.
+
+However, probably I also regard Linux as operating (Debian etc.). 
+When not operating, it is waiting for the report :)
+
 
 # INSTALLATION
 
