@@ -189,6 +189,31 @@ Subcommand 'available' displays software that can install by Enbld.
 
     $ enbld available
 
+Now, Enbld supports for installation below softwares.
+
+	autoconf       http://www.gnu.org/software/autoconf/
+	automake       http://www.gnu.org/software/automake/
+	cmake          http://www.cmake.org
+	git            http://git-scm.com
+	groff          http://www.gnu.org/software/groff/
+	hello          http://www.gnu.org/software/hello/
+	libevent       http://libevent.org
+	libidn         http://www.gnu.org/software/libidn/
+	mysql          http://www.mysql.com
+	nginx          http://nginx.org
+	nodejs         http://nodejs.org
+	pcre           http://www.pcre.org
+	perl           http://www.perl.org
+	pkgconfig      http://www.freedesktop.org/wiki/Software/pkg-config/
+	python         http://www.python.org
+	rakudostar     http://rakudo.org
+	ruby           https://www.ruby-lang.org
+	scala          http://www.cmake.org
+	tmux           http://tmux.sourceforge.net
+	tree           http://mama.indstate.edu/users/ice/tree/
+	vim            http://www.vim.org
+	wget           http://www.gnu.org/software/wget
+
 ### Displays installed software
 
 Subcommand 'list' displays software that is installed.

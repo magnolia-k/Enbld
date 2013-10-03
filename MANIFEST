@@ -100,6 +100,7 @@ MANIFEST			This list of files
 META.json
 META.yml
 README
+README.md
 samples/git_install.plx
 samples/magnolia.plx
 samples/perl_install.plx
