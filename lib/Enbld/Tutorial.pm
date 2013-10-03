@@ -1,3 +1,5 @@
+package Enbld::Tutorial;
+
 =head1 NAME
 
 Enbld::Tutorial - Tutorial for use Enbld.
