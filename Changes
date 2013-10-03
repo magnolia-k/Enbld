@@ -1,6 +1,12 @@
 Revision history for Enbld.
 
+0.7005 2013/10/03
+		[Improvement]
+		- Add support 'wget' for download archivefile.
 
+0.7004 2013/10/02
+		[Improvement]
+		- Remove restriction of running only by Mac OS X.
 
 0.7003 2013/10/01
         [BugFix]
