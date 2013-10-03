@@ -11,6 +11,19 @@ require Enbld::Message;
 our $get_hook;
 our $download_hook;
 
+our $client;
+
+my $curl = `which curl`;
+my $wget = `which wget`;
+
+if ( $wget ) {
+	$client = $wget;
+} elsif ( $curl ) {
+	$client = $curl;
+} else {
+	croak "You must install wget or curl";
+}
+
 sub new {
     my ( $class, $url ) = @_;
 
@@ -46,7 +59,11 @@ sub download {
 
     Enbld::Message->notify( "--> Download '$file' from '$self->{url}'." );
 
-    system( 'curl', '-L', $self->{url}, '-o', $path, '-s', '-f' );
+	if ( $client eq 'wget' ) {
+		system( 'wget', $self->{url}, '-O', $path, '-q' );
+	} else {
+	    system( 'curl', '-L', $self->{url}, '-o', $path, '-s', '-f' );
+	}
 
     return $path unless $?;
 
@@ -55,12 +72,12 @@ sub download {
     }
 
     if ( $? == -1 ) {
-        die( Enbld::Error->new( "Failed to execute curl" ));
+        die( Enbld::Error->new( "Failed to execute http client:$client" ));
     } elsif ( $? & 127 ) {
-        my $err = 'curl died with signal.';
+        my $err = "Http client died with signal.";
         die( Enbld::Error->new( $err ));
     } else {
-        my $err = 'download request returns error.';
+        my $err = 'Download request returns error.';
         die( Enbld::Error->new( $err , ( $? >> 8 ) ));
     }
 }
@@ -81,7 +98,13 @@ sub get {
         return $get_hook->( $self );
     }
 
-    my $res = `curl -s -f --compressed -L $self->{url}`;
+	my $res;
+
+	if ( $client eq 'wget' ) {
+		$res = `wget $self->{url} -q -O -`;
+	} else {
+	    $res = `curl -s -f --compressed -L $self->{url}`;
+	}
 
     if ( $? >> 8 ) {
         my $err = 'HTTP get request returns error.';
