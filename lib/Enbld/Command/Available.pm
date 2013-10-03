@@ -29,14 +29,10 @@ sub do {
 
     Enbld::Home->initialize;
 
-    my $path = File::Spec->catdir(
-            Enbld::Home->home,
-            'extlib',
-            'lib',
-            'perl5',
-            'Enbld',
-            'Definition'
-            );
+    my $module_path = $INC{'Enbld/Command/Available.pm'};
+    $module_path =~ s{/Command/Available.pm$}{};
+
+    my $path = File::Spec->catdir( $module_path, 'Definition' );
 
     opendir( my $dh, $path );
     my @list = grep { !/^\./ } readdir $dh;
