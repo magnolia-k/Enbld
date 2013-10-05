@@ -6,7 +6,7 @@ use warnings;
 use FindBin qw/$Script/;
 use Getopt::Long;
 
-our $VERSION = '0.7005';
+our $VERSION = '0.7006';
 
 require Exporter;
 our @ISA    = qw(Exporter);

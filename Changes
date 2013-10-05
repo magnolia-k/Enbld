@@ -1,5 +1,12 @@
 Revision history for Enbld.
 
+0.7006 2013/10/05
+        [Improvement]
+        - Add POD to Enbld.pm
+
+        [New Definition]
+        - emacs
+
 0.7005 2013/10/03
 		[Improvement]
 		- Add support 'wget' for download archivefile.
