@@ -1,5 +1,13 @@
 Revision history for Enbld.
 
+0.7007 2013/10/05
+        [New Definition]
+        - apache
+        - apr
+        - aprutil
+        - libtool
+        - zsh
+
 0.7006 2013/10/05
         [Improvement]
         - Add POD to Enbld.pm

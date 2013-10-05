@@ -27,14 +27,19 @@ lib/Enbld/Condition.pm
 lib/Enbld/Config.pm
 lib/Enbld/Copy.pm
 lib/Enbld/Definition.pm
+lib/Enbld/Definition/Apache.pm
+lib/Enbld/Definition/Apr.pm
+lib/Enbld/Definition/Aprutil.pm
 lib/Enbld/Definition/Autoconf.pm
 lib/Enbld/Definition/Automake.pm
 lib/Enbld/Definition/Cmake.pm
+lib/Enbld/Definition/Emacs.pm
 lib/Enbld/Definition/Git.pm
 lib/Enbld/Definition/Groff.pm
 lib/Enbld/Definition/Hello.pm
 lib/Enbld/Definition/Libevent.pm
 lib/Enbld/Definition/Libidn.pm
+lib/Enbld/Definition/Libtool.pm
 lib/Enbld/Definition/Mysql.pm
 lib/Enbld/Definition/Nginx.pm
 lib/Enbld/Definition/Nodejs.pm
@@ -49,6 +54,7 @@ lib/Enbld/Definition/Tmux.pm
 lib/Enbld/Definition/Tree.pm
 lib/Enbld/Definition/Vim.pm
 lib/Enbld/Definition/Wget.pm
+lib/Enbld/Definition/Zsh.pm
 lib/Enbld/Deployed.pm
 lib/Enbld/Error.pm
 lib/Enbld/Exception.pm

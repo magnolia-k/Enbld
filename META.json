@@ -4,7 +4,7 @@
       "magnolia <magnolia.k@me.com>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "Module::Build version 0.4003, CPAN::Meta::Converter version 2.120921",
+   "generated_by" : "Module::Build version 0.4007, CPAN::Meta::Converter version 2.120921",
    "license" : [
       "perl_5"
    ],
@@ -28,7 +28,7 @@
    "provides" : {
       "Enbld" : {
          "file" : "lib/Enbld.pm",
-         "version" : "0.7001"
+         "version" : "0.7007"
       },
       "Enbld::App" : {
          "file" : "lib/Enbld/App.pm",
@@ -122,6 +122,18 @@
          "file" : "lib/Enbld/Definition.pm",
          "version" : 0
       },
+      "Enbld::Definition::Apache" : {
+         "file" : "lib/Enbld/Definition/Apache.pm",
+         "version" : 0
+      },
+      "Enbld::Definition::Apr" : {
+         "file" : "lib/Enbld/Definition/Apr.pm",
+         "version" : 0
+      },
+      "Enbld::Definition::Aprutil" : {
+         "file" : "lib/Enbld/Definition/Aprutil.pm",
+         "version" : 0
+      },
       "Enbld::Definition::Autoconf" : {
          "file" : "lib/Enbld/Definition/Autoconf.pm",
          "version" : 0
@@ -132,6 +144,10 @@
       },
       "Enbld::Definition::Cmake" : {
          "file" : "lib/Enbld/Definition/Cmake.pm",
+         "version" : 0
+      },
+      "Enbld::Definition::Emacs" : {
+         "file" : "lib/Enbld/Definition/Emacs.pm",
          "version" : 0
       },
       "Enbld::Definition::Git" : {
@@ -152,6 +168,10 @@
       },
       "Enbld::Definition::Libidn" : {
          "file" : "lib/Enbld/Definition/Libidn.pm",
+         "version" : 0
+      },
+      "Enbld::Definition::Libtool" : {
+         "file" : "lib/Enbld/Definition/Libtool.pm",
          "version" : 0
       },
       "Enbld::Definition::Mysql" : {
@@ -208,6 +228,10 @@
       },
       "Enbld::Definition::Wget" : {
          "file" : "lib/Enbld/Definition/Wget.pm",
+         "version" : 0
+      },
+      "Enbld::Definition::Zsh" : {
+         "file" : "lib/Enbld/Definition/Zsh.pm",
          "version" : 0
       },
       "Enbld::Deployed" : {
@@ -386,6 +410,10 @@
          "file" : "lib/Enbld/Target/Symlink.pm",
          "version" : 0
       },
+      "Enbld::Tutorial" : {
+         "file" : "lib/Enbld/Tutorial.pm",
+         "version" : 0
+      },
       "Test::Enbld::Definition" : {
          "file" : "lib/Test/Enbld/Definition.pm",
          "version" : 0
@@ -397,5 +425,5 @@
          "http://dev.perl.org/licenses/"
       ]
    },
-   "version" : "0.7001"
+   "version" : "0.7007"
 }
