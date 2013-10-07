@@ -39,18 +39,46 @@ Enbld - Build your development environment by perl-based DSL.
 
 # DESCRIPTION
 
-Enbld is a tool for building development environment.
+**Enbld is a tool for building development environment.**
 
-Write installation conditions (a version, the execution of a test code, configuration file etc.) of target software in perl-based DSL,then download of a source code, building, and installation will be performed altogether automatically.
+Write installation conditions (a version - latest or specific version number, the execution of a test code, configuration file etc.) of target software in perl-based DSL,then download of a source code, building, and installation will be performed altogether automatically.
 
 If DSL is performed once again when the software of a later more high version is released, the latest version will be installed automatically.
 
-All the software is installed in a home directory.
+
+## FEATURES
+
+- Configuration file which described installation conditions is defined by perl-based DSL. 
+
+    Once it writes a configuration file, same environment is easily reproducible . 
+
+- Arbitrary versions are installable. 
+
+    If it is specified as 'latest', the latest version will be judged automatically and it will be installed. 
+The version will be installed if arbitrary versions are specified. 
+
+    Like other package management systems (Homebrew, MacPorts etc.), the package managerial system side does not specify a version. 
+
+- It can be confirmed whether a version higher than the version installed is released. 
+
+    The software (vim, git, etc.) upgraded frequently can also always use the latest version. 
+
+
+- All software is installed in a home directory.
+
+    Software which became unnecessary can be deleted easily. 
+
+## SUPPORTED PLATFORMS
 
 Enbld is performing verification of running on Mac OS X 10.8 Mountain Lion.
 
 Probably, it may operate also on Linux (Debian etc.). 
 When not running, it is waiting for the report :)
+
+## CAUTION
+
+**Success of building of all the versions is not guaranteed. Since log file is displayed when building goes wrong, please analyze and send report:)**
+
 
 # INSTALLATION
 
@@ -60,14 +88,16 @@ When not running, it is waiting for the report :)
 
 And set Enbld's path.
 
+In .bashrc, write below setting.
+
     export $PATH=$HOME/.enbld/bin:$HOME/.enbld/extlib/bin:$PATH
     export MANPATH=$HOME/.enbld/share/man:$HOME/.enbld/man:$MANPATH
 
 # GETTING STARTED
 
-## INSTALL LATEST TARGET SOFTWARE
+## INSTALL LATEST VERSION
 
-### Ready DSL file.
+### Ready configuration file
 
     $ cat samples/git_install.plx
     #!/usr/bin/perl
@@ -88,27 +118,27 @@ And set Enbld's path.
         };
     }
 
-### Execute DSL file.
+### Execute configuration file
 
     $ ./samples/git_install.plx
 
-### Target software is installed.
+### Target software is installed
 
     $ git --version
     git version [latest version]
 
-### Upgrade target software
+### Upgrade installed software
 
-Then, if the software of a latest version is released, please execute a DSL file again. 
+Then, if the software of a latest version is released, please execute a configuration file again. 
 The software of the latest version will be installed.
 
     $ ./samples/git_install.plx
 
 Latest software is installed.
 
-## INSTALL SPECIFIC VERSION SOFTWARE
+## INSTALL SPECIFIC VERSION
 
-A specific version is specified in DSL. -> version '1.8';
+A specific version is specified in setting file. -> version '5.18.1';
 
     $ cat samples/specific_version_install.plx
     #!/usr/bin/perl
@@ -124,22 +154,26 @@ A specific version is specified in DSL. -> version '1.8';
     
     enbld 'myenv' => build {
     
-        target 'tmux' => define {
-            version '1.8';
+        target 'perl' => define {
+            version '5.18.1';
         };
     
     };
 
-'tmux 1.8' is installed.
+'perl 5.18.1' is installed.
 
-    $ tmux -V
-    tmux 1.8
+    $ perl -v
 
-## CREATE CONFIGURATION FILE (DOTFILE)
+    This is perl 5, version 18, subversion 1 (v5.18.1) built for darwin-multi-2level
 
-Enbld also can create target software's configuration file(.dotfile).
+## DOWNLOAD OR CREATE SOFTWARE' CONFIGURATION FILE (DOTFILE)
 
-'conf' function set configuration file to home directory.
+Enbld also can create software' configuration file(.dotfile).
+
+'conf' function set software' configuration file to home directory.
+
+### Download software' configuration file
+
 
     $ cat samples/vim_install.plx
     #!/usr/bin/perl
@@ -165,7 +199,22 @@ Enbld also can create target software's configuration file(.dotfile).
     
     };
 
-'.vimrc' is downloaded from 'https://raw.github.com/magnolia-k/vimrc/master/.vimrc'.
+'.vimrc' is downloaded to $HOME from 'https://raw.github.com/magnolia-k/vimrc/master/.vimrc'.
+
+Nothing is done when the file of the same file name already exists. 
+
+
+### Create software' configuration file
+
+    conf '.vimrc' => set {
+        content 'syntax on';
+        content 'set cindent';
+    };
+
+'.vimrc' is created to $HOME.
+
+Nothing is done when the file of the same file name already exists. 
+
 
 ## MAKE TEST AT INSTALLATION
 
@@ -177,6 +226,24 @@ Enbld can make test at installation.
     };
 
 As default, this function is OFF. 
+
+If a test goes wrong, also building will go wrong. 
+
+
+## ADD ARGUMENTS
+
+'arguments' method adds additional arguments to './configure'.
+
+    target 'perl' => define {
+        version '5.18.1';
+        arguments '-Dusethreads';
+    };
+
+perl 5.18.1 with thread
+
+    $ perl -v
+    
+    This is perl 5, version 18, subversion 1 (v5.18.1) built for darwin-thread-multi-2level
 
 ## UTILITY COMMAND 'enbld'
 
@@ -225,15 +292,28 @@ Subcommand 'list' displays software that is installed.
 
     $ enbld list
 
-### Displays DSL
+### Displays configuration file
 
-Subcommand 'freeze ' displays DSL that is condition of installed software.
+Subcommand 'freeze ' displays configuration file that is condition of installed software.
 
     $ enbld freeze
 
+### Displays outdated software
+
+Subcommand 'outdated' displays outdated software list.
+
+    $ enbld outdated
+
+### Upgrade outdated software
+
+Subcommand 'upgrade' upgrade outdated software.
+
+    $ enbld upgrade git
+
 # SEE ALSO
 
-- Enbld::Tutorial
+- lib/Enbld::Tutorial
+- bin/enbld
 
 # COPYRIGHT
 

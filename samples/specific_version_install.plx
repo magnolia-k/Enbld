@@ -11,8 +11,8 @@ use Enbld;
 
 enbld 'myenv' => build {
 
-    target 'tmux' => define {
-        version '1.8';
+    target 'perl' => define {
+        version '5.18.1';
     };
 
 };
