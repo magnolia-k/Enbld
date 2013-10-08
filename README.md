@@ -68,6 +68,19 @@ The version will be installed if arbitrary versions are specified.
 
     Software which became unnecessary can be deleted easily. 
 
+## ANTI-FEATURES
+
+- Enbld does NOT aim at perfect package management software. 
+
+  The selection plan of the software to support by Enbld is as follows. 
+
+  - Software required for a developer updated frequently (e.g. git, vim).
+  - Software with which the developer who has participated in the project needs to unite a version (e.g. web server, database, programming language etc.).
+  - Software required for a developer although not installed in Mac OS X (e.g. tmux).
+
+
+- It does not have a function which overlaps with the module controlling function which each software has (e.g. CPAN,gem etc.).
+
 ## SUPPORTED PLATFORMS
 
 Enbld is performing verification of running on Mac OS X 10.8 Mountain Lion.
