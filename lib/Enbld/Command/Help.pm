@@ -19,17 +19,20 @@ __DATA__
 Usage: enbld command target [option]
 
 Commands:
-  install   Install target.
-  outdated  Display outdated targets.
-  upgrade   Install target for newer version.
-  list      Display installed targets with current version.
-  freeze    Display DSL that now installed targets' condition.
-  available Display available definitions.
-  deploy    Install all targets in the specified directory.
+  available            displays all software supported by Enbld
+  available target     displays all version of target software
+  install target       installs target software
+  list                 displays installed software
+  list target          displays all installed version of target software
+  outdated             displays all outdated software
+  upgrade target       installs upgraded target software
+  rehash target        re-create target software's symbolic link
+  freeze               displays configuration file reproduce installed software
+  deploy ~/path        deploys all installed software to specific path
 
 Options:
-  -h,--help     Displays enbld's help.
-  -v,--version  Displays enbld's version.
+  -h,--help     Displays Enbld's help.
+  -v,--version  Displays Enbld's version.
   -f,--force    Install target whether it is installed or not.
   -n,--notest   Skip target's test at installtion process. - now default
   -t,--test     Execute target's test at installtion process.

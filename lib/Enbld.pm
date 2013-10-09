@@ -555,6 +555,40 @@ Software which became unnecessary can be deleted easily.
 
 =back
 
+=head3 Supported software
+
+Now, Enbld supports for installation below software.
+
+ apache         http://httpd.apache.org
+ apr            http://apr.apache.org
+ aprutil        http://apr.apache.org
+ autoconf       http://www.gnu.org/software/autoconf/
+ automake       http://www.gnu.org/software/automake/
+ cmake          http://www.cmake.org
+ emacs          http://www.gnu.org/software/emacs/
+ git            http://git-scm.com
+ groff          http://www.gnu.org/software/groff/
+ hello          http://www.gnu.org/software/hello/
+ libevent       http://libevent.org
+ libidn         http://www.gnu.org/software/libidn/
+ libtool        http://www.gnu.org/software/libtool/
+ mysql          http://www.mysql.com
+ nginx          http://nginx.org
+ nodejs         http://nodejs.org
+ pcre           http://www.pcre.org
+ perl           http://www.perl.org
+ pkgconfig      http://www.freedesktop.org/wiki/Software/pkg-config/
+ python         http://www.python.org
+ rakudostar     http://rakudo.org
+ ruby           https://www.ruby-lang.org
+ scala          http://www.cmake.org
+ tmux           http://tmux.sourceforge.net
+ tree           http://mama.indstate.edu/users/ice/tree/
+ vim            http://www.vim.org
+ wget           http://www.gnu.org/software/wget/
+ zsh            http://www.zsh.org
+
+
 =head2 ANTI-FEATURES
 
 =over 3
@@ -753,81 +787,50 @@ perl 5.18.1 with thread
     
  This is perl 5, version 18, subversion 1 (v5.18.1) built for darwin-thread-multi-2level
 
-=head2 UTILITY COMMAND 'enbld'
+=head2 UTILITY COMMAND 'enblder'
 
-Enbld installs utility command 'enbld'.
+Enbld installs utility command 'enblder'.
 
 =head3 Displays available software
 
 Subcommand 'available' displays software that can install by Enbld.
 
- $ enbld available
+ $ enblder available
 
-Now, Enbld supports for installation below softwares.
-
- apache         http://httpd.apache.org
- apr            http://apr.apache.org
- aprutil        http://apr.apache.org
- autoconf       http://www.gnu.org/software/autoconf/
- automake       http://www.gnu.org/software/automake/
- cmake          http://www.cmake.org
- emacs          http://www.gnu.org/software/emacs/
- git            http://git-scm.com
- groff          http://www.gnu.org/software/groff/
- hello          http://www.gnu.org/software/hello/
- libevent       http://libevent.org
- libidn         http://www.gnu.org/software/libidn/
- libtool        http://www.gnu.org/software/libtool/
- mysql          http://www.mysql.com
- nginx          http://nginx.org
- nodejs         http://nodejs.org
- pcre           http://www.pcre.org
- perl           http://www.perl.org
- pkgconfig      http://www.freedesktop.org/wiki/Software/pkg-config/
- python         http://www.python.org
- rakudostar     http://rakudo.org
- ruby           https://www.ruby-lang.org
- scala          http://www.cmake.org
- tmux           http://tmux.sourceforge.net
- tree           http://mama.indstate.edu/users/ice/tree/
- vim            http://www.vim.org
- wget           http://www.gnu.org/software/wget/
- zsh            http://www.zsh.org
 
 =head3 Displays installed software
 
 Subcommand 'list' displays software that is installed.
 
- $ enbld list
+ $ enblder list
 
 =head3 Displays configuration file
 
-Subcommand 'freeze ' displays configuration file that is condition of installed software.
+Subcommand 'freeze' displays configuration file that is condition of installed software.
 
- $ enbld freeze
+ $ enblder freeze
 
 =head3 Displays outdated software
 
 Subcommand 'outdated' displays outdated software list.
 
- $ enbld outdated
+ $ enblder outdated
 
 =head3 Upgrade outdated software
 
 Subcommand 'upgrade' upgrade outdated software.
 
- $ enbld upgrade git
+ $ enblder upgrade git
 
 =head1 SEE ALSO
 
 L<lib/Enbld::Tutorial>
 
-L<bin/enbld>
+L<bin/enblder>
 
 =head1 COPYRIGHT
 
-copyright 2013- Magnolia <magnolia.k@me.com>.
-
+copyright 2013- Magnolia C<< <magnolia.k@me.com> >>.
 
 =head1 LICENSE
 

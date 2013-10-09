@@ -1,0 +1,171 @@
+#!/usr/bin/perl
+
+use 5.012;
+use warnings;
+
+use FindBin;
+use lib "$FindBin::Bin/../lib/perl5";
+
+require Enbld::App;
+
+my $app = Enbld::App->new;
+
+$app->parse_options( @ARGV );
+$app->envbuild;
+
+=pod
+
+=head1 NAME
+
+enblder - utility command for Enbld
+
+=head1 SYNOPSIS
+
+ $ enbld available      # displays all software supported by Enbld
+ $ enbld available git  # displays all version of target software
+ $ enbld install git    # installs target software
+ $ enbld list           # displays installed software
+ $ enbld list git       # displays all installed version of target software
+ $ enbld outdated       # displays all outdated software
+ $ enbld upgrade git    # installs upgraded target software
+ $ enbld freeze         # displays configuration file reproduce installed software
+ $ enbld deploy ~/path  # deploys all installed software to specific path
+
+=head1 DESCRIPTION
+
+enblder is utility command for Enbld.
+
+=head1 COMMANDS
+
+=over 4
+
+=item available
+
+Displays all software supported by Enbld.
+
+ $ enbld available
+
+If a target software is specified as an argument, displays the list of the versions which can be obtained by the software.
+
+ $ enbld available target_software
+
+=item install
+
+Installs target software.
+
+ $ enbld install target_software
+
+If a target software is already instlled, It becomes an error.  however, the case where he would like to reinstall compulsorily '--force' option is used. 
+
+ $ enbld install target_software --force
+
+The case where a test is performed at the time of installation '--test' option is used. 
+
+However, when a test goes wrong, installation also goes wrong. 
+
+ $ enbld install target_software --test
+
+=item list
+
+Displays all installed software.
+
+ $ enblder list
+
+If a target software is specified as an argument, displays the list of the versions which is installed.
+
+ $ enbld list target_software
+
+=item outdated
+
+Displays all outdated software.
+
+ $ enblder outdated
+
+=item upgrade
+
+Installs upgraded target software.
+
+ $ enblder upgrade target_software
+
+Nothing is done when a high version is not released. 
+
+=item rehash
+
+Re-create target software's symbolic link.
+
+ $ enblder rehash perl
+
+When you install an executable file using the module management tool of a programming language ( e.g. CPAN), please restretch a symbolic link using this command. 
+
+=item freeze
+
+Displays configuration file reproduce installed software.
+
+ $ enblder freeze
+
+If '--current' option is attached, the version installed now will be displayed. 
+
+ $ enblder freeze --current
+
+=item deploy
+
+Deploys all installed software to specific path.
+
+ $ enblder deploy ~/path/to/deploy
+
+=item off
+
+Disables target software.
+
+ $ enblder off target_software
+
+=item use
+
+Enables specfic version of target.
+
+ $ enblder use target_software installed_version
+
+=item help
+
+Displays the short help message.
+
+=item version
+
+Displays the version number.
+
+=back
+
+=head1 OPTIONS
+
+=over
+
+=item -f, --force
+
+=item -n, --notest
+
+=item -t, --test
+
+=item -c, --current
+
+=item -h, --help
+
+=item -v, --version
+
+=back
+
+=head1 SEE ALSO
+
+L<lib/Enbld>
+L<lib/Enbld::Tutorial>
+
+=head1 COPYRIGHT
+
+copyright 2013- Magnolia C<< <magnolia.k@me.com> >>.
+
+
+=head1 LICENSE
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut

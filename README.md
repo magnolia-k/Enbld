@@ -68,6 +68,40 @@ The version will be installed if arbitrary versions are specified.
 
     Software which became unnecessary can be deleted easily. 
 
+### Supported software
+
+Now, Enbld supports for installation below software.
+
+    apache         http://httpd.apache.org
+    apr            http://apr.apache.org
+    aprutil        http://apr.apache.org
+    autoconf       http://www.gnu.org/software/autoconf/
+    automake       http://www.gnu.org/software/automake/
+    cmake          http://www.cmake.org
+    emacs          http://www.gnu.org/software/emacs/
+    git            http://git-scm.com
+    groff          http://www.gnu.org/software/groff/
+    hello          http://www.gnu.org/software/hello/
+    libevent       http://libevent.org
+    libidn         http://www.gnu.org/software/libidn/
+    libtool        http://www.gnu.org/software/libtool/
+    mysql          http://www.mysql.com
+    nginx          http://nginx.org
+    nodejs         http://nodejs.org
+    pcre           http://www.pcre.org
+    perl           http://www.perl.org
+    pkgconfig      http://www.freedesktop.org/wiki/Software/pkg-config/
+    python         http://www.python.org
+    rakudostar     http://rakudo.org
+    ruby           https://www.ruby-lang.org
+    scala          http://www.cmake.org
+    tmux           http://tmux.sourceforge.net
+    tree           http://mama.indstate.edu/users/ice/tree/
+    vim            http://www.vim.org
+    wget           http://www.gnu.org/software/wget/
+    zsh            http://www.zsh.org
+
+
 ## ANTI-FEATURES
 
 - Enbld does NOT aim at perfect package management software. 
@@ -258,75 +292,45 @@ perl 5.18.1 with thread
     
     This is perl 5, version 18, subversion 1 (v5.18.1) built for darwin-thread-multi-2level
 
-## UTILITY COMMAND 'enbld'
+## UTILITY COMMAND 'enblder'
 
-Enbld installs utility command 'enbld'.
+Enbld installs utility command 'enblder'.
 
 ### Displays available software
 
 Subcommand 'available' displays software that can install by Enbld.
 
-    $ enbld available
+    $ enblder available
 
-Now, Enbld supports for installation below softwares.
-
-    apache         http://httpd.apache.org
-    apr            http://apr.apache.org
-    aprutil        http://apr.apache.org
-    autoconf       http://www.gnu.org/software/autoconf/
-    automake       http://www.gnu.org/software/automake/
-    cmake          http://www.cmake.org
-    emacs          http://www.gnu.org/software/emacs/
-    git            http://git-scm.com
-    groff          http://www.gnu.org/software/groff/
-    hello          http://www.gnu.org/software/hello/
-    libevent       http://libevent.org
-    libidn         http://www.gnu.org/software/libidn/
-    libtool        http://www.gnu.org/software/libtool/
-    mysql          http://www.mysql.com
-    nginx          http://nginx.org
-    nodejs         http://nodejs.org
-    pcre           http://www.pcre.org
-    perl           http://www.perl.org
-    pkgconfig      http://www.freedesktop.org/wiki/Software/pkg-config/
-    python         http://www.python.org
-    rakudostar     http://rakudo.org
-    ruby           https://www.ruby-lang.org
-    scala          http://www.cmake.org
-    tmux           http://tmux.sourceforge.net
-    tree           http://mama.indstate.edu/users/ice/tree/
-    vim            http://www.vim.org
-    wget           http://www.gnu.org/software/wget/
-    zsh            http://www.zsh.org
 
 ### Displays installed software
 
 Subcommand 'list' displays software that is installed.
 
-    $ enbld list
+    $ enblder list
 
 ### Displays configuration file
 
-Subcommand 'freeze ' displays configuration file that is condition of installed software.
+Subcommand 'freeze' displays configuration file that is condition of installed software.
 
-    $ enbld freeze
+    $ enblder freeze
 
 ### Displays outdated software
 
 Subcommand 'outdated' displays outdated software list.
 
-    $ enbld outdated
+    $ enblder outdated
 
 ### Upgrade outdated software
 
 Subcommand 'upgrade' upgrade outdated software.
 
-    $ enbld upgrade git
+    $ enblder upgrade git
 
 # SEE ALSO
 
 - lib/Enbld::Tutorial
-- bin/enbld
+- bin/enblder
 
 # COPYRIGHT
 

@@ -6,7 +6,7 @@ use warnings;
 use parent qw/Enbld::Command/;
 
 sub do {
-    say "try 'enbld help' for more information.";
+    say "try 'enblder help' for more information.";
 }
 
 1;
