@@ -20,7 +20,6 @@ our $dirs = {
     depository  =>  undef,
     build       =>  undef,
     conf        =>  undef,
-    etc         =>  undef,
     log         =>  undef,
     library     =>  undef,
     deploy_path =>  undef,
