@@ -1,6 +1,6 @@
-bin/enbld
-bin/enbldchk
-bin/enbldget
+bin/chkenbld
+bin/enblder
+bin/getenbld
 Build.PL
 Changes
 lib/Enbld.pm
@@ -13,7 +13,6 @@ lib/Enbld/Command/Available.pm
 lib/Enbld/Command/Deploy.pm
 lib/Enbld/Command/Freeze.pm
 lib/Enbld/Command/Help.pm
-lib/Enbld/Command/Info.pm
 lib/Enbld/Command/Install.pm
 lib/Enbld/Command/List.pm
 lib/Enbld/Command/Off.pm
@@ -103,8 +102,6 @@ lib/Enbld/Tutorial.pm
 lib/Test/Enbld/Definition.pm
 Makefile.PL
 MANIFEST			This list of files
-META.json
-META.yml
 README
 README.md
 samples/git_install.plx
@@ -184,3 +181,4 @@ xt/testlib/Enbld/Definition/Brokenapp.pm
 xt/testlib/Enbld/Definition/Dummy.pm
 xt/testlib/Enbld/Definition/Testapp.pm
 xt/testlib/Enbld/Definition/Testdependant.pm
+META.yml

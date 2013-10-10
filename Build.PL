@@ -10,7 +10,7 @@ my $builder = Module::Build->new(
     dist_author         => q{magnolia <magnolia.k@me.com>},
     dist_abstract       => 'Build your development environment by perl-based DSL',
     dist_version_from   => 'lib/Enbld.pm',
-    release_status      => 'testing',
+    release_status      => 'stable',
     requires            => {
         'perl'              => 5.012,
     },
