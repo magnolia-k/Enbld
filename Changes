@@ -1,5 +1,9 @@
 Revision history for Enbld.
 
+0.7009 2013/10/10
+        - Update Documents
+		- Rename 'bin/enbld' to 'bin/enblder'.
+
 0.7008 2013/10/07
         - Update README
 
