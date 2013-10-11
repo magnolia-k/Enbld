@@ -276,6 +276,18 @@ However, it is support of only perl now.
 	 };
  };
 
+=head3 annotation
+
+'annotation' is the notes to the condition. 
+
+Although it is the same as writing a comment using the grammar of perl, even if it uses the freeze subcommand, it differs in that it is displayed perfectly. 
+
+ target 'perl' => define {
+     version    'latest';
+	 arguments  '-Dusethreads';
+     annotation 'use thread veriosn';
+ };
+
 =head2 Deploy
 
 A configuration file can take '--deploy' argument.If '--deploy' argument is specified, deploys all software defined by configuration file to specific path.

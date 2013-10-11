@@ -37,3 +37,12 @@ Options:
   -n,--notest   Skip target's test at installtion process. - now default
   -t,--test     Execute target's test at installtion process.
   -c,--curret   Displays target's current installed version at 'freeze' command.
+
+SEE ALSO
+
+To see more detailed help, type below command.
+
+ $ enblder readme   # displays perldoc of lib/Enbld.pm
+ $ enblder tutorial # displays perldoc of lib/Enbld/Tutorial.pm
+ $ perldoc enblder  # displays perldoc of bin/enblder
+
