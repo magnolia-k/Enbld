@@ -1,5 +1,8 @@
 Revision history for Enbld.
 
+0.7011 2013/10/12
+        - Fix META.json
+
 0.7010 2013/10/12
         - Replace build tool for module from 'Module::Build' to 'ExtUtils::MakeMaker'.
         
