@@ -20,23 +20,17 @@
          "xt"
       ]
    },
-   "prereqs" : {
-      "build" : {
-         "requires" : {
-            "ExtUtils::MakeMaker" : "0"
-         }
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/magnolia-k/Enbld/issues"
       },
-      "configure" : {
-         "requires" : {
-            "ExtUtils::MakeMaker" : "6.56"
-         }
-      },
-      "runtime" : {
-         "requires" : {
-            "perl" : "5.012"
-         }
+      "homepage" : "https://github.com/magnolia-k/Enbld",
+      "repository" : {
+         "type" : "git",
+         "url" : "https://github.com/magnolia-k/Enbld.git",
+         "web" : "https://github.com/magnolia-k/Enbld"
       }
    },
-   "release_status" : "stable",
-   "version" : "0.7010"
+   "version" : "0.7011"
 }

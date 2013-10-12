@@ -20,9 +20,25 @@ WriteMakefile(
     },
 
 	META_MERGE		=> {
+        "meta-spec" => { version => 2 },
+
 		"no_index" => {
 			"directory" => [ "xt" ]
 	    },
+
+        "resources" => {
+            "homepage" => "https://github.com/magnolia-k/Enbld",
+
+            "bugtracker" => {
+                "web" => "https://github.com/magnolia-k/Enbld/issues",
+            },
+
+            "repository" => {
+                "type" => "git",
+                "url"  => "https://github.com/magnolia-k/Enbld.git",
+                "web"  => "https://github.com/magnolia-k/Enbld",
+            },
+        },
 	},
 
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
