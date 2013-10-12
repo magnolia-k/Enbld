@@ -11,14 +11,20 @@ WriteMakefile(
     VERSION_FROM     => 'lib/Enbld.pm',
     ABSTRACT_FROM    => 'lib/Enbld.pm',
     LICENSE          => 'perl',
-    MIN_PERL_VERSION => 5.010001,
+    MIN_PERL_VERSION => 5.012,
     CONFIGURE_REQUIRES => {
         'ExtUtils::MakeMaker' => 6.56,
     },
 
-    PREREQ_PM => {
+    PREREQ_PM		=> {
     },
 
+	META_MERGE		=> {
+		"no_index" => {
+			"directory" => [ "xt" ]
+	    },
+	},
+
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
-    clean => { FILES => 'Module-Dependencies-Install-*' },
+    clean => { FILES => 'Enbld-*' },
 );

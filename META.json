@@ -16,7 +16,8 @@
    "no_index" : {
       "directory" : [
          "t",
-         "inc"
+         "inc",
+         "xt"
       ]
    },
    "prereqs" : {
@@ -32,10 +33,10 @@
       },
       "runtime" : {
          "requires" : {
-            "perl" : "5.010001"
+            "perl" : "5.012"
          }
       }
    },
    "release_status" : "stable",
-   "version" : "0.7009"
+   "version" : "0.7010"
 }
