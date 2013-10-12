@@ -113,10 +113,6 @@ samples/specific_version_install.plx
 samples/vim_install.plx
 setup
 t/00-load.t
-t/boilerplate.t
-t/manifest.t
-t/pod-coverage.t
-t/pod.t
 xt/App-Configuration.t
 xt/Archivefile.t
 xt/BrokenApp-1.0.tar.gz

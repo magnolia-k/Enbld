@@ -1,4 +1,7 @@
 Revision history for Enbld.
+0.7012 2013/10/13
+        - Add repository info to META.json.
+        - Remove unnecessary tests from t/.
 
 0.7011 2013/10/12
         - Fix META.json
