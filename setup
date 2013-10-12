@@ -50,19 +50,20 @@ sub install_app {
     my $dir = $FindBin::Bin;
     my $app_install = File::Spec->catdir( $home, 'extlib' );
 
-    system( '/usr/bin/perl', File::Spec->catfile( $dir, 'Build.PL' ));
-    if ( $? >> 8 ) { die "Installing Enbld fail!\n" }
-
-    system( '/usr/bin/perl', File::Spec->catfile( $dir, 'Build' ));
-    if ( $? >> 8 ) { die "Installing Enbld fail!\n" }
-
     system(
             '/usr/bin/perl',
-            File::Spec->catfile( $dir, 'Build' ),
-            'install',
-            '--install_base',
-            $app_install
+            File::Spec->catfile( $dir, 'Makefile.PL' ),
+            'INSTALL_BASE=' . $app_install
             );
+
+    if ( $? >> 8 ) { die "Installing Enbld fail!\n" }
+
+    system( 'make' );
+
+    if ( $? >> 8 ) { die "Installing Enbld fail!\n" }
+
+    system( 'make', 'install' );
+
     if ( $? >> 8 ) { die "Installing Enbld fail!\n" }
 
     return $app_install
