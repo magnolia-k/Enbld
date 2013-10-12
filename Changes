@@ -1,5 +1,14 @@
 Revision history for Enbld.
 
+0.7010 2013/10/12
+        - Replace build tool for module from 'Module::Build' to 'ExtUtils::MakeMaker'.
+        
+        [New Feature]
+        - add subcommand 'enblder readme'.
+        - add subcommand 'enblder tutorial'.
+
+        To show help message, use this commands.
+
 0.7009 2013/10/10
         - Update Documents
 		- Rename 'bin/enbld' to 'bin/enblder'.
