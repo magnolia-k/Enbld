@@ -1,4 +1,13 @@
 Revision history for Enbld.
+
+0.7013 2013/10/13
+        [Bug Fix]
+        - Fix Makefile.PL
+
+          EXE_FILES was added.
+          (Reported by aero++)
+
+
 0.7012 2013/10/13
         - Add repository info to META.json.
         - Remove unnecessary tests from t/.

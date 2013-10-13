@@ -16,6 +16,12 @@ WriteMakefile(
         'ExtUtils::MakeMaker' => 6.56,
     },
 
+    "EXE_FILES" => [
+        "bin/enblder",
+        "bin/chkenbld",
+        "bin/getenbld",
+    ],
+
     PREREQ_PM		=> {
     },
 
