@@ -824,9 +824,9 @@ Subcommand 'upgrade' upgrade outdated software.
 
 =head1 SEE ALSO
 
-L<lib/Enbld::Tutorial>
+L<Enbld::Tutorial>
 
-L<bin/enblder>
+L<enblder>
 
 =head1 COPYRIGHT
 

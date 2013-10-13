@@ -21,15 +21,15 @@ enblder - utility command for Enbld
 
 =head1 SYNOPSIS
 
- $ enbld available      # displays all software supported by Enbld
- $ enbld available git  # displays all version of target software
- $ enbld install git    # installs target software
- $ enbld list           # displays installed software
- $ enbld list git       # displays all installed version of target software
- $ enbld outdated       # displays all outdated software
- $ enbld upgrade git    # installs upgraded target software
- $ enbld freeze         # displays configuration file reproduce installed software
- $ enbld deploy ~/path  # deploys all installed software to specific path
+ $ enblder available      # displays all software supported by Enbld
+ $ enblder available git  # displays all version of target software
+ $ enblder install git    # installs target software
+ $ enblder list           # displays installed software
+ $ enblder list git       # displays all installed version of target software
+ $ enblder outdated       # displays all outdated software
+ $ enblder upgrade git    # installs upgraded target software
+ $ enblder freeze         # displays configuration file reproduce installed software
+ $ enblder deploy ~/path  # deploys all installed software to specific path
 
 =head1 DESCRIPTION
 
@@ -43,27 +43,27 @@ enblder is utility command for Enbld.
 
 Displays all software supported by Enbld.
 
- $ enbld available
+ $ enblder available
 
 If a target software is specified as an argument, displays the list of the versions which can be obtained by the software.
 
- $ enbld available target_software
+ $ enblder available target_software
 
 =item install
 
 Installs target software.
 
- $ enbld install target_software
+ $ enblder install target_software
 
 If a target software is already instlled, It becomes an error.  however, the case where he would like to reinstall compulsorily '--force' option is used. 
 
- $ enbld install target_software --force
+ $ enblder install target_software --force
 
 The case where a test is performed at the time of installation '--test' option is used. 
 
 However, when a test goes wrong, installation also goes wrong. 
 
- $ enbld install target_software --test
+ $ enblder install target_software --test
 
 =item list
 
@@ -73,7 +73,7 @@ Displays all installed software.
 
 If a target software is specified as an argument, displays the list of the versions which is installed.
 
- $ enbld list target_software
+ $ enblder list target_software
 
 =item outdated
 
@@ -155,8 +155,8 @@ Displays the version number.
 
 =head1 SEE ALSO
 
-L<lib/Enbld>
-L<lib/Enbld::Tutorial>
+L<Enbld>
+L<Enbld::Tutorial>
 
 =head1 COPYRIGHT
 

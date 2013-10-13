@@ -303,15 +303,15 @@ A configuration file can take '--make_test' argument. If '--make_test' argument 
 =head1 Enbld's work-flow
 
  $ ./myenv_install.plx             # install software
- $ enbld list                      # check installed
- $ enbld outdated                  # check outdated
- $ enbld upgrade target_software   # upgrade separately
- $ enbld deploy /path/to/install   # When fully testing, it is deploy. 
+ $ enblder list                      # check installed
+ $ enblder outdated                  # check outdated
+ $ enblder upgrade target_software   # upgrade separately
+ $ enblder deploy /path/to/install   # When fully testing, it is deploy. 
 
 =head1 SEE ALSO
 
-L<lib/Enbld>
-L<bin/enblder>
+L<Enbld>
+L<enblder>
 
 =head1 COPYRIGHT
 
