@@ -7,15 +7,16 @@ use File::Spec;
 
 use parent qw/Enbld::Command/;
 
+require Enbld::Home;
+
 sub do {
-    my $cpanm = File::Spec->catfile( $ENV{HOME}, '.enbld', 'etc', 'cpanm' );
+    my $cpanm = File::Spec->catfile( Enbld::Home->etc, 'cpanm' );
 
     download_cpanm() unless ( -e $cpanm );
 
     say "=====> Upgrade Enbld.";
 
-    my $location = File::Spec->catdir( $ENV{HOME}, '.enbld', 'extlib' );
-    system( '/usr/bin/perl', $cpanm, 'Enbld', '-L', $location );
+    system( '/usr/bin/perl', $cpanm, 'Enbld', '-L', Enbld::Home->extlib );
 
     say "=====> Finish upgrade.";
 
@@ -26,8 +27,7 @@ sub download_cpanm {
     $File::Fetch::BLACKLIST = [ qw|lwp httptiny| ];
 
     my $ff       = File::Fetch->new( uri => 'http://xrl.us/cpanm' );
-    my $location = File::Spec->catdir( $ENV{HOME}, '.enbld', 'etc' );
-    my $where    = $ff->fetch( to => $location ) or die $ff->error;
+    my $where    = $ff->fetch( to => Enbld::Home->etc ) or die $ff->error;
 
     return $where;
 }

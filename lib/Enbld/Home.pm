@@ -22,6 +22,7 @@ our $dirs = {
     conf        =>  undef,
     log         =>  undef,
     etc         =>  undef,
+    extlib      =>  undef,
     library     =>  undef,
     deploy_path =>  undef,
 };
@@ -93,7 +94,7 @@ sub _create_home_directory {
     }
 
     make_path( $dirs->{$_} = File::Spec->catdir( $dirs->{home}, $_ )) for
-        qw/dists build depository conf etc log/;
+        qw/dists build depository conf etc log extlib/;
 
     $dirs->{library} = $dirs->{home};
 
