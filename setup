@@ -3,68 +3,45 @@
 use strict;
 use warnings;
 
-use FindBin;
+use 5.010001;
+
 use File::Spec;
+use File::Fetch;
 
-main() unless caller();
+my $cpanm = File::Spec->catfile( $ENV{HOME}, '.enbld', 'etc', 'cpanm' );
 
-sub main {
+download_cpanm() unless ( -e $cpanm );
 
-    check_env();
+say "=====> Install Enbld to " . File::Spec->catdir( $ENV{HOME}, '.enbld' ) . ".";
 
-    my $home = $ENV{PERL_ENBLD_HOME} ? $ENV{PERL_ENBLD_HOME} :
-        File::Spec->catdir( $ENV{HOME}, '.enbld' );
+my $install_path = File::Spec->catdir( $ENV{HOME}, '.enbld', 'extlib' );
 
-    print "=====> Install Enbld to $home.\n";
+print "\n";
+system( '/usr/bin/perl', $cpanm, '.', '-L', $install_path );
+print "\n";
 
-    install_app( $home );
+print << 'EOF';
+=====> Finish installation.
 
-    print "=====> Finish installation.\n";
+Please add following path to PATH.
 
-    print "Please add following path to PATH.\n";
-    print "\n";
-    print " " x 4 . '$HOME/.enbld/extlib/bin' . "\n";
-    print " " x 4 . '$HOME/.enbld/bin'        . "\n";
-    print " " x 4 . '$HOME/.enbld/sbin'       . "\n";
-    print "\n";
-    print "Please add following path to MANPATH.\n";
-    print "\n";
-    print " " x 4 . '$HOME/.enbld/share/man' . "\n";
-    print " " x 4 . '$HOME/.enbld/man'       . "\n";
-    print "\n";
-}
+    $HOME/.enbld/extlib/bin
+    $HOME/.enbld/bin
+    $HOME/.enbld/sbin
 
-sub check_env {
+Please add following path to MANPATH.
 
-    # perl version check
-    if ( $] < '5.012' ) {
-        die "Sorry, Enbld requires perl 5.12.0 or above.\n";
-    }
-}
+    $HOME/.enbld/share/man
+    $HOME/.enbld/man
 
-sub install_app {
-    my $home = shift;
+EOF
 
-    print "-----> Install Enbld's files.\n";
+sub download_cpanm {
+    $File::Fetch::BLACKLIST = [ qw|lwp httptiny| ];
 
-    my $dir = $FindBin::Bin;
-    my $app_install = File::Spec->catdir( $home, 'extlib' );
+    my $ff       = File::Fetch->new( uri => 'http://xrl.us/cpanm' );
+    my $location = File::Spec->catdir( $ENV{HOME}, '.enbld', 'etc' );
+    my $where    = $ff->fetch( to => $location ) or die $ff->error;
 
-    system(
-            '/usr/bin/perl',
-            File::Spec->catfile( $dir, 'Makefile.PL' ),
-            'INSTALL_BASE=' . $app_install
-            );
-
-    if ( $? >> 8 ) { die "Installing Enbld fail!\n" }
-
-    system( 'make' );
-
-    if ( $? >> 8 ) { die "Installing Enbld fail!\n" }
-
-    system( 'make', 'install' );
-
-    if ( $? >> 8 ) { die "Installing Enbld fail!\n" }
-
-    return $app_install
+    return $where;
 }

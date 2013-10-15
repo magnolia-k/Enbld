@@ -30,6 +30,7 @@ enblder - utility command for Enbld
  $ enblder upgrade git    # installs upgraded target software
  $ enblder freeze         # displays configuration file reproduce installed software
  $ enblder deploy ~/path  # deploys all installed software to specific path
+ $ enblder selfupgrade    # upgrade Enbld
 
 =head1 DESCRIPTION
 
@@ -124,6 +125,12 @@ Disables target software.
 Enables specfic version of target.
 
  $ enblder use target_software installed_version
+
+=item selfupgrade
+
+Upgrade Enbld itself.
+
+ $ enblder selfupgrade
 
 =item help
 

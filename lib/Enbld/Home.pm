@@ -21,6 +21,7 @@ our $dirs = {
     build       =>  undef,
     conf        =>  undef,
     log         =>  undef,
+    etc         =>  undef,
     library     =>  undef,
     deploy_path =>  undef,
 };

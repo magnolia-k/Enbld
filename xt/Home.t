@@ -63,6 +63,7 @@ is( Enbld::Home->home, $ENV{PERL_ENBLD_HOME}, 'home dir' );
 ok( -d Enbld::Home->dists,        'dists dir' );
 ok( -d Enbld::Home->depository,   'depository dir' );
 ok( -d Enbld::Home->conf,         'conf dir' );
+ok( -d Enbld::Home->etc,          'etc dir' );
 ok( -d Enbld::Home->log,          'log dir' );
 
 my $dir = Enbld::Home->create_build_directory;

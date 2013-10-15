@@ -623,7 +623,7 @@ When not running, it is waiting for the report :)
 B<Success of building of all the versions is not guaranteed. Since log file is displayed when building goes wrong, please analyze and send report:)>
 
 
-=head2 INSTALLATION
+=head1 INSTALLATION
 
  $ git clone https://github.com/magnolia-k/Enbld.git
  $ cd Enbld
