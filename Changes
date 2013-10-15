@@ -1,5 +1,21 @@
 Revision history for Enbld.
 
+0.7014 2013/10/15
+        [New Feature]
+        - Add subcommand 'selfupgrade'.
+          
+          $ enblder selfupgrade
+          -> upgrade Enbld from CPAN
+
+        [Fix Document]
+        - Fix 'enblder' document.
+
+          The old command name remained. 
+          (Reported by aero++)
+
+        [Bug Fix]
+        - Remove incompleteness META.json.
+
 0.7013 2013/10/13
         [Bug Fix]
         - Fix Makefile.PL
