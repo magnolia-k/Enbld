@@ -1,5 +1,8 @@
 Revision history for Enbld.
 
+0.7015 2013/10/16
+        - Re-packing.
+
 0.7014 2013/10/15
         [New Feature]
         - Add subcommand 'selfupgrade'.
