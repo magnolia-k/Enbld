@@ -10,6 +10,8 @@ use parent qw/Enbld::Command/;
 require Enbld::Home;
 
 sub do {
+    Enbld::Home->initialize;
+
     my $cpanm = File::Spec->catfile( Enbld::Home->etc, 'cpanm' );
 
     download_cpanm() unless ( -e $cpanm );

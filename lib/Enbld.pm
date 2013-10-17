@@ -6,7 +6,7 @@ use warnings;
 use FindBin qw/$Script/;
 use Getopt::Long;
 
-our $VERSION = '0.7015';
+our $VERSION = '0.7016';
 
 require Exporter;
 our @ISA    = qw(Exporter);
@@ -625,11 +625,23 @@ B<Success of building of all the versions is not guaranteed. Since log file is d
 
 =head1 INSTALLATION
 
- $ git clone https://github.com/magnolia-k/Enbld.git
- $ cd Enbld
+Install by Enbld installer (Download tarball from CPAN).
+
+ $ curl -L http://goo.gl/MrbDDB | perl
+
+or
+
+Install from tarball.
+
+ Download and unpack tarball (Download tarball from CPAN or GitHub).
+
+ $ tar xvf Enbld-x.xxxx.tar.gz
+ $ cd Enbld-x.xxxx
  $ ./setup
 
-And set Enbld's path.
+Enbld installs all the components in a $HOME/.enbld directory.Therefore, it is necessary to set the path of the software which Enbld installed. 
+
+Set Enbld's path.
 
 In .bashrc, write below setting.
 

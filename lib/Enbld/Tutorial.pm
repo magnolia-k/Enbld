@@ -14,10 +14,22 @@ Enbld::Tutorial is detailed description for Enbld's DSL.
 
 =head1 INSTALL
 
+To install, use installer.
+
+ $ curl -L http://goo.gl/MrbDDB | perl
+
+ # 'http://goo.gl/MrbDDB' is link to below address.
+ # https://raw.github.com/magnolia-k/EnbldInstaller/master/bin/enbld_installer
+ # Installer download tarball from CPAN, and unpack, install automatically.
+
+or
+
 To install, use 'setup' command.
 
- $ git clone https://github.com/magnolia-k/Enbld.git
- $ cd Enbld
+ Download and unpack tarball.
+ 
+ $ tar xvf Enbld-x.xxxx.tar.gz
+ $ cd Enbld-x.xxxx
  $ ./setup
 
 Enbld installs all the components in a $HOME/.enbld directory.Therefore, it is necessary to set the path of the software which Enbld installed. 
@@ -52,6 +64,8 @@ If perl is built using Enbld, it will become impossible to be arranged at the sa
                 +-- extlib/      Enbld's module files (e.g. lib/Enbld.pm)
                 |
                 +-- dists/       downloaded software' archivefiles
+                |
+                +-- etc/         other various files
                 |
                 +-- build/       software' build directory
                 |

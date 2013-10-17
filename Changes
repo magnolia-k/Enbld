@@ -1,5 +1,14 @@
 Revision history for Enbld.
 
+0.7015 2013/10/17
+        [Document Improvement]
+        - Change installation document.
+          From GitHub to CPAN
+        
+        [Bug Fix]
+        - Subcommand 'selfupgrade' now run correctly.
+        - 'setup' command clear 'MYMETA.*' beforehand.
+
 0.7015 2013/10/16
         - Re-packing.
 
