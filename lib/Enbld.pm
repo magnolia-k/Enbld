@@ -22,6 +22,7 @@ our @EXPORT = qw/
     annotation
     conf
     load
+    copy
     set
     from
     to
@@ -89,7 +90,7 @@ sub enbld($$) {
     }
 
     foreach my $filepath ( sort keys %rcfile_collection ) {
-        load_or_set_rcfile( $rcfile_collection{$filepath} );
+        do_rcfile( $rcfile_collection{$filepath} );
     }
 
     undef $initialized;
@@ -323,7 +324,7 @@ sub conf($$) {
     undef $rcfile_condition;
 }
 
-sub load_or_set_rcfile {
+sub do_rcfile {
     my $rcfile = shift;
 
     my $result;
@@ -339,7 +340,7 @@ sub load_or_set_rcfile {
         print "Please check build logile:" . Enbld::Logger->logfile . "\n";
 
         $rcfile_result{$rcfile->filepath} =
-            $rcfile->filepath . ' is failure to load or set.';
+            $rcfile->filepath . ' is failure to create.';
 
         return;
     };
@@ -351,14 +352,14 @@ sub load_or_set_rcfile {
         Enbld::App::Configuration->write_file;
 
         $rcfile_result{$rcfile->filepath} =
-            $rcfile->filepath . ' is loaded or set.';
+            $rcfile->filepath . ' is created.';
 
         return $result;
     }
 
     # Configuration file is not loaded or set.
     $rcfile_result{$rcfile->filepath} =
-        $rcfile->filepath . ' is not loaded or set.';
+        $rcfile->filepath . ' is not created.';
 
     return;
 }
@@ -375,20 +376,20 @@ sub set(&) {
     return $_[0];
 }
 
-sub from($) {
-    my $url = shift;
+sub copy(&) {
+    $rcfile_condition->{command} = 'copy';
 
-    if ( ref( $url ) ) {
+    return $_[0];
+}
+
+sub from($) {
+    my $from = shift;
+
+    if ( ref( $from ) ) {
         _err( "Function 'from' requsres string type parameter." );
     }
 
-    my $pattern = q{s?https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+};
-
-    if ( $url !~ /$pattern/ ) {
-        _err( "Function 'from' requires valid URL parameter.", $url );
-    }
-
-    $rcfile_condition->{url} = $url;
+    $rcfile_condition->{from} = $from;
 }
 
 sub to($) {
@@ -755,7 +756,7 @@ Enbld also can create software' configuration file(.dotfile).
 
 '.vimrc' is downloaded to $HOME from 'https://raw.github.com/magnolia-k/vimrc/master/.vimrc'.
 
-Nothing is done when the file of the same file name already exists. 
+Nothing is done when the file of the same file already exists. 
 
 
 =head3 Create software' configuration file
@@ -767,8 +768,17 @@ Nothing is done when the file of the same file name already exists.
 
 '.vimrc' is created to $HOME.
 
-Nothing is done when the file of the same file name already exists. 
+Nothing is done when the file of the same file already exists. 
 
+=head3 Copy software' configuration file
+
+ conf '.vimrc' => copy {
+     from "/copy/from/.vimrc";
+ };
+
+'.vimrc' is created to $HOME.
+
+Nothing is done when the file of the same file already exists. 
 
 =head2 MAKE TEST AT INSTALLATION
 

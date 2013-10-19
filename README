@@ -260,7 +260,7 @@ Enbld also can create software' configuration file(.dotfile).
 
 '.vimrc' is downloaded to $HOME from 'https://raw.github.com/magnolia-k/vimrc/master/.vimrc'.
 
-Nothing is done when the file of the same file name already exists. 
+Nothing is done when the file of the same file already exists. 
 
 
 ### Create software' configuration file
@@ -272,7 +272,18 @@ Nothing is done when the file of the same file name already exists.
 
 '.vimrc' is created to $HOME.
 
-Nothing is done when the file of the same file name already exists. 
+Nothing is done when the file of the same file already exists. 
+
+### Copy software' configuration file
+
+    conf '.vimrc' => copy {
+        from "/copy/from/.vimrc";
+    };
+
+'.vimrc' is created to $HOME.
+
+Nothing is done when the file of the same file already exists. 
+
 
 
 ## MAKE TEST AT INSTALLATION

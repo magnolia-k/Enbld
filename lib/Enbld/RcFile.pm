@@ -9,30 +9,45 @@ use File::Path qw/make_path/;
 use File::Temp;
 use File::Copy;
 
+use Digest::file qw/digest_file_hex/;
+use Digest::SHA  qw/sha1_hex/;
+
 use Carp;
 
 require Enbld::Message;
 require Enbld::Error;
 require Enbld::Exception;
 
+our @cmd_list = qw/load copy set/;
+
 sub new {
     my $class = shift;
 
     my $self = {
+        command     =>  undef,
         filepath    =>  undef,
-        directory   =>  undef,
+
+        from        =>  undef,
+
+        source      =>  undef,
         url         =>  undef,
+
         contents    =>  undef,
+
+        directory   =>  undef,
+
         fullpath    =>  undef,
         filename    =>  undef,
-        command     =>  undef,
+
+        digest      =>  undef,
+
         @_,
     };
 
     bless $self, $class;
 
-    $self->{directory} = $ENV{HOME} unless $self->{directory};
     $self->_parse_filepath;
+    $self->_validate;
 
     return $self;
 }
@@ -40,42 +55,51 @@ sub new {
 sub do {
     my $self = shift;
 
-    if ( ( $self->{command} eq 'load' ) && ( ! $self->{url} ) ) {
-        _err( "Configuration 'load' command needs 'from' command." );
+    if ( $self->{command} eq 'load' && $self->{from} ) {
+        $self->{url} = $self->{from};
     }
 
-    if ( ( $self->{command} eq 'set' ) && ( $self->{url} ) ) {
-        _err( "Configuration 'set' command don't need 'from' command." );
+    if ( $self->{command} eq 'copy' && $self->{from} ) {
+        $self->{source} = $self->{from};
     }
 
-    my $result;
-
-    if ( $self->{command} eq 'load' ) {
-        $result = $self->load;
-    } elsif ( $self->{command} eq 'set' ) {
-        $result = $self->set;
-    }
+    my $cmd    = 'do_' . $self->{command};
+    my $result = $self->$cmd;
 
     return $result;
+}
+
+sub _validate {
+    my $self = shift;
+
+    _err( "Configuration file's command is not specified." ) unless $self->{command};
+
+    if ( ! grep { $_ eq $self->{command} } @cmd_list ) {
+        _err( "'$self->{command}' is invalid command type." );
+    }
+
+    _err( "Configuration file's path not set." )     unless $self->{filepath};
+    _err( "'$self->{directory}' is not directory." ) unless ( -d $self->{directory} );
 }
 
 sub _parse_filepath {
     my $self = shift;
 
-    if ( ! $self->{filepath} ) {
-        _err( "Configuration file's path not set." );
-    }
+    $self->{directory} = $ENV{HOME} unless $self->{directory};
 
-   $self->{fullpath} = File::Spec->file_name_is_absolute( $self->{filepath} ) ?
+    $self->{fullpath} = File::Spec->file_name_is_absolute( $self->{filepath} ) ?
         $self->{filepath} :
         File::Spec->catfile( $self->{directory}, $self->{filepath} );
 
-    my ( undef, $dirs, $filename ) = File::Spec->splitpath( $self->{fullpath} );
-
-    $self->{filename} = $filename;
+    my $dirs;
+    ( undef, $dirs, $self->{filename} ) = File::Spec->splitpath( $self->{fullpath} );
 
     if ( ! _check_permission( $dirs )) {
         _err( "Please check write permission for $dirs." );
+    }
+
+    if ( -f $self->{fullpath} ) {
+        $self->{digest} = digest_file_hex( $self->{fullpath}, 'SHA-1' );
     }
 
     return $self->{fullpath};
@@ -97,25 +121,18 @@ sub _check_permission {
     return;
 }
 
-sub load {
+sub do_load {
     my $self = shift;
 
-    return if ( -e $self->{fullpath} );
+    _err( "Download URL is not set." ) unless $self->{url};
 
-    my $temp = File::Temp->newdir;
+    _notify( "=====> Load configuration file '$self->{filename}' from '$self->{url}'." );
 
-    chdir $temp;
-
-    Enbld::Message->notify(
-            "=====> Load configuration file '$self->{filename}'" .
-            " from '$self->{url}'."
-            );
-
-    system( 'curl', '-O', $self->{url}, '-s' );
-
-    chdir $ENV{HOME};
-
-    my $path = File::Spec->catfile( $temp, $self->{filename} );
+    require Enbld::HTTP;
+    my $temp  = File::Temp->newdir;
+    my $path  = File::Spec->catfile( $temp, $self->{filename} );
+    Enbld::HTTP->new( $self->{url} )->download( $path );
+    
     unless ( -f -T $path )  {
        _err( "Configuration file '$self->{filename}' isn't text file." ); 
     }
@@ -126,37 +143,94 @@ sub load {
         close $temphandle;
     }
 
-    if ( copy( $path, $self->{fullpath} )) {
+    if ( $self->{digest} ) {
+        my $digest = digest_file_hex( $path, 'SHA-1' );
 
-        Enbld::Message->notify(
-                "=====> Finish configuration file '$self->{filename}'"
-                );
+        if ( $self->{digest} eq $digest ) {
+            _notify( "Configuration file not have the necessity for change." );
+            return;
+        }
 
-        return $self->{filename};
+        my ( undef, $dir, $filename ) = File::Spec->splitpath( $self->{fullpath} );
+
+        move( $self->{fullpath}, File::Spec->catfile( $dir, $filename . time ) )
+            or _err( $! );
     }
 
-    _err( "Can't write $self->{fullpath}:$!" );    
+    copy( $path, $self->{fullpath} ) or _err( $! );
+
+    _notify( "=====> Finish configuration file '$self->{filename}'" );
+
+    return $self->{filename};
 }
 
-sub set {
+sub do_set {
     my $self = shift;
 
-    return if ( -e $self->{fullpath} );
+    _err( "Configuration file's contents isn't set." ) unless $self->{contents};
 
-    Enbld::Message->notify(
-            "=====> Set configuration file '$self->{filename}'"
-            );
+    _notify( "=====> Set configuration file '$self->{filename}'" );
 
-    my ( undef, $dirs, $file ) = File::Spec->splitpath( $self->{fullpath} );
-    make_path( $dirs );
+    my ( undef, $dir, $filename ) = File::Spec->splitpath( $self->{fullpath} );
+
+    if ( $self->{digest} ) {
+        if ( $self->{digest} eq sha1_hex( $self->{contents}) ) {
+            _notify( "Configuration file not have the necessity for change." );
+            return;
+        };
+
+        move( $self->{fullpath}, File::Spec->catfile( $dir, $filename . time ))
+            or _err( $! );
+    }
+
+    make_path( $dir );
 
     open my $fh, '>', $self->{fullpath};
     print $fh $self->{contents};
     close $fh;
 
-    Enbld::Message->notify(
-            "=====> Finish configuration file '$self->{filename}'"
-            );
+    _notify( "=====> Finish configuration file '$self->{filename}'" );
+
+    return $self->{filename};
+}
+
+sub do_copy {
+    my $self = shift;
+
+    _err( "Configuration file's source path is not set." ) unless $self->{source};
+
+    unless ( -f -T $self->{source} ) {
+        _err( "Configuration file '$self->{filename}' isn't text file." ); 
+    }
+
+    _notify( "=====> Copy configuration file '$self->{filename}'" );
+
+    my $temp = File::Temp->newdir;
+    my $path = File::Spec->catfile( $temp, $self->{filename} );
+    copy( $self->{source}, $path );
+
+    if ( $self->{contents} ) {
+        open my $temphandle, '>>', $path;
+        print $temphandle $self->{contents};
+        close $temphandle;
+    }
+
+    if ( $self->{digest} ) {
+        my ( undef, $dir, $filename ) = File::Spec->splitpath( $self->{fullpath} );
+
+        my $digest = digest_file_hex( $path, 'SHA-1' );
+
+        if ( $self->{digest} eq $digest ) {
+            _notify( "Configuration file not have the necessity for change." );
+            return;
+        }
+        move( $self->{fullpath}, File::Spec->catfile( $dir, $filename . time ) )
+            or _err( $! );
+    }
+
+    copy( $path, $self->{fullpath} ) or _err( $! );
+
+    _notify( "=====> Finish configuration file '$self->{filename}'" );
 
     return $self->{filename};
 }
@@ -180,14 +254,13 @@ sub serialize {
 
     $serialized->{filepath}  = $self->{filepath};
     $serialized->{command}   = $self->{command};
+
     $serialized->{contents}  = $self->{contents} if $self->{contents};
+    $serialized->{url}       = $self->{url}      if $self->{url};
+    $serialized->{source}    = $self->{source}   if $self->{source}; 
 
     if ( $self->{directory} ne $ENV{HOME} ) {
         $serialized->{directory} = $self->{directory};
-    }
-
-    if ( $self->{url} ) {
-        $serialized->{url} = $self->{url};
     }
 
     return $serialized;
@@ -202,8 +275,12 @@ sub DSL {
 
     push @rcfile, $str;
 
-    if ( $self->{url} ) {
+    if ( $self->{command} eq 'load' ) {
         push @rcfile, '    ' . "from '" . $self->{url} . "';\n";
+    }
+
+    if ( $self->{command} eq 'copy' ) {
+        push @rcfile, '    ' . "from '" . $self->{source} . "';\n";
     }
 
     if ( $self->{directory} ne $ENV{HOME} ) {
@@ -235,6 +312,12 @@ sub _exception {
     my $param = shift;
 
     croak( Enbld::Exception->new( $exception, $param ));
+}
+
+sub _notify {
+    my $msg = shift;
+
+    Enbld::Message->notify( $msg );
 }
 
 1;

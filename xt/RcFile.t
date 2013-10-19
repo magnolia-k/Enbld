@@ -9,11 +9,38 @@ use File::Spec;
 
 use Test::More;
 
+require Enbld::HTTP;
+
 require_ok( 'Enbld::RcFile' );
+
+subtest 'lack of arguments' => sub {
+    eval {
+        Enbld::RcFile->new;
+    };
+
+    like( $@, qr/Configuration file's command is not specified/, 'lack of command' );
+
+    done_testing();
+};
+
+subtest 'set contents - error' => sub {
+    my $rcfile = Enbld::RcFile->new(
+            command   => 'set',
+            filepath  => 'rcfile.txt',
+            );
+
+    eval {
+        $rcfile->do;
+    };
+
+    like( $@, qr/Configuration file's contents isn't set/, 'set error' );
+
+    done_testing();
+};
 
 subtest 'set contents' => sub {
     my $dir = File::Temp->newdir;
-    my $filename = '.blendrc';
+    my $filename = '.enbldrc';
     my $fullpath = File::Spec->catfile( $dir, $filename );
 
     my $rcfile = Enbld::RcFile->new(
@@ -34,7 +61,7 @@ subtest 'set contents' => sub {
     like( $content, qr/Enbld/, 'contents' );
 
     my @DSL;
-    push @DSL, "conf '.blendrc' => set {\n";
+    push @DSL, "conf '.enbldrc' => set {\n";
     push @DSL, "    to '" . $dir . "';\n";
     push @DSL, "    content 'Enbld';\n";
     push @DSL, "};\n";
@@ -57,9 +84,57 @@ subtest 'set contents' => sub {
     done_testing();
 };
 
+subtest 'set contents - digest same' => sub {
+
+    my $file     = 'rcfile.txt';
+    my $dir      = File::Temp->newdir;
+    my $contents = 'configuration string';
+
+    open my $fh, '>', File::Spec->catfile( $dir, $file );
+    print $fh $contents;
+    close $fh;
+
+    my $rcfile = Enbld::RcFile->new(
+            command     => 'set',
+            directory   => $dir,
+            filepath    => $file,
+            contents    => $contents,
+            );
+
+    my $result = $rcfile->do;
+
+    is( $result, undef, 'digest is same' );
+
+    done_testing();
+};
+
+subtest 'set contents - digest different' => sub {
+
+    my $file     = 'rcfile.txt';
+    my $dir      = File::Temp->newdir;
+    my $contents = 'configuration string';
+
+    open my $fh, '>', File::Spec->catfile( $dir, $file );
+    print $fh $contents . ",but different";
+    close $fh;
+
+    my $rcfile = Enbld::RcFile->new(
+            command     => 'set',
+            directory   => "$dir",
+            filepath    => $file,
+            contents    => $contents,
+            );
+
+    my $result = $rcfile->do;
+
+    isnt( $result, undef, 'digest is diffrence' );
+
+    done_testing();
+};
+
 SKIP: {
           skip "Skip RcFile test because none of test env.",
-               2 unless ( $ENV{PERL_ENBLD_TEST} );
+               4 unless ( $ENV{PERL_ENBLD_TEST} );
 
           subtest 'load conf' => sub {
               my $dir = File::Temp->newdir;
@@ -135,7 +210,155 @@ SKIP: {
               done_testing();
           };
 
+          subtest 'load conf - same digest' => sub {
+              my $dir  = File::Temp->newdir;
+              my $file = '.vimrc';
+              my $url  = 'https://raw.github.com/magnolia-k/vimrc/master/.vimrc';
+
+              Enbld::HTTP->new( $url )->download( File::Spec->catfile( $dir, $file )); 
+
+              my $rcfile = Enbld::RcFile->new(
+                      command   => 'load',
+                      filepath  => $file,
+                      directory => $dir,
+                      url       => $url,
+                      );
+
+              my $result = $rcfile->do;
+              is( $result, undef, 'digest is same' );
+
+              done_testing();
+          };
+
+          subtest 'load conf - different digest' => sub {
+              my $dir  = File::Temp->newdir;
+              my $file = '.vimrc';
+              my $url  = 'https://raw.github.com/magnolia-k/vimrc/master/.vimrc';
+
+              Enbld::HTTP->new( $url )->download( File::Spec->catfile( $dir, $file ));
+
+              my $rcfile = Enbld::RcFile->new(
+                      command   => 'load',
+                      filepath  => $file,
+                      directory => $dir,
+                      url       => $url,
+                      contents  => "additional string\n",
+                      );
+
+              my $result = $rcfile->do;
+              isnt( $result, undef, 'digest is different' );
+
+              done_testing();
+          };
+
 
       };
+
+subtest 'conf copy' => sub {
+    my $source_dir      = File::Temp->newdir;
+    my $destination_dir = File::Temp->newdir;
+    my $filename        = '.enbldrc';
+
+    my $path = File::Spec->catfile( $source_dir, $filename );
+    open my $fh, '>', $path;
+    print $fh "configuration string\n";
+    close $fh;
+
+    my $rcfile = Enbld::RcFile->new(
+            command     =>  'copy',
+            filepath    =>  $filename,
+            directory   =>  $destination_dir,
+            source      =>  $path,
+            contents    =>  "additional string",
+            );
+
+    is( $rcfile->do, $filename, 'copy rcfile' );
+
+    ok( -e File::Spec->catfile( $destination_dir, $filename ), 'create rc file' );
+    
+    open my $fh_contents, '<', File::Spec->catfile( $destination_dir, $filename );
+    my $content = do { local $/; <$fh_contents> };
+    close $fh_contents;
+
+    like( $content, qr/configuration string/, 'contents' );
+
+    my @DSL;
+    push @DSL, "conf '.enbldrc' => copy {\n";
+    push @DSL, "    from '" . $path . "';\n";
+    push @DSL, "    to '" . $destination_dir . "';\n";
+    push @DSL, "    content 'additional string';\n";
+    push @DSL, "};\n";
+
+    my $DSLed = $rcfile->DSL;
+
+    is_deeply( $DSLed, \@DSL, 'DSL' );
+
+    my $serialized = $rcfile->serialize;
+
+    is_deeply( $serialized,
+            {
+            filepath    => $filename,
+            command     => 'copy',
+            contents    => 'additional string',
+            directory   => $destination_dir,
+            },
+            'serialized' );
+
+    done_testing();
+};
+
+subtest 'conf copy - same digest' => sub {
+    my $source_dir      = File::Temp->newdir;
+    my $destination_dir = File::Temp->newdir;
+    my $filename        = '.enbldrc';
+
+    my $path = File::Spec->catfile( $source_dir, $filename );
+
+    open my $fh_source, '>', $path;
+    print $fh_source "configuration string\n";
+    close $fh_source;
+
+    open my $fh_destination, '>', File::Spec->catfile( $destination_dir, $filename );
+    print $fh_destination "configuration string\n";
+    close $fh_destination;
+
+    my $rcfile = Enbld::RcFile->new(
+            command     =>  'copy',
+            filepath    =>  $filename,
+            directory   =>  $destination_dir,
+            source      =>  $path,
+            );
+
+    is( $rcfile->do, undef, 'same digest' );
+
+    done_testing();
+};
+
+subtest 'conf copy - different digest' => sub {
+    my $source_dir      = File::Temp->newdir;
+    my $destination_dir = File::Temp->newdir;
+    my $filename        = '.enbldrc';
+
+    my $path = File::Spec->catfile( $source_dir, $filename );
+
+    open my $fh_source, '>', $path;
+    print $fh_source "configuration string\n";
+    close $fh_source;
+
+    open my $fh_destination, '>', File::Spec->catfile( $destination_dir, $filename );
+    print $fh_destination "configuration string, with additional string\n";
+    close $fh_destination;
+
+    my $rcfile = Enbld::RcFile->new(
+            command     =>  'copy',
+            filepath    =>  $filename,
+            directory   =>  $destination_dir,
+            source      =>  $path,
+            );
+
+    isnt( $rcfile->do, undef, 'different digest' );
+
+    done_testing();
+};
 
 done_testing();
