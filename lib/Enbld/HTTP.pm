@@ -6,6 +6,8 @@ use warnings;
 use File::Spec;
 use Carp;
 
+require Enbld::Error;
+require Enbld::Exception;
 require Enbld::Message;
 
 our $get_hook;
@@ -30,7 +32,6 @@ sub new {
     my $pattern = q{s?https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+};
 
     if ( $url !~ /^$pattern$/ ) {
-        require Enbld::Exception;
         croak( Enbld::Exception->new( "'$url' isn't valid URL string" ));
     }
 
@@ -59,7 +60,7 @@ sub download {
 
     Enbld::Message->notify( "--> Download '$file' from '$self->{url}'." );
 
-	if ( $client eq 'wget' ) {
+	if ( $client =~ /wget/ ) {
 		system( 'wget', $self->{url}, '-O', $path, '-q' );
 	} else {
 	    system( 'curl', '-L', $self->{url}, '-o', $path, '-s', '-f' );
@@ -77,8 +78,8 @@ sub download {
         my $err = "Http client died with signal.";
         die( Enbld::Error->new( $err ));
     } else {
-        my $err = 'Download request returns error.';
-        die( Enbld::Error->new( $err , ( $? >> 8 ) ));
+        my $err = 'Download request returns error:';
+        die( Enbld::Error->new( $err . ( $? >> 8 ) ));
     }
 }
 
@@ -107,8 +108,8 @@ sub get {
 	}
 
     if ( $? >> 8 ) {
-        my $err = 'HTTP get request returns error.';
-        die( Enbld::Error->new( $err, ( $? >> 8) ));
+        my $err = 'HTTP get request returns error:';
+        die( Enbld::Error->new( $err . ( $? >> 8) ));
     }
 
     return $res;
