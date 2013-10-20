@@ -1,5 +1,18 @@
 Revision history for Enbld.
 
+0.7017 2013/10/20
+        [New Feature]
+        - Improve idempotence of a configuration file.
+
+          * Check digest of configuration file.
+          * Add 'copy' function for configuration file.
+
+        [Bug Fix]
+        - Fix HTTP client selection.
+          The problem which does not operate correctly
+          in the environment where only wget is installed
+          is corrected.
+
 0.7016 2013/10/17
         [Document Improvement]
         - Change installation document.
