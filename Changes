@@ -1,5 +1,9 @@
 Revision history for Enbld.
 
+0.7019 2013/10/22
+        - re-packing
+        - fix .gitignore
+
 0.7018 2013/10/22
 		[Bug Fix]
 		- 'to' function in DSL came to operate normally. 
