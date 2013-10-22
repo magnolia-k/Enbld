@@ -79,7 +79,10 @@ sub _validate {
     }
 
     _err( "Configuration file's path not set." )     unless $self->{filepath};
-    _err( "'$self->{directory}' is not directory." ) unless ( -d $self->{directory} );
+
+    unless ( -d $self->{directory} ) {
+		make_path( $self->{directory} );
+	}
 }
 
 sub _parse_filepath {
