@@ -1,5 +1,9 @@
 Revision history for Enbld.
 
+0.7018 2013/10/22
+		[Bug Fix]
+		- 'to' function in DSL came to operate normally. 
+
 0.7017 2013/10/20
         [New Feature]
         - Improve idempotence of a configuration file.
