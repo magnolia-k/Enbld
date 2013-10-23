@@ -16,7 +16,7 @@ sub initialize {
     $self->{defined}{Extension}         =   'tar.gz';
     $self->{defined}{DownloadSite}      =   'http://archive.apache.org/dist/httpd/';
 
-    $self->{defined}{Dependencies}      =   [ 'pcre', 'libtool' ];
+    $self->{defined}{Dependencies}      =   [ 'pcre', 'libtool', 'apr', 'aprutil' ];
 
     $self->{defined}{AdditionalArgument}=   \&set_argument;
 

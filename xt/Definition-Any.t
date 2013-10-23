@@ -11,7 +11,7 @@ if ( ! $ENV{PERL_ENBLD_TEST_DEFINITION} ) {
 }
 
 my @def_list = qw/
- apache apr aprutil autoconf automake cmake emacs git groff hello
+ apr aprutil apache autoconf automake cmake emacs git groff hello
  libevent libidn libtool mysql nginx nodejs pcre perl pkgconfig python
  rakudostar ruby scala tmux tree vim wget zsh/;
 
