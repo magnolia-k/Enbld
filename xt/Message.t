@@ -8,41 +8,31 @@ use Test::More;
 use File::Temp;
 use autodie;
 
-our $skip_test;
-
-BEGIN {
-
-    unless ( eval "use Test::Output; 1" ) {
-        $skip_test++;
-    }
-
-};
-
 require Enbld::Logger;
+
+use Module::Load::Conditional qw/can_load/;
+
+can_load( modules => { 'Test::Output' => undef } ) or
+    plan skip_all => "Test::Output are required";
 
 require_ok( 'Enbld::Message' );
 
-SKIP: {
-          skip "Skip message test because none of Test::Output.",
-               3 if $skip_test;
+stdout_is { Enbld::Message->notify( 'message' ) } '', 'quiet';
 
-    stdout_is { Enbld::Message->notify( 'message' ) } '', 'quiet';
+Enbld::Message->set_verbose;
 
-    Enbld::Message->set_verbose;
+my $dir = File::Temp->newdir;
+Enbld::Logger->rotate( $dir );
 
-    my $dir = File::Temp->newdir;
-    Enbld::Logger->rotate( $dir );
+stdout_is { Enbld::Message->notify( 'message' ) } "message\n", 'verbose';
 
-    stdout_is { Enbld::Message->notify( 'message' ) } "message\n", 'verbose';
+open my $fh, '<', Enbld::Logger->logfile;
+my $logfile = ( <$fh> );
+close $fh;
+is( $logfile, "message\n", 'logfile' );
 
-    open my $fh, '<', Enbld::Logger->logfile;
-    my $logfile = ( <$fh> );
-    close $fh;
-    is( $logfile, "message\n", 'logfile' );
-
-    stdout_is { Enbld::Message->notify( "message\n" ) } "message\n",
-              'message with return code';
-          };
+stdout_is { Enbld::Message->notify( "message\n" ) } "message\n",
+          'message with return code';
 
 done_testing();
 

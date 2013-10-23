@@ -6,24 +6,21 @@ use warnings;
 use Test::More;
 use Test::Enbld::Definition;
 
+if ( ! $ENV{PERL_ENBLD_TEST_DEFINITION} ) {
+    plan skip_all => "Skip build Perl test because none of test env.";
+}
+
 require Enbld::Condition;
-my $condition = {
+my $install_modules = {
     perl => Enbld::Condition->new( modules =>  { 'App::cpanminus' => 0 } ),
         };
 
-my $dev = {
+my $install_dev_ver = {
     perl => Enbld::Condition->new( version => 'development' ),
 };
 
-SKIP: {
-          skip "Skip build Perl test because none of test env.",
-               3 unless ( $ENV{PERL_ENBLD_TEST_DEFINITION} );
-          
-          build_ok( 'perl', undef, undef, 'first test' );
-
-          build_ok( 'perl', undef, $dev, 'install development version' );
-
-          build_ok( 'perl', undef, $condition, 'install module test' );
-      };
+build_ok( 'perl', undef, undef,             'build latest version'  );
+build_ok( 'perl', undef, $install_dev_ver,  'build dev version'     );
+build_ok( 'perl', undef, $install_modules,  'install modules'       );
 
 done_testing();
