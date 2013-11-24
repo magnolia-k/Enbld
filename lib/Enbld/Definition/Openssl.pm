@@ -20,20 +20,20 @@ sub initialize {
 
     $self->{defined}{SortedVersionList} =   \&set_sorted_version_list;
 
-    $self->{defined}{CommandConfigure}  =   $^O eq 'darwin' ? './configure' : './config';
+    $self->{defined}{CommandConfigure}  =   \&set_commandconfigure;
     $self->{defined}{CommandMake}       =   'make';
-    $self->{defined}{CommandTest}       =   undef;
+    $self->{defined}{CommandTest}       =   'make test';
     $self->{defined}{CommandInstall}    =   'make install';
 
     return $self;
 }
 
+sub set_commandconfigure {
+    return $^O eq 'darwin' ? './configure' : './config';
+}
+
 sub set_argument {
-    my $attributes = shift;
-
-    my $argument = $^O eq 'darwin' ? 'darwin64-x86_64-cc' : undef;
-
-    return $argument;
+    return $^O eq 'darwin' ? 'darwin64-x86_64-cc' : undef;
 }
 
 sub set_sorted_version_list {
