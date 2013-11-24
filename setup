@@ -9,18 +9,16 @@ use autodie;
 use File::Spec;
 use File::Fetch;
 
-my $cpanm = File::Spec->catfile( $ENV{HOME}, '.enbld', 'etc', 'cpanm' );
+my $home   = File::Spec->catdir(  $ENV{HOME}, '.enbld'  );
+my $cpanm  = File::Spec->catfile( $home, 'etc', 'cpanm' );
+my $extlib = File::Spec->catdir(  $home, 'extlib'       );
 
 clear_MYMETA();
 download_cpanm() unless ( -e $cpanm );
 
-say "=====> Install Enbld to " . File::Spec->catdir( $ENV{HOME}, '.enbld' ) . ".";
+say "=====> Install Enbld to $home.";
 
-my $install_path = File::Spec->catdir( $ENV{HOME}, '.enbld', 'extlib' );
-
-print "\n";
-system( '/usr/bin/perl', $cpanm, '.', '-L', $install_path );
-print "\n";
+system( '/usr/bin/perl', $cpanm, '-L', $extlib, '.' );
 
 print << 'EOF';
 =====> Finish installation.
@@ -39,17 +37,12 @@ Please add following path to MANPATH.
 EOF
 
 sub download_cpanm {
-    $File::Fetch::BLACKLIST = [ qw|lwp httptiny| ];
-
     my $ff       = File::Fetch->new( uri => 'http://xrl.us/cpanm' );
     my $location = File::Spec->catdir( $ENV{HOME}, '.enbld', 'etc' );
     my $where    = $ff->fetch( to => $location ) or die $ff->error;
-
-    return $where;
 }
 
 sub clear_MYMETA {
-
     unlink( 'MYMETA.json' ) if ( -e 'MYMETA.json' );
     unlink( 'MYMETA.yml'  ) if ( -e 'MYMETA.yml'  );
 
