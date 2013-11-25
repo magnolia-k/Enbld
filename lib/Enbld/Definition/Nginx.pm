@@ -36,11 +36,9 @@ sub set_argument {
     $pcre->add( 'VersionCondition', 'latest' );
 
     require Enbld::HTTP;
-    my $http = Enbld::HTTP->new( $pcre->URL );
-
     require Enbld::Home;
     my $path = File::Spec->catfile( Enbld::Home->dists, $pcre->Filename );
-    my $archivefile = $http->download_archivefile( $path );
+    my $archivefile = Enbld::HTTP->download_archivefile( $pcre->URL, $path );
     my $build = $archivefile->extract( Enbld::Home->build );
 
     my $argument = "--with-http_ssl_module --with-pcre=" . $build;

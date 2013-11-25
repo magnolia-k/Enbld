@@ -14,3 +14,4 @@ Blender-Declare-*
 MYMETA.*
 *.bak
 local*
+cpanfile.snapshot

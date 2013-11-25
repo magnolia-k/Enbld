@@ -31,7 +31,7 @@ sub set_versionlist {
     my $attributes = shift;
 
     require Enbld::HTTP;
-    my $first_html = Enbld::HTTP->new( $attributes->IndexSite )->get_html;
+    my $first_html = Enbld::HTTP->get_html( $attributes->IndexSite );
 
     my $first_list = $first_html->parse_version(
             quotemeta( '<a href="v') . '\d\.\d/' . quotemeta( '">' ),
@@ -40,7 +40,7 @@ sub set_versionlist {
 
     my @versionlist;
     for my $ver ( @{ $first_list } ) {
-        my $html = Enbld::HTTP->new( $attributes->IndexSite . $ver )->get_html;
+        my $html = Enbld::HTTP->get_html( $attributes->IndexSite . $ver );
         my $list = $html->parse_version(
                 $attributes->IndexParserForm,
                 $attributes->VersionForm,

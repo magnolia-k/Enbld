@@ -31,7 +31,7 @@ sub set_versionlist {
     my $attributes = shift;
 
     require Enbld::HTTP;
-    my $first_html = Enbld::HTTP->new( $attributes->IndexSite )->get_html;
+    my $first_html = Enbld::HTTP->get_html( $attributes->IndexSite );
 
     my $first_list = $first_html->parse_version(
             quotemeta( '<a href="') . '\d\.\d(\.\d)?' . quotemeta( '/">' ),
@@ -41,7 +41,7 @@ sub set_versionlist {
     my $versionlist;
     for my $ver_num ( @{ $first_list } ) {
         my $url = $attributes->IndexSite . $ver_num;
-        my $html = Enbld::HTTP->new( $url )->get_html;
+        my $html = Enbld::HTTP->get_html( $url );
 
         my $list = $html->parse_version(
             quotemeta( '<a href="Python-' ) .

@@ -17,9 +17,17 @@ my @def_list = qw/
 
 for my $def ( @def_list ) {
 
-    build_ok( $def, undef, undef, "build definition '$def'" )
-        or diag( "Fail! build definition '$def'." );
+    local $ENV{PERL_ENBLD_HOME} = File::Temp->newdir;
 
+    Enbld::Home->initialize;
+    Enbld::Home->create_build_directory;
+    Enbld::Logger->rotate( Enbld::Home->log );
+
+
+    my $target = Enbld::Target->new( $def );
+    my $installed = eval { $target->install };
+
+    ok( $installed, "build $def" ) or diag( $@ );
 }
 
 done_testing();

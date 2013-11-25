@@ -215,7 +215,7 @@ SKIP: {
               my $file = '.vimrc';
               my $url  = 'https://raw.github.com/magnolia-k/vimrc/master/.vimrc';
 
-              Enbld::HTTP->new( $url )->download( File::Spec->catfile( $dir, $file )); 
+              Enbld::HTTP->download( $url, File::Spec->catfile( $dir, $file )); 
 
               my $rcfile = Enbld::RcFile->new(
                       command   => 'load',
@@ -235,7 +235,7 @@ SKIP: {
               my $file = '.vimrc';
               my $url  = 'https://raw.github.com/magnolia-k/vimrc/master/.vimrc';
 
-              Enbld::HTTP->new( $url )->download( File::Spec->catfile( $dir, $file ));
+              Enbld::HTTP->download( $url, File::Spec->catfile( $dir, $file ));
 
               my $rcfile = Enbld::RcFile->new(
                       command   => 'load',

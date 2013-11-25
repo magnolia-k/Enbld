@@ -42,7 +42,7 @@ sub set_versionlist {
     my $attributes = shift;
 
     my $indexsite_latest = 'http://dev.mysql.com/downloads/';
-    my $latest_html = Enbld::HTTP->new( $indexsite_latest )->get_html;
+    my $latest_html = Enbld::HTTP->get_html( $indexsite_latest );
     my $latest = $latest_html->parse_version(
             'Current Generally Available Release: '. $attributes->VersionForm,
             $attributes->VersionForm,
@@ -61,7 +61,7 @@ sub archived_versions {
 
     my $index_site = 'http://downloads.mysql.com/archives.php';
 
-    my $major_html = Enbld::HTTP->new( $index_site )->get_html;
+    my $major_html = Enbld::HTTP->get_html( $index_site );
     my $major_list = $major_html->parse_version(
             quotemeta( '<a href="archives.php?p=mysql-' ) .
             '5\.\d' .
@@ -74,7 +74,7 @@ sub archived_versions {
     my @versionlist;
     my $revision_site = 'http://downloads.mysql.com/archives.php?p=mysql-';
     for my $major ( @{ $major_list } ) {
-        my $revision_html = Enbld::HTTP->new( $revision_site . $major )->get_html;
+        my $revision_html = Enbld::HTTP->get_html( $revision_site . $major );
         my $revision_list = $revision_html->parse_version(
                 quotemeta( '<a href="archives.php?p=mysql-' ) .
                 '5\.\d' .

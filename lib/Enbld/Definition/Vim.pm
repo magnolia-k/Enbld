@@ -9,6 +9,8 @@ use parent qw/Enbld::Definition/;
 
 use List::Util qw/first max/;
 
+require Enbld::HTTP;
+
 sub initialize {
     my $self = shift;
 
@@ -85,8 +87,7 @@ sub set_patchfiles {
 sub _search_major_version {
     my $attributes = shift;
 
-    require Enbld::HTTP;
-    my $html = Enbld::HTTP->new( $attributes->IndexSite )->get_html;
+    my $html = Enbld::HTTP->get_html( $attributes->IndexSite );
     my $list = $html->parse_version( '<a href="vim-7\.\d\.tar\.bz2">', '7\.\d');
 
     unless ( @{ $list } ) {
@@ -116,13 +117,12 @@ sub _search_patchfiles {
     my $major = shift;
 
     my $url = 'http://ftp.vim.org/pub/vim/patches/';
-    require Enbld::HTTP;
-    my $html_list = Enbld::HTTP->new( $url )->get_html;
+    my $html_list = Enbld::HTTP->get_html( $url );
     my $dir_list = $html_list->parse_version( '<a href="7\.\d/">', $major );
 
     return unless ( $dir_list );
 
-    my $html_patchfiles = Enbld::HTTP->new( $url . $major )->get_html;
+    my $html_patchfiles = Enbld::HTTP->get_html( $url . $major );
     my $patchfiles = $html_patchfiles->parse_version(
             '<a href="7\.\d\.\d{3,4}">',
             $attributes->VersionForm
@@ -143,8 +143,7 @@ sub set_versionlist {
     my $versionlist;
 
     # search major version number
-    require Enbld::HTTP;
-    my $html = Enbld::HTTP->new( $attributes->IndexSite )->get_html;
+    my $html = Enbld::HTTP->get_html( $attributes->IndexSite );
     my $list = $html->parse_version( '<a href="vim-7\.\d\.tar\.bz2">', '7\.\d');
 
     push @{ $versionlist }, @{ $list };

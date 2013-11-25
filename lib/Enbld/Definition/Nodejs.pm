@@ -31,7 +31,7 @@ sub set_versionlist {
     my $attributes = shift;
 
     require Enbld::HTTP;
-    my $html = Enbld::HTTP->new( $attributes->IndexSite )->get_html;
+    my $html = Enbld::HTTP->get_html( $attributes->IndexSite );
 
     my $list = $html->parse_version(
             quotemeta( '<a href="') .

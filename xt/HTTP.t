@@ -5,6 +5,10 @@ use warnings;
 
 use Test::More;
 
+if ( ! $ENV{PERL_ENBLD_TEST} ) {
+    plan skip_all => "Skip all HTTP request test.";
+}
+
 require_ok( 'Enbld::HTTP' );
 
 use File::Spec;
@@ -17,48 +21,19 @@ my $url_archivefile     = 'http://cpan.perl.org/authors/';
 my $path_archivefile    = File::Spec->catfile( $dir, '01mailrc.txt.gz' );
 
 my $url_site    = 'http://cpan.perl.org';
-my $url_invalid = 'ftp://www.example.com';
-
-eval { Enbld::HTTP->new( $url_invalid ) };
-like( $@, qr/ABORT:'$url_invalid' isn't valid URL string/, 'invalid URL' );
-
-SKIP: {
-          skip "Skip HTTP client test because none of test env.",
-               8 unless ( $ENV{PERL_ENBLD_TEST} );
 
 # download
-          my $http_archivefile = Enbld::HTTP->new( $url_archivefile );
-          my $downloaded = $http_archivefile->download( $path_archivefile );
-          ok( -e $downloaded, 'download file' );
+my $downloaded = Enbld::HTTP->download( $url_archivefile, $path_archivefile );
+ok( -e $downloaded, 'download file' );
 
-          my @filestat_downloaded = stat $downloaded;
+my @filestat_downloaded = stat $downloaded;
 
-          my $twice = $http_archivefile->download( $path_archivefile );
-          my @filestat_twice = stat $twice;
-          is( $filestat_downloaded[9], $filestat_twice[9], 'no downloaded' );
-
-          my $obj_archivefile =
-              $http_archivefile->download_archivefile( $path_archivefile );
-
-          isa_ok( $obj_archivefile, 'Enbld::Archivefile' );
+my $twice = Enbld::HTTP->download( $url_archivefile, $path_archivefile );
+my @filestat_twice = stat $twice;
+is( $filestat_downloaded[9], $filestat_twice[9], 'not downloaded' );
 
 # get
-          my $http_html = Enbld::HTTP->new( $url_site );
-          my $content = $http_html->get;
-          like( $content, qr/html/, 'get html' );
-          my $obj_html = $http_html->get_html;
-          isa_ok( $obj_html, 'Enbld::HTML' );
-
-# conversion attribute string
-          my $url_author = 'http://cpan.perl.org/authors/02authors.txt.gz';
-          require Enbld::Target::Attribute;
-          my $authorfile = Enbld::Target::Attribute->new( 'URL', $url_author);
-          my $path_authorfile = File::Spec->catfile( $dir, '02authors.txt.gz' );
-
-          my $http_authorfile = Enbld::HTTP->new( $authorfile->to_value );
-          my $authorfile_downloaded =
-              $http_authorfile->download( $path_authorfile );
-          ok( -e $authorfile_downloaded , 'download file by attribute obj' );
-      };
+my $content = Enbld::HTTP->get( $url_site );
+like( $content, qr/The Comprehensive Perl Archive Network/, 'get html' );
 
 done_testing();

@@ -6,44 +6,23 @@ use warnings;
 use File::Spec;
 use Carp;
 
+use LWP::UserAgent;
+
+our $ua;
+our $download_hook;
+our $get_hook;
+
+require Enbld::Message;
 require Enbld::Error;
 require Enbld::Exception;
-require Enbld::Message;
 
-our $get_hook;
-our $download_hook;
-
-our $client;
-
-my $curl = `which curl`;
-my $wget = `which wget`;
-
-if ( $wget ) {
-	$client = $wget;
-} elsif ( $curl ) {
-	$client = $curl;
-} else {
-	croak "You must install wget or curl";
-}
-
-sub new {
-    my ( $class, $url ) = @_;
-
-    my $pattern = q{s?https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+};
-
-    if ( $url !~ /^$pattern$/ ) {
-        croak( Enbld::Exception->new( "'$url' isn't valid URL string" ));
-    }
-
-    my $self = {
-        url =>  $url,
-    };
-
-    return bless $self, $class;
+sub initialize_ua {
+    $ua = LWP::UserAgent->new;
+    $ua->env_proxy;
 }
 
 sub download {
-    my ( $self, $path ) = @_;
+    my ( $pkg, $url, $path ) = @_;
 
     my ( undef, undef, $file ) = File::Spec->splitpath( $path );
 
@@ -53,76 +32,60 @@ sub download {
         return $path;
     }
 
+    # for debug hook
     if ( $download_hook ) {
-        $download_hook->( $self, $path );
+        $download_hook->( $pkg, $url, $path );
         return $path;
     }
 
-    Enbld::Message->notify( "--> Download '$file' from '$self->{url}'." );
+    Enbld::Message->notify( "--> Download '$file' from '$url'." );
 
-	if ( $client =~ /wget/ ) {
-		system( 'wget', $self->{url}, '-O', $path, '-q' );
-	} else {
-	    system( 'curl', '-L', $self->{url}, '-o', $path, '-s', '-f' );
-	}
+    initialize_ua() unless $ua;
+    my $res = $ua->mirror( $url, $path );
 
-    return $path unless $?;
-
-    if ( -e $path ) {
-        unlink $path;
+    if ( ! $res->is_success ) {
+        die Enbld::Error->new( $res->status_line );
     }
 
-    if ( $? == -1 ) {
-        die( Enbld::Error->new( "Failed to execute http client:$client" ));
-    } elsif ( $? & 127 ) {
-        my $err = "Http client died with signal.";
-        die( Enbld::Error->new( $err ));
-    } else {
-        my $err = 'Download request returns error:';
-        die( Enbld::Error->new( $err . ( $? >> 8 ) ));
-    }
+    return $path;
 }
 
 sub download_archivefile {
-    my ( $self, $path ) = @_;
+    my ( $pkg, $url, $path ) = @_;
 
-    my $downloaded = $self->download( $path );
+    my $downloaded = Enbld::HTTP->download( $url, $path );
 
     require Enbld::Archivefile;
     return Enbld::Archivefile->new( $downloaded );
 }
 
 sub get {
-    my $self = shift;
+    my ( $pkg, $url ) = @_;
 
     if ( $get_hook ) {
-        return $get_hook->( $self );
+        return $get_hook->( $pkg, $url );
     }
 
-	my $res;
+    initialize_ua() unless $ua;
+    my $res = $ua->get( $url );
 
-	if ( $client eq 'wget' ) {
-		$res = `wget $self->{url} -q -O -`;
-	} else {
-	    $res = `curl -s -f --compressed -L $self->{url}`;
-	}
-
-    if ( $? >> 8 ) {
-        my $err = 'HTTP get request returns error:';
-        die( Enbld::Error->new( $err . ( $? >> 8) ));
+    if ( ! $res->is_success ) {
+        die Enbld::Error->new( $res->status_line );
     }
 
-    return $res;
+    return $res->decoded_content;
 }
 
 sub get_html {
-    my $self = shift;
+    my ( $pkg, $url ) = @_;
 
-    my $content = $self->get;
+    my $content = Enbld::HTTP->get( $url );
 
     require Enbld::HTML;
     return Enbld::HTML->new( $content );
 }
+
+# For debug methods.
 
 sub register_get_hook {
     my ( $pkg, $coderef ) = @_;

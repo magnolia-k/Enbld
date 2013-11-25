@@ -134,14 +134,14 @@ sub do_load {
     require Enbld::HTTP;
     my $temp  = File::Temp->newdir;
     my $path  = File::Spec->catfile( $temp, $self->{filename} );
-    Enbld::HTTP->new( $self->{url} )->download( $path );
+    my $downloaded = Enbld::HTTP->download( $self->{url}, $path );
     
-    unless ( -f -T $path )  {
+    unless ( -f -T $downloaded )  {
        _err( "Configuration file '$self->{filename}' isn't text file." ); 
     }
 
     if ( $self->{contents} ) {
-        open my $temphandle, '>>', $path;
+        open my $temphandle, '>>', $downloaded;
         print $temphandle $self->{contents};
         close $temphandle;
     }

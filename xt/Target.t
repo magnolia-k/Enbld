@@ -540,7 +540,7 @@ sub set_http_hook {
 }
 
 sub download_hook {
-    my ( $self, $path ) = @_;
+    my ( $pkg, $url, $path ) = @_;
 
     my ( undef, undef, $file ) = File::Spec->splitpath( $path );
 

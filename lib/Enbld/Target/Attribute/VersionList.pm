@@ -17,7 +17,7 @@ sub initialize {
             my $attributes = shift;
 
             require Enbld::HTTP;
-            my $html = Enbld::HTTP->new( $attributes->IndexSite )->get_html;
+            my $html = Enbld::HTTP->get_html( $attributes->IndexSite );
             my $list = $html->parse_version(
                     $attributes->IndexParserForm,
                     $attributes->VersionForm
