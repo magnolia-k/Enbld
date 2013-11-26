@@ -301,6 +301,7 @@ subtest 'conf copy' => sub {
             command     => 'copy',
             contents    => 'additional string',
             directory   => $destination_dir,
+            source      => $path,
             },
             'serialized' );
 
