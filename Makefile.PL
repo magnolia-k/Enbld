@@ -13,7 +13,11 @@ WriteMakefile(
     LICENSE          => 'perl',
     MIN_PERL_VERSION => 5.012,
     CONFIGURE_REQUIRES => {
-        'ExtUtils::MakeMaker' => 6.56,
+        'ExtUtils::MakeMaker' => 6.82,
+    },
+
+    TEST_REQUIRES => {
+        'Test::Output'  => 0,
     },
 
     "EXE_FILES" => [

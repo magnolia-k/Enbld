@@ -4,16 +4,12 @@ use 5.012;
 use warnings;
 
 use Test::More;
+use Test::Output;
 
 use File::Temp;
 use autodie;
 
 require Enbld::Logger;
-
-use Module::Load::Conditional qw/can_load/;
-
-can_load( modules => { 'Test::Output' => undef } ) or
-    plan skip_all => "Test::Output are required";
 
 require_ok( 'Enbld::Message' );
 
