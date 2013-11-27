@@ -1,5 +1,16 @@
 Revision history for Enbld.
 
+0.7020 2013/11/28
+        [Bug Fix]
+        - 'freeze' command displays correct DSL.
+
+        [New Definition]
+        - openssl for installation Ruby.
+
+        [Refactoring]
+        - It changes so that a CPAN module may be used as much as possible. 
+          A dependence module is indicated to Makefile.PL and cpanfile. 
+
 0.7019 2013/10/22
         - re-packing
         - fix .gitignore
