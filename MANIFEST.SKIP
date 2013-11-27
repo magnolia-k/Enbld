@@ -67,3 +67,8 @@
 
 # Avoid archives of this distribution
 \bEnbld-[\d\.\_]+
+
+# Avoid carton files
+\blocal\b
+^cpanfile
+^cpanfile\.snapshot
