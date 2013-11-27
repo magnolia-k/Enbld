@@ -5,7 +5,7 @@ use warnings;
 
 use parent qw/Enbld::Command/;
 
-use Enbld::Catchme;
+use Try::Lite;
 
 require Enbld::Home;
 require Enbld::App::Configuration;
@@ -24,12 +24,13 @@ sub do {
     my $config = Enbld::App::Configuration->search_config( $target_name );
     my $target = Enbld::Target->new( $target_name, $config );
 
-    my $offed = eval { $target->off };
-
-	catchme 'Enbld::Error' => sub {
+    my $offed = try {
+        return $target->off;
+    } ( 'Enbld::Error' => sub {
         Enbld::Message->notify( $@ );
         return;
-	};
+        }
+      );
 
     if ( $offed ) {
         Enbld::App::Configuration->set_config( $offed );

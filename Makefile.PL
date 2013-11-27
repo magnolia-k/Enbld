@@ -31,6 +31,7 @@ WriteMakefile(
         'LWP'                   => 0,
         'LWP::Protocol::https'  => 0,
         'Mozilla::CA'           => 0,
+        'Try::Lite'             => 0,
     },
 
 	META_MERGE		=> {

@@ -3,10 +3,11 @@ package Enbld;
 use 5.012;
 use warnings;
 
+our $VERSION = '0.7019';
+
 use FindBin qw/$Script/;
 use Getopt::Long;
-
-our $VERSION = '0.7019';
+use Try::Lite;
 
 require Exporter;
 our @ISA    = qw(Exporter);
@@ -28,8 +29,6 @@ our @EXPORT = qw/
     to
     content
 /;
-
-use Enbld::Catchme;
 
 require Enbld::App::Configuration;
 require Enbld::Logger;
@@ -116,25 +115,20 @@ sub build_target {
 
     my $target = Enbld::Target->new( $name, $config );
 
-    my $installed;
-    eval {
-        if ( Enbld::Feature->is_deploy_mode ) {
-            $installed = $target->deploy_declared( \%target_collection );
-        } else {
-            $installed = $target->install_declared( \%target_collection );
-        }
-    };
-
-	catchme 'Enbld::Error' => sub {
+    my $installed = try {
+        return Enbld::Feature->is_deploy_mode ?
+            $target->deploy_declared( \%target_collection ) :
+            $target->install_declared( \%target_collection );
+    } ( 'Enbld::Error' => sub {
         Enbld::Message->alert( $@ );
 
-        print "\n";
-        print "Please check build logile:" . Enbld::Logger->logfile . "\n";
+        say "\n" . "Please check build logile:" . Enbld::Logger->logfile;
 
         $target_result{$name} = $name . ' is failure to build.';
 
         return;
-    };
+        }
+      );
 
     # Target is installed.
     if ( $installed ) {
@@ -327,23 +321,19 @@ sub conf($$) {
 sub do_rcfile {
     my $rcfile = shift;
 
-    my $result;
-    eval {
-        $result = $rcfile->do;
-    };
-
-    # Catch exception.
-	catchme 'Enbld::Error' => sub {
+    my $result = try {
+        return $rcfile->do;
+    } ( 'Enbld::Error' => sub {
         Enbld::Message->alert( $@ );
 
-        print "\n";
-        print "Please check build logile:" . Enbld::Logger->logfile . "\n";
+        say "\n" . "Please check build logile:" . Enbld::Logger->logfile;
 
         $rcfile_result{$rcfile->filepath} =
             $rcfile->filepath . ' is failure to create.';
 
         return;
-    };
+        }
+      );
 
     # Configuration file is loaded or set.
     if ( $result ) {

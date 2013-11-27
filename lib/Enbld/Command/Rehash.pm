@@ -5,7 +5,7 @@ use warnings;
 
 use parent qw/Enbld::Command/;
 
-use Enbld::Catchme;
+use Try::Lite;
 
 require Enbld::Home;
 require Enbld::Error;
@@ -23,12 +23,12 @@ sub do {
     my $config = Enbld::App::Configuration->search_config( $target_name );
     my $target = Enbld::Target->new( $target_name, $config );
 
-    eval { $target->rehash };
-
-	catchme 'Enbld::Error' => sub {
-        Enbld::Message->alert( $@ );
-        return;
-	};
+    try { $target->rehash } (
+            'Enbld::Error' => sub {
+            Enbld::Message->alert( $@ );
+            return;
+            }
+            );
 
     return $target_name;
 }

@@ -5,7 +5,7 @@ use warnings;
 
 use parent qw/Enbld::Command/;
 
-use Enbld::Catchme;
+use Try::Lite;
 
 require Enbld::Feature;
 require Enbld::Home;
@@ -40,14 +40,15 @@ sub do {
             $name   =>  $config->condition( $config->enabled ),
         };
 
-        my $installed = eval { $target->deploy_declared( $condition ) };
-
-		catchme 'Enbld::Error' => sub {
+        my $installed = try {
+            return $target->deploy_declared( $condition );
+        } ( 'Enbld::Error' => sub {
             Enbld::Message->alert( $@ );
             say "Please check build logile:" . Enbld::Logger->logfile;
 
             return;
-		};
+            }
+          );
 
         # installed
         if ( $installed ) {

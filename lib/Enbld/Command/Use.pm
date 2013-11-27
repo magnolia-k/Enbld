@@ -5,7 +5,7 @@ use warnings;
 
 use parent qw/Enbld::Command/;
 
-use Enbld::Catchme;
+use Try::Lite;
 
 require Enbld::Home;
 require Enbld::Error;
@@ -28,12 +28,13 @@ sub do {
     my $config = Enbld::App::Configuration->search_config( $target_name );
     my $target = Enbld::Target->new( $target_name, $config );
 
-    my $used = eval { $target->use( $target_version ) };
-
-	catchme 'Enbld::Error' => sub {
+    my $used = try {
+        return $target->use( $target_version );
+    } ( 'Enbld::Error' => sub {
         Enbld::Message->alert( $@ );
         return;
-	};
+        }
+      );
 
     if ( $used ) {
         Enbld::App::Configuration->set_config( $used );
