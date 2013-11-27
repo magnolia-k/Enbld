@@ -25,8 +25,6 @@ subtest 'getter method' => sub {
 
     is( $config->condition->version, '1.1', 'version condition no param' );
     is( $config->condition( '1.0' )->version, '1.0', 'sepecific version' );
-
-    done_testing();
 };
 
 subtest 'condition method' => sub {
@@ -37,8 +35,6 @@ subtest 'condition method' => sub {
         $config->set_enabled( '1.0', $condition );
 
         is( $config->condition( '1.0' )->version, 'latest', 'version' );
-
-        done_testing();
     };
 
     subtest 'not set parameter' => sub {
@@ -48,8 +44,6 @@ subtest 'condition method' => sub {
         $config->set_enabled( '1.0', $condition );
 
         is( $config->condition->version, 'latest', 'version' );
-
-        done_testing();
     };
 
     subtest 'not exists' => sub {
@@ -59,15 +53,10 @@ subtest 'condition method' => sub {
         $config->set_enabled( '1.0', $condition );
 
         is( $config->condition( '1.1' ), undef, 'not exists');
-
-        done_testing();
     };
-
-    done_testing();
 };
 
 subtest 'set enabled method' => sub {
-
     my $config = Enbld::Config->new( name =>  'app' );
     is( $config->enabled, undef, 'not enabled yet' );
 
@@ -75,23 +64,17 @@ subtest 'set enabled method' => sub {
     is( $config->set_enabled( '1.0', $condition ), '1.0', 'set enabled' );
     is( $config->enabled, '1.0', 'enabled' );
     is( $config->is_installed_version( '1.0' ), '1.0', 'installed' );
-
-    done_testing();
 };
 
 subtest 'is installed version method' => sub {
     subtest 'no param' => sub {
         my $config = Enbld::Config->new( name => 'app' );
         is( $config->is_installed_version, undef, 'no param' );
-
-        done_testing();
     };
 
     subtest 'not enabled yet' => sub {
         my $config = Enbld::Config->new( name => 'app' );
         is( $config->is_installed_version( '1.0' ), undef, 'not enabled yet' );
-
-        done_testing();
     };
 
     subtest 'installed' => sub {
@@ -100,8 +83,6 @@ subtest 'is installed version method' => sub {
         $config->set_enabled( '1.0', $condition );
 
         is( $config->is_installed_version( '1.0' ), '1.0', 'installed' );
-
-        done_testing();
     };
 
     subtest 'not installed' => sub {
@@ -110,15 +91,10 @@ subtest 'is installed version method' => sub {
         $config->set_enabled( '1.0', $condition );
 
         is( $config->is_installed_version( '1.1' ), undef, 'not installed' );
-
-        done_testing();
     };
-
-    done_testing();
 };
 
 subtest 'DSL' => sub {
-
     my $config = Enbld::Config->new( name => 'app' );
 
     my $condition = Enbld::Condition->new;
@@ -150,8 +126,6 @@ subtest 'DSL' => sub {
 
     like( $modules_DSL->[3], qr/module_a/, 'module condition first' );
     like( $modules_DSL->[4], qr/module_b/, 'module condition second' );
-
-    done_testing();
 };
 
 done_testing();

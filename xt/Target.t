@@ -11,14 +11,14 @@ use FindBin;
 use lib "$FindBin::Bin/./testlib/";
 
 use Test::More;
+use Test::Exception;
 
 require_ok( 'Enbld::Target' );
 
 subtest 'constructor' => sub {
-    eval { Enbld::Target->new( 'noname' ) };
-    like( $@, qr/ERROR:no definition for target 'noname'/, 'no definition' );
-
-    done_testing();
+    throws_ok {
+        Enbld::Target->new( 'noname' );
+    } qr/ERROR:no definition for target 'noname'/, 'no definition';
 };
 
 set_http_hook(); 
@@ -35,18 +35,17 @@ subtest "install" => sub {
         is( $config->enabled, '1.1', 'install method' );
 
         teardown();
-        done_testing();
     };
 
     subtest 'installed' => sub {
         setup();
 
         my $config = Enbld::Target->new( 'testapp' )->install;
-        eval { Enbld::Target->new( 'testapp', $config )->install };
-        like ( $@, qr/ERROR:'testapp' is already installed/, 'installed' );
+        throws_ok { 
+            Enbld::Target->new( 'testapp', $config )->install;
+        } qr/ERROR:'testapp' is already installed/, 'installed';
 
         teardown();
-        done_testing();
     };
 
     subtest 'force install' => sub {
@@ -63,7 +62,6 @@ subtest "install" => sub {
         is( $installed->enabled, '1.1', 'install twice' );
 
         teardown();
-        done_testing();
     };
 
     subtest 'install with make test' => sub {
@@ -79,7 +77,6 @@ subtest "install" => sub {
         ok( -e $path, 'make test' ) or diag( $@ );
 
         teardown();
-        done_testing();
     };
 
     subtest 'install without make test' => sub {
@@ -95,8 +92,6 @@ subtest "install" => sub {
         ok( ! -e $path, 'not make test' );
 
         teardown();
-
-        done_testing();
     };
 
     subtest 'install deploy' => sub {
@@ -114,28 +109,20 @@ subtest "install" => sub {
         ok( -e $app, 'deploy' );
 
         teardown();
-
-        done_testing();
     };
 
 
     subtest 'fail to install' => sub {
         setup();
 
-        eval {
+        throws_ok {
             Enbld::Target->new( 'brokenapp' )->install;
-        };
-
-        like( $@, qr/make/, 'fail to install' );
+        } qr/make/, 'fail to install';
 
         teardown();
 
         $? = 0;
-
-        done_testing();
     };
-
-    done_testing();
 };
 
 subtest 'install dependant' => sub {
@@ -153,7 +140,6 @@ subtest 'install dependant' => sub {
         is( $config->enabled, '1.1', 'dependency enabled' );
 
         teardown();
-        done_testing();
     };
 
     subtest 'not install dependency' => sub {
@@ -169,7 +155,6 @@ subtest 'install dependant' => sub {
         is( $config->enabled, '1.1', 'installed target' );
 
         teardown();
-        done_testing();
     };
 
     subtest 'install by specific condition' => sub {
@@ -190,10 +175,8 @@ subtest 'install dependant' => sub {
         is( $config->enabled, '1.0', 'target enabled' );
 
         teardown();
-        done_testing();
     };
 
-    done_testing();
 };
 
 subtest 'install declared' => sub {
@@ -223,8 +206,6 @@ subtest 'install declared' => sub {
         is( $config->enabled, '1.1', 'installed' );
 
         teardown();
-
-        done_testing();
     };
 
     subtest 'force install' => sub {
@@ -247,8 +228,6 @@ subtest 'install declared' => sub {
         is( $config_twice->enabled, '1.0', 'install twice by force' );
 
         teardown();
-
-        done_testing();
     };
 
     subtest 'install deploy' => sub {
@@ -272,11 +251,7 @@ subtest 'install declared' => sub {
         ok( -e $app, 'deploy' );
 
         teardown();
-
-        done_testing();
     };
-
-    done_testing();
 };
 
 subtest 'upgrade' => sub {
@@ -284,11 +259,11 @@ subtest 'upgrade' => sub {
     subtest 'not installed' => sub {
         setup();
 
-        eval{ Enbld::Target->new( 'testapp' )->upgrade };
-        like( $@, qr/ERROR:'testapp' is not installed yet/, 'not installed' );
+        throws_ok {
+            Enbld::Target->new( 'testapp' )->upgrade
+        } qr/ERROR:'testapp' is not installed yet/, 'not installed';
 
         teardown();
-        done_testing();
     };
 
     subtest 'not upgrade' => sub {
@@ -305,12 +280,11 @@ subtest 'upgrade' => sub {
 
         $config->set_enabled( '1.1', $new );
 
-        eval{ Enbld::Target->new( 'testapp', $config )->upgrade };
-        like( $@, qr/ERROR:'testapp' is up to date/, 'not upgrade' );
+        throws_ok {
+            Enbld::Target->new( 'testapp', $config )->upgrade;
+        } qr/ERROR:'testapp' is up to date/, 'not upgrade';
 
         teardown();
-
-        done_testing();
     };
 
     subtest 'upgrade install' => sub {
@@ -331,11 +305,7 @@ subtest 'upgrade' => sub {
         is( $upgraded->enabled, '1.1', 'upgraded' );
 
         teardown();
-
-        done_testing();
     };
-
-    done_testing();
 };
 
 subtest 'is outdated' => sub {
@@ -346,8 +316,6 @@ subtest 'is outdated' => sub {
         is( $target->is_outdated, undef, 'not installed' );
 
         teardown();
-
-        done_testing();
     };
 
     subtest 'outdated' => sub {
@@ -369,8 +337,6 @@ subtest 'is outdated' => sub {
                 '1.1', 'outdated' );
 
         teardown();
-
-        done_testing();
     };
 
     subtest 'not outdated' => sub {
@@ -391,8 +357,6 @@ subtest 'is outdated' => sub {
                 undef, 'up to date' );
 
         teardown();
-
-        done_testing();
     };
 
     done_testing();
@@ -406,14 +370,12 @@ subtest 'use method' => sub {
         my $condition = Enbld::Condition->new;
         my $config = Enbld::Config->new( name => 'testapp' );
         $config->set_enabled( '1.0', $condition );
- 
-        eval{ Enbld::Target->new( 'testapp', $config )->use( '10' ) };
 
-        like( $@, qr/ERROR:'10' is not valid version form/, 'form exception' );
+        throws_ok { 
+            Enbld::Target->new( 'testapp', $config )->use( '10' );
+        } qr/ERROR:'10' is not valid version form/, 'form exception';
 
         teardown();
-
-        done_testing();
     };
 
     subtest 'current version exception' => sub {
@@ -423,13 +385,11 @@ subtest 'use method' => sub {
         my $config = Enbld::Config->new( name => 'testapp' );
         $config->set_enabled( '1.0', $condition );
 
-        eval{ Enbld::Target->new( 'testapp', $config )->use( '1.0' ) };
-
-        like( $@, qr/ERROR:'1.0' is current enabled version/, 'current' );
+        throws_ok {
+            Enbld::Target->new( 'testapp', $config )->use( '1.0' );
+        } qr/ERROR:'1.0' is current enabled version/, 'current';
 
         teardown();
-
-        done_testing();
     };
 
     subtest 'not installed yet' => sub {
@@ -439,13 +399,11 @@ subtest 'use method' => sub {
         my $config = Enbld::Config->new( name => 'testapp' );
         $config->set_enabled( '1.0', $condition );
 
-        eval{ Enbld::Target->new( 'testapp', $config )->use( '1.1' ) };
-
-        like( $@, qr/ERROR:'1.1' isn't installed yet/, 'not installed' );
+        throws_ok {
+            Enbld::Target->new( 'testapp', $config )->use( '1.1' );
+        } qr/ERROR:'1.1' isn't installed yet/, 'not installed';
 
         teardown();
-
-        done_testing();
     };
 
     subtest 'use already installed' => sub {
@@ -472,11 +430,7 @@ subtest 'use method' => sub {
         is( $config->condition->version, '1.0', 'after installed condition' );
 
         teardown();
-
-        done_testing();
     };
-
-    done_testing();
 };
 
 subtest 'off method' => sub {
@@ -488,12 +442,11 @@ subtest 'off method' => sub {
     my $offed = Enbld::Target->new( 'testapp', $config )->off;
     is( $offed->enabled, undef, 'target off' );
 
-    eval { Enbld::Target->new( 'testapp', $offed )->off };
-    like( $@, qr/ERROR:'testapp' is not installed yet/, "can't off" );
+    throws_ok {
+        Enbld::Target->new( 'testapp', $offed )->off;
+    } qr/ERROR:'testapp' is not installed yet/, "can't off";
 
     teardown();
-
-    done_testing();
 };
 
 done_testing();

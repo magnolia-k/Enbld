@@ -4,3 +4,4 @@ requires 'Mozilla::CA', '0';
 
 test_requires 'Test::More', '0.98';
 test_requires 'Test::Output', '0';
+test_requires 'Test::Exception', '0';

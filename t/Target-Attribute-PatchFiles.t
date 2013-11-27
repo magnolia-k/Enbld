@@ -4,6 +4,7 @@ use 5.012;
 use warnings;
 
 use Test::More;
+use Test::Exception;
 
 require Enbld::Target::AttributeCollector;
 
@@ -13,9 +14,10 @@ is_deeply( \@{ $no->PatchFiles }, [], 'no parameter' );
 
 my $empty_string = Enbld::Target::AttributeCollector->new;
 $empty_string->add( 'PatchFiles', '' );
-eval { $empty_string->PatchFiles };
-like( $@, qr/ABORT:Attribute 'PatchFiles' isn't ARRAY reference/,
-        'null string parameter' );
+throws_ok {
+    $empty_string->PatchFiles;
+} qr/ABORT:Attribute 'PatchFiles' isn't ARRAY reference/,
+    'null string parameter';
 
 my $empty_array = Enbld::Target::AttributeCollector->new;
 $empty_array->add( 'PatchFiles', [] );
@@ -25,9 +27,10 @@ is_deeply( \@{ $empty_array->PatchFiles }, [],
 
 my $fixed_string = Enbld::Target::AttributeCollector->new;
 $fixed_string->add( 'PatchFiles', 'http://www.example.com/patch' );
-eval { $fixed_string->PatchFiles };
-like( $@, qr/ABORT:Attribute 'PatchFiles' isn't ARRAY reference/,
-        'fixed string parameter' );
+throws_ok {
+    $fixed_string->PatchFiles;
+} qr/ABORT:Attribute 'PatchFiles' isn't ARRAY reference/,
+    'fixed string parameter';
 
 my $fixed_array = Enbld::Target::AttributeCollector->new;
 $fixed_array->add( 'PatchFiles', [ 'http://www.example.com/patch' ] );
@@ -43,8 +46,9 @@ is_deeply( \@{ $coderef->PatchFiles },
 
 my $invalid = Enbld::Target::AttributeCollector->new;
 $invalid->add( 'PatchFiles', [ 'ftp://www.example.com/patch' ] );
-eval { $invalid->PatchFiles };
-like( $@, qr/ABORT:Attribute 'PatchFiles' isn't valid URL string/,
-        'invalid parameter' );
+throws_ok {
+    $invalid->PatchFiles;
+} qr/ABORT:Attribute 'PatchFiles' isn't valid URL string/,
+    'invalid parameter';
 
 done_testing();

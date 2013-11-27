@@ -5,10 +5,6 @@ use warnings;
 
 use Test::More;
 
-if ( ! $ENV{PERL_ENBLD_TEST} ) {
-    plan skip_all => "Skip all HTTP request test.";
-}
-
 require_ok( 'Enbld::HTTP' );
 
 use File::Spec;

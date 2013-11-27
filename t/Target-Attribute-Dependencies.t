@@ -4,6 +4,7 @@ use 5.012;
 use warnings;
 
 use Test::More;
+use Test::Exception;
 
 require Enbld::Target::AttributeCollector;
 
@@ -13,9 +14,10 @@ is_deeply( \@{ $no->Dependencies }, [], 'no parameter' );
 
 my $empty_string = Enbld::Target::AttributeCollector->new;
 $empty_string->add( 'Dependencies', '' );
-eval { $empty_string->Dependencies };
-like( $@, qr/ABORT:Attribute 'Dependencies' isn't ARRAY reference/,
-        'null string parameter' );
+throws_ok {
+    $empty_string->Dependencies;
+} qr/ABORT:Attribute 'Dependencies' isn't ARRAY reference/,
+    'null string parameter';
 
 my $empty_array = Enbld::Target::AttributeCollector->new;
 $empty_array->add( 'Dependencies', [] );
@@ -25,9 +27,10 @@ is_deeply( \@{ $empty_array->Dependencies }, [],
 
 my $fixed_string = Enbld::Target::AttributeCollector->new;
 $fixed_string->add( 'Dependencies', 'dependant' );
-eval { $fixed_string->Dependencies };
-like( $@, qr/ABORT:Attribute 'Dependencies' isn't ARRAY reference/,
-        'fixed string parameter' );
+throws_ok {
+    $fixed_string->Dependencies;
+} qr/ABORT:Attribute 'Dependencies' isn't ARRAY reference/,
+    'fixed string parameter';
 
 my $fixed_array = Enbld::Target::AttributeCollector->new;
 $fixed_array->add( 'Dependencies', [ 'dependant' ] );
@@ -41,8 +44,9 @@ is_deeply( \@{ $coderef->Dependencies }, [ 'dependant' ],
 
 my $space = Enbld::Target::AttributeCollector->new;
 $space->add( 'Dependencies', [ 'de pe nd an t' ] );
-eval { $space->Dependencies };
-like( $@, qr/ABORT:Attribute 'Dependencies' includes space character/,
-        'including space' );
+throws_ok {
+    $space->Dependencies;
+} qr/ABORT:Attribute 'Dependencies' includes space character/,
+    'including space';
 
 done_testing();

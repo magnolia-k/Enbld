@@ -6,10 +6,6 @@ use warnings;
 use Test::More;
 use Test::Enbld::Definition;
 
-if ( ! $ENV{PERL_ENBLD_TEST_DEFINITION} ) {
-    plan skip_all => "Skip build test because none of test env.";
-}
-
 my @def_list = qw/
  apr aprutil apache autoconf automake cmake emacs git groff hello
  libevent libidn libtool mysql nginx nodejs pcre perl pkgconfig python

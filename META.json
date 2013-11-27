@@ -33,6 +33,12 @@
             "Mozilla::CA" : "0",
             "perl" : "5.012"
          }
+      },
+      "test" : {
+         "requires" : {
+            "Test::Exception" : "0",
+            "Test::Output" : "0"
+         }
       }
    },
    "release_status" : "stable",

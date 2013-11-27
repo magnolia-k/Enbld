@@ -34,8 +34,6 @@ SKIP: {
               
               chmod 0755, $dir;
               chdir $FindBin::Bin;
-              
-              done_testing();
           };
 
           subtest 'check write permission Enbld home' => sub {
@@ -51,8 +49,6 @@ SKIP: {
 
               chmod 0755, $dir;
               chdir $FindBin::Bin;
-
-              done_testing();
           };
       };
 
@@ -72,7 +68,6 @@ ok( -d $dir, 'build dir' );
 
 eval { Enbld::Home->invalid };
 like( $@, qr/Can't execute Enbld::Home's method/, 'invalid method' );
-
 
 subtest 'remove build directory' => sub {
 
@@ -98,8 +93,6 @@ subtest 'remove build directory' => sub {
 
 	ok( ! -d $old_dir, 'old build directory disappears' );
 	ok( -d $new_dir,   'new build directory exists' );
-
-	done_testing();
 };
 
 subtest 'set deploy path' => sub {
@@ -108,8 +101,7 @@ subtest 'set deploy path' => sub {
 
 	Enbld::Home->initialize;
     is( Enbld::Home->library, Enbld::Home->home, 'library path is home' );
-    is( Enbld::Home->install_path, Enbld::Home->home,
-            'install path is home' );
+    is( Enbld::Home->install_path, Enbld::Home->home, 'install path is home' );
 
 
 	local $ENV{PERL_ENBLD_HOME} = File::Temp->newdir;
@@ -123,9 +115,6 @@ subtest 'set deploy path' => sub {
     is( Enbld::Home->library, $deploy_path, 'library path is deploy path' );
     is( Enbld::Home->install_path, Enbld::Home->deploy_path,
             'install path is deploy path' );
-
-
-    done_testing();
 };
 
 done_testing();

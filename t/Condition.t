@@ -11,32 +11,22 @@ subtest 'getter method' => sub {
     subtest 'set version' => sub {
         my $condition = Enbld::Condition->new( version => '1.0' );
         is( $condition->version, '1.0', 'version' );
-
-        done_testing();
     };
 
     subtest 'no version' => sub {
         my $condition = Enbld::Condition->new;
         is( $condition->version, 'latest', 'version' );
-
-        done_testing();
     };
 
     subtest 'set make_test' => sub {
         my $condition = Enbld::Condition->new( make_test => 1 );
         is( $condition->make_test, 1, 'make test' );
-
-        done_testing();
     };
 
     subtest 'no make_test' => sub {
         my $condition = Enbld::Condition->new;
         is( $condition->make_test, undef, 'no make test' );
-
-        done_testing();
     };
-
-    done_testing();
 };
 
 subtest 'serialize' => sub {
@@ -48,8 +38,6 @@ subtest 'serialize' => sub {
                 $condition->serialize, { version => 'latest', make_test => 1 },
                 'serialized version'
                 );
-
-        done_testing();
     };
 
     subtest 'not defined serialize' => sub {
@@ -59,8 +47,6 @@ subtest 'serialize' => sub {
                 $condition->serialize, { version => 'latest' },
                 'serialized version'
                 );
-
-        done_testing();
     };
 
     subtest 'modules serialize' => sub {
@@ -79,11 +65,8 @@ subtest 'serialize' => sub {
                 }},
                 'serialized modules'
                 );
-
-        done_testing();
     };
 
-    done_testing();
 };
 
 subtest 'is_equal_to method' => sub {
@@ -99,11 +82,9 @@ subtest 'is_equal_to method' => sub {
         is( $condition->is_equal_to( $param_diff ), undef,
                 'different version' );
 
-        done_testing();
     };
 
     subtest 'make_test check' => sub {
-
         my $condition = Enbld::Condition->new( make_test => 1 );
         my $param     = Enbld::Condition->new( make_test => 1 );
 
@@ -118,12 +99,9 @@ subtest 'is_equal_to method' => sub {
 
         is( $condition_diff->is_equal_to( $param ), undef,
                 'different not equal pattern' );
-
-        done_testing();
     };
 
     subtest 'modules check' => sub {
-
         my $condition = Enbld::Condition->new( modules => { module => 0 } );
         my $param     = Enbld::Condition->new( modules => { module => 0 } );
 
@@ -145,11 +123,7 @@ subtest 'is_equal_to method' => sub {
 
         is( $condition->is_equal_to( $param_diff_but_modules ), undef,
                 'different module condition' );
-
-        done_testing();
     };
-
-    done_testing();
 };
 
 done_testing();

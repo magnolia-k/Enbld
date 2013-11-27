@@ -17,7 +17,8 @@ WriteMakefile(
     },
 
     TEST_REQUIRES => {
-        'Test::Output'  => 0,
+        'Test::Output'      => 0,
+        'Test::Exception'   => 0,
     },
 
     "EXE_FILES" => [

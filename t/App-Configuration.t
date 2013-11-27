@@ -19,8 +19,6 @@ subtest 'envname' => sub {
     is( $envname, 'myenv', 'env name' );
 
     Enbld::App::Configuration->destroy;
-
-    done_testing();
 };
 
 subtest 'no write configuration file' => sub {
@@ -42,8 +40,6 @@ subtest 'no write configuration file' => sub {
     Enbld::App::Configuration->write_file;
 
     ok( ! -e $conf, 'not write configuration file - deploy mode' );
-
-    done_testing();
 };
 
 subtest 'write and read config to configuration file' => sub {
@@ -77,8 +73,6 @@ subtest 'write and read config to configuration file' => sub {
     is( $read_config->enabled, '1.0', 'read configure - enabled' );
 
     Enbld::App::Configuration->destroy;
-
-    done_testing();
 };
 
 subtest 'collection for config' => sub {
@@ -98,8 +92,6 @@ subtest 'collection for config' => sub {
         ok( exists $ref->{app}, 'config method' );
 
         Enbld::App::Configuration->destroy;
-
-        done_testing();
     };
 
     subtest 'no config' => sub {
@@ -107,11 +99,7 @@ subtest 'collection for config' => sub {
         is( $config, undef, 'no config' );
 
         Enbld::App::Configuration->destroy;
-
-        done_testing();
     };
-
-    done_testing();
 };
 
 
@@ -144,8 +132,6 @@ subtest 'write and read rcfile to configuration file' => sub {
     is( $read->filename, '.Enbldrc', 'read rcfile - filename' );
 
     Enbld::App::Configuration->destroy;
-
-    done_testing();
 };
 
 subtest 'collection for rcfile method' => sub {
@@ -171,8 +157,6 @@ subtest 'collection for rcfile method' => sub {
         ok( exists $ref->{'.Enbldrc'}, 'rcfile method' );
 
         Enbld::App::Configuration->destroy;
-
-        done_testing();
     };
 
     subtest 'no config' => sub {
@@ -180,11 +164,7 @@ subtest 'collection for rcfile method' => sub {
         is( $rcfile, undef, 'no rcfile' );
 
         Enbld::App::Configuration->destroy;
-
-        done_testing();
     };
-
-    done_testing();
 };
 
 done_testing();

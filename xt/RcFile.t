@@ -8,19 +8,16 @@ use File::Temp;
 use File::Spec;
 
 use Test::More;
+use Test::Exception;
 
 require Enbld::HTTP;
 
 require_ok( 'Enbld::RcFile' );
 
 subtest 'lack of arguments' => sub {
-    eval {
+    throws_ok {
         Enbld::RcFile->new;
-    };
-
-    like( $@, qr/Configuration file's command is not specified/, 'lack of command' );
-
-    done_testing();
+    } qr/Configuration file's command is not specified/, 'lack of command';
 };
 
 subtest 'set contents - error' => sub {
@@ -29,13 +26,9 @@ subtest 'set contents - error' => sub {
             filepath  => 'rcfile.txt',
             );
 
-    eval {
+    throws_ok {
         $rcfile->do;
-    };
-
-    like( $@, qr/Configuration file's contents isn't set/, 'set error' );
-
-    done_testing();
+    } qr/Configuration file's contents isn't set/, 'set error';
 };
 
 subtest 'set contents' => sub {
@@ -80,8 +73,6 @@ subtest 'set contents' => sub {
             directory   => $dir,
             },
             'serialized' );
-
-    done_testing();
 };
 
 subtest 'set contents - digest same' => sub {
@@ -104,8 +95,6 @@ subtest 'set contents - digest same' => sub {
     my $result = $rcfile->do;
 
     is( $result, undef, 'digest is same' );
-
-    done_testing();
 };
 
 subtest 'set contents - digest different' => sub {
@@ -128,131 +117,114 @@ subtest 'set contents - digest different' => sub {
     my $result = $rcfile->do;
 
     isnt( $result, undef, 'digest is diffrence' );
-
-    done_testing();
 };
 
-SKIP: {
-          skip "Skip RcFile test because none of test env.",
-               4 unless ( $ENV{PERL_ENBLD_TEST} );
+subtest 'load conf' => sub {
+    my $dir = File::Temp->newdir;
+    my $filepath = '.vimrc';
+    my $fullpath = File::Spec->catfile( $dir, $filepath );
+    my $url = 'https://raw.github.com/magnolia-k/vimrc/master/.vimrc';
 
-          subtest 'load conf' => sub {
-              my $dir = File::Temp->newdir;
-              my $filepath = '.vimrc';
-              my $fullpath = File::Spec->catfile( $dir, $filepath );
-              my $url = 'https://raw.github.com/magnolia-k/vimrc/master/.vimrc';
+    my $rcfile = Enbld::RcFile->new(
+          filepath  =>  $filepath,
+          directory =>  $dir,
+          url       =>  $url,
+          command   =>  'load',
+          );
 
-              my $rcfile = Enbld::RcFile->new(
-                      filepath  =>  $filepath,
-                      directory =>  $dir,
-                      url       =>  $url,
-                      command   =>  'load',
-                      );
-              
-              is( $rcfile->do, $filepath, 'set rcfile' );
-              ok( -e $fullpath, 'create rc file' );
-              
-              open my $fh, '<', $fullpath;
-              my $content = do { local $/; <$fh> };
-              close $fh;
-              
-              like( $content, qr/syntax on/, 'contents' );
+    is( $rcfile->do, $filepath, 'set rcfile' );
+    ok( -e $fullpath, 'create rc file' );
 
-              my $DSLed = $rcfile->DSL;
+    open my $fh, '<', $fullpath;
+    my $content = do { local $/; <$fh> };
+    close $fh;
 
-              like( $DSLed->[0], qr/load/, 'DSL' );
-              
-              my $serialized = $rcfile->serialize;
+    like( $content, qr/syntax on/, 'contents' );
 
-              is( $serialized->{filepath},  $filepath, 'filepath'  );
-              is( $serialized->{command},   'load',    'command'   );
-              is( $serialized->{directory}, $dir,      'directory' );
-              is( $serialized->{contents},  undef,     'contents'  );
+    my $DSLed = $rcfile->DSL;
 
-              done_testing();
-          };
+    like( $DSLed->[0], qr/load/, 'DSL' );
 
-          subtest 'load and set conf' => sub {
-              my $dir = File::Temp->newdir;
-              my $filepath = '.vimrc';
-              my $fullpath = File::Spec->catfile( $dir, $filepath );
-              my $url = 'https://raw.github.com/magnolia-k/vimrc/master/.vimrc';
+    my $serialized = $rcfile->serialize;
 
-              my $rcfile = Enbld::RcFile->new(
-                      filepath  =>  $filepath,
-                      directory =>  $dir,
-                      url       =>  $url,
-                      contents  =>  'contents',
-                      command   =>  'load',
-                      );
-              
-              is( $rcfile->do, $filepath, 'set rcfile' );
-              ok( -e $fullpath, 'create rc file' );
-              
-              open my $fh, '<', $fullpath;
-              my $content = do { local $/; <$fh> };
-              close $fh;
-              
-              like( $content, qr/content/, 'contents' );
+    is( $serialized->{filepath},  $filepath, 'filepath'  );
+    is( $serialized->{command},   'load',    'command'   );
+    is( $serialized->{directory}, $dir,      'directory' );
+    is( $serialized->{contents},  undef,     'contents'  );
+};
 
-              my $DSLed = $rcfile->DSL;
+subtest 'load and set conf' => sub {
+    my $dir = File::Temp->newdir;
+    my $filepath = '.vimrc';
+    my $fullpath = File::Spec->catfile( $dir, $filepath );
+    my $url = 'https://raw.github.com/magnolia-k/vimrc/master/.vimrc';
 
-              like( $DSLed->[0], qr/load/, 'DSL' );
+    my $rcfile = Enbld::RcFile->new(
+          filepath  =>  $filepath,
+          directory =>  $dir,
+          url       =>  $url,
+          contents  =>  'contents',
+          command   =>  'load',
+          );
 
-              my $serialized = $rcfile->serialize;
+    is( $rcfile->do, $filepath, 'set rcfile' );
+    ok( -e $fullpath, 'create rc file' );
 
-              is( $serialized->{filepath},  $filepath, 'filepath'  );
-              is( $serialized->{command},   'load',    'command'   );
-              is( $serialized->{directory}, $dir,      'directory' );
+    open my $fh, '<', $fullpath;
+    my $content = do { local $/; <$fh> };
+    close $fh;
 
-              like( $serialized->{contents}, qr/content/, 'contents' );
+    like( $content, qr/content/, 'contents' );
 
-              done_testing();
-          };
+    my $DSLed = $rcfile->DSL;
 
-          subtest 'load conf - same digest' => sub {
-              my $dir  = File::Temp->newdir;
-              my $file = '.vimrc';
-              my $url  = 'https://raw.github.com/magnolia-k/vimrc/master/.vimrc';
+    like( $DSLed->[0], qr/load/, 'DSL' );
 
-              Enbld::HTTP->download( $url, File::Spec->catfile( $dir, $file )); 
+    my $serialized = $rcfile->serialize;
 
-              my $rcfile = Enbld::RcFile->new(
-                      command   => 'load',
-                      filepath  => $file,
-                      directory => $dir,
-                      url       => $url,
-                      );
+    is( $serialized->{filepath},  $filepath, 'filepath'  );
+    is( $serialized->{command},   'load',    'command'   );
+    is( $serialized->{directory}, $dir,      'directory' );
 
-              my $result = $rcfile->do;
-              is( $result, undef, 'digest is same' );
+    like( $serialized->{contents}, qr/content/, 'contents' );
+};
 
-              done_testing();
-          };
+subtest 'load conf - same digest' => sub {
+    my $dir  = File::Temp->newdir;
+    my $file = '.vimrc';
+    my $url  = 'https://raw.github.com/magnolia-k/vimrc/master/.vimrc';
 
-          subtest 'load conf - different digest' => sub {
-              my $dir  = File::Temp->newdir;
-              my $file = '.vimrc';
-              my $url  = 'https://raw.github.com/magnolia-k/vimrc/master/.vimrc';
+    Enbld::HTTP->download( $url, File::Spec->catfile( $dir, $file )); 
 
-              Enbld::HTTP->download( $url, File::Spec->catfile( $dir, $file ));
+    my $rcfile = Enbld::RcFile->new(
+          command   => 'load',
+          filepath  => $file,
+          directory => $dir,
+          url       => $url,
+          );
 
-              my $rcfile = Enbld::RcFile->new(
-                      command   => 'load',
-                      filepath  => $file,
-                      directory => $dir,
-                      url       => $url,
-                      contents  => "additional string\n",
-                      );
+    my $result = $rcfile->do;
+    is( $result, undef, 'digest is same' );
+};
 
-              my $result = $rcfile->do;
-              isnt( $result, undef, 'digest is different' );
+subtest 'load conf - different digest' => sub {
+    my $dir  = File::Temp->newdir;
+    my $file = '.vimrc';
+    my $url  = 'https://raw.github.com/magnolia-k/vimrc/master/.vimrc';
 
-              done_testing();
-          };
+    Enbld::HTTP->download( $url, File::Spec->catfile( $dir, $file ));
 
+    my $rcfile = Enbld::RcFile->new(
+          command   => 'load',
+          filepath  => $file,
+          directory => $dir,
+          url       => $url,
+          contents  => "additional string\n",
+          );
 
-      };
+    my $result = $rcfile->do;
+    isnt( $result, undef, 'digest is different' );
+};
 
 subtest 'conf copy' => sub {
     my $source_dir      = File::Temp->newdir;
@@ -304,8 +276,6 @@ subtest 'conf copy' => sub {
             source      => $path,
             },
             'serialized' );
-
-    done_testing();
 };
 
 subtest 'conf copy - same digest' => sub {
@@ -331,8 +301,6 @@ subtest 'conf copy - same digest' => sub {
             );
 
     is( $rcfile->do, undef, 'same digest' );
-
-    done_testing();
 };
 
 subtest 'conf copy - different digest' => sub {
@@ -358,8 +326,6 @@ subtest 'conf copy - different digest' => sub {
             );
 
     isnt( $rcfile->do, undef, 'different digest' );
-
-    done_testing();
 };
 
 done_testing();

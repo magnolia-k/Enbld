@@ -4,13 +4,12 @@ use 5.012;
 use warnings;
 
 use Test::More;
+use Test::Exception;
 
 require_ok( 'Enbld::Error' );
 
-eval {
+throws_ok { 
     die Enbld::Error->new( 'error message' );
-};
-
-is( $@, "ERROR:error message\n", 'captured message' );
+} qr/ERROR:error message\n/, 'captured message';
 
 done_testing();

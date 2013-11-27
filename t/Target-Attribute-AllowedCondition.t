@@ -4,6 +4,7 @@ use 5.012;
 use warnings;
 
 use Test::More;
+use Test::Exception;
 
 require Enbld::Target::AttributeCollector;
 
@@ -25,9 +26,10 @@ is( $coderef->AllowedCondition, "development", 'coderef parameter' );
 
 my $space = Enbld::Target::AttributeCollector->new;
 $space->add( 'AllowedCondition', 'd e v e l o p m e n t' );
-eval { $space->AllowedCondition };
-like( $@, qr/ABORT:Attribute 'AllowedCondition' includes space character/,
-        'including space' );
+throws_ok {
+    $space->AllowedCondition;
+} qr/ABORT:Attribute 'AllowedCondition' includes space character/,
+    'including space';
 
 my $undef = Enbld::Target::AttributeCollector->new;
 $undef->add( 'AllowedCondition', sub { return } );
@@ -35,8 +37,9 @@ is( $undef->AllowedCondition, '', 'return undef' );
 
 my $array = Enbld::Target::AttributeCollector->new;
 $array->add( 'AllowedCondition', sub { return [ 'development' ] } );
-eval { $array->AllowedCondition };
-like( $@, qr/ABORT:Attribute 'AllowedCondition' isn't scalar value/,
-                'return array reference' );
+throws_ok {
+    $array->AllowedCondition;
+} qr/ABORT:Attribute 'AllowedCondition' isn't scalar value/,
+    'return array reference';
 
 done_testing();

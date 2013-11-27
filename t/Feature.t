@@ -4,6 +4,7 @@ use 5.012;
 use warnings;
 
 use Test::More;
+use Test::Exception;
 
 use File::Temp;
 
@@ -22,8 +23,6 @@ subtest 'no deploy' => sub {
     is( Enbld::Feature->is_current_mode,  1, 'current' );
 
     Enbld::Feature->reset;
-
-    done_testing();
 };
 
 subtest 'set deploy mode' => sub {
@@ -37,8 +36,6 @@ subtest 'set deploy mode' => sub {
     is( Enbld::Feature->deploy_path, $dir, 'deploy path' );
 
     Enbld::Feature->reset;
-
-    done_testing();
 };
 
 subtest 'set invalid deploy path' => sub {
@@ -46,13 +43,11 @@ subtest 'set invalid deploy path' => sub {
     Enbld::Feature->initialize;
 
     my $dir = 'invalid/';
-    eval { Enbld::Feature->set_deploy_mode( $dir ) };
-    like( $@, qr/ERROR:'$dir' is nonexistent/, 'set invalid deploy path' );
+    throws_ok {
+        Enbld::Feature->set_deploy_mode( $dir );
+    } qr/ERROR:'$dir' is nonexistent/, 'set invalid deploy path';
 
     Enbld::Feature->reset;
-
-    done_testing();
-
 };
 
 subtest 'set deploy path at initialization' => sub {
@@ -64,9 +59,6 @@ subtest 'set deploy path at initialization' => sub {
     is( Enbld::Feature->deploy_path, $dir, 'deploy path' );
 
     Enbld::Feature->reset;
-
-    done_testing();
-
 };
 
 SKIP: {
@@ -79,15 +71,14 @@ SKIP: {
               my $dir = File::Temp->newdir;
               chmod 0444, $dir;
 
-              eval{ Enbld::Feature->set_deploy_mode( $dir ) };
-              like( $@, qr/ERROR:no permission to write directory/,
-                      'set no write permission' );
+              throws_ok {
+                  Enbld::Feature->set_deploy_mode( $dir );
+              } qr/ERROR:no permission to write directory/,
+                      'set no write permission';
 
               chmod 0755, $dir;
               Enbld::Feature->reset;
-
-              done_testing();
-          
           };
 };
+
 done_testing();

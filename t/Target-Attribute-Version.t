@@ -9,13 +9,15 @@ use File::Temp;
 use FindBin;
 
 use Test::More;
+use Test::Exception;
 
 require Enbld::Target::AttributeCollector;
 
 my $empty = Enbld::Target::AttributeCollector->new;
 $empty->add( 'SortedVersionList' );
-eval { $empty->add( 'Version', '' ) };
-like( $@, qr/ABORT:Attribute 'Version' isn't defined/, 'empty parameter' );
+throws_ok {
+    $empty->add( 'Version', '' );
+} qr/ABORT:Attribute 'Version' isn't defined/, 'empty parameter';
 
 my $fixed = Enbld::Target::AttributeCollector->new;
 $fixed->add( 'VersionForm', '\d{1,2}\.\d{1,2}(\.\d{1,2})?' );
@@ -31,28 +33,30 @@ my $invalid = Enbld::Target::AttributeCollector->new;
 $invalid->add( 'VersionForm', '\d{1,2}\.\d{1,2}(\.\d{1,2})?' );
 $invalid->add( 'VersionCondition', undef );
 $invalid->add( 'Version', '1.13.100' );
-eval { $invalid->Version };
-like( $@, qr/NOT valid version string/, 'invalid parameter' );
+throws_ok {
+    $invalid->Version;
+} qr/NOT valid version string/, 'invalid parameter';
 
 my $space = Enbld::Target::AttributeCollector->new;
 $space->add( 'VersionForm', '\d{1,2}\.\d{1,2}(\.\d{1,2})?' );
 $space->add( 'Version', '1. 3.1' );
-eval { $space->Version };
-like( $@, qr/ABORT:Attribute 'Version' includes space character/,
-                'including space' );
+throws_ok {
+    $space->Version;
+} qr/ABORT:Attribute 'Version' includes space character/, 'including space';
 
 my $undef = Enbld::Target::AttributeCollector->new;
 $undef->add( 'VersionForm', '\d{1,2}\.\d{1,2}(\.\d{1,2})?' );
 $undef->add( 'Version', sub { return } );
-eval { $undef->Version };
-like( $@, qr/ABORT:Attribute 'Version' is empty string/, 'return undef' );
+throws_ok {
+    $undef->Version;
+} qr/ABORT:Attribute 'Version' is empty string/, 'return undef';
 
 my $array = Enbld::Target::AttributeCollector->new;
 $array->add( 'VersionForm', '\d{1,2}\.\d{1,2}(\.\d{1,2})?' );
 $array->add( 'Version', sub { return [ '1.13.1' ] } );
-eval { $array->Version };
-like( $@, qr/ABORT:Attribute 'Version' isn't scalar value/,
-                'return array reference' );
+throws_ok {
+    $array->Version;
+} qr/ABORT:Attribute 'Version' isn't scalar value/, 'return array reference';
 
 subtest 'invalid Version Condition' => sub {
     set_http_hook();
@@ -69,8 +73,9 @@ subtest 'invalid Version Condition' => sub {
     $invalid_condition->add( 'SortedVersionList' );
     $invalid_condition->add( 'Version' );
 
-    eval{ $invalid_condition->Version };
-    like( $@, qr/ERROR:Invalid Version Condition:1/, 'invalid condition' );
+    throws_ok {
+        $invalid_condition->Version;
+    } qr/ERROR:Invalid Version Condition:1/, 'invalid condition';
 
     done_testing();
 };
@@ -82,7 +87,7 @@ sub set_http_hook {
     my $html = do { local $/; <DATA> };
 
     require Enbld::HTTP;
-    Enbld::HTTP->register_get_hook( sub{ return $html } );
+    Enbld::HTTP->register_get_hook( sub { return $html } );
 }
 
 __DATA__

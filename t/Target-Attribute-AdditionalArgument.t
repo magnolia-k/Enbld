@@ -4,6 +4,7 @@ use 5.012;
 use warnings;
 
 use Test::More;
+use Test::Exception;
 
 require Enbld::Target::AttributeCollector;
 
@@ -33,8 +34,9 @@ is( $undef->AdditionalArgument, '', 'return undef' );
 
 my $array = Enbld::Target::AttributeCollector->new;
 $array->add( 'AdditionalArgument', sub { return [ 'argument' ] } );
-eval { $array->AdditionalArgument};
-like( $@, qr/ABORT:Attribute 'AdditionalArgument' isn't scalar value/,
-                'return array reference' );
+throws_ok {
+    $array->AdditionalArgument;
+} qr/ABORT:Attribute 'AdditionalArgument' isn't scalar value/,
+    'return array reference';
 
 done_testing();
