@@ -10,7 +10,7 @@ use version;
 use File::Spec;
 use File::Path qw/make_path remove_tree/;
 use File::Find;
-use File::Copy;
+use File::Copy::Recursive qw/rcopy/;
 use autodie;
 use List::Util qw/first/;
 
@@ -540,7 +540,7 @@ sub _copy_files {
     return $self unless ( my $dirs = $self->{attributes}->CopyFiles );
 
     for my $dir ( @{ $dirs } ) {
-        recursive_copy(
+        rcopy(
                 File::Spec->catdir( $self->{build},   $dir ),
                 File::Spec->catdir( $self->{install}, $dir )
                 );

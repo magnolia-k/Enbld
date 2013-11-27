@@ -32,6 +32,7 @@ WriteMakefile(
         'LWP::Protocol::https'  => 0,
         'Mozilla::CA'           => 0,
         'Try::Lite'             => 0,
+        'File::Copy::Recursive' => 0,
     },
 
 	META_MERGE		=> {
