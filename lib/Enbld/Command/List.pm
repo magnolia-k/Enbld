@@ -52,7 +52,7 @@ sub list_all_installed {
 
         print substr( $version . ' ' x 20, 0, 20 );
 
-        if ( $config->condition->annotation ) {
+        if ( $config->enabled && $config->condition->annotation ) {
             print encode( 'UTF-8', $config->condition->annotation );
         }
 
