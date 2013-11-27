@@ -29,7 +29,7 @@ sub do {
     say "";
     say 'use Enbld;';
     say "";
-    say "blend '" . Enbld::App::Configuration->envname . "' => build {";
+    say "enbld '" . Enbld::App::Configuration->envname . "' => build {";
     say "";
 
     output_targets();
