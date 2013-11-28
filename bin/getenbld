@@ -28,5 +28,4 @@ if ( $version ) {
 
 require Enbld::Message;
 Enbld::Message->set_verbose;
-my $http = Enbld::HTTP->new( $attributes->URL );
-$http->download( $attributes->Filename );
+Enbld::HTTP->download( $attributes->URL, $attributes->Filename );
