@@ -1,5 +1,9 @@
 Revision history for Enbld.
 
+0.7022 2013/11/29
+        [Bug Fix]
+        -Fix META.json
+
 0.7021 2013/11/28
         [Bug Fix]
         - Remove dependency 'libtool' from 'apache'.
