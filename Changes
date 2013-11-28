@@ -1,5 +1,11 @@
 Revision history for Enbld.
 
+0.7021 2013/11/28
+        [Bug Fix]
+        - Remove dependency 'libtool' from 'apache'.
+        - Command 'getenbld' is corrected so that it might operate correctly. 
+        - Subcommand 'enblder list' displays unenabled targets.
+
 0.7020 2013/11/28
         [Bug Fix]
         - 'freeze' command displays correct DSL.
