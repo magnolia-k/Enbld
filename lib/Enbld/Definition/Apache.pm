@@ -10,17 +10,17 @@ sub initialize {
     
     $self->SUPER::initialize;
     
-    $self->{defined}{ArchiveName}       =   'httpd';
-    $self->{defined}{WebSite}           =   'http://httpd.apache.org';
-    $self->{defined}{VersionForm}       =   '2\.\d\.\d{1,2}';
-    $self->{defined}{Extension}         =   'tar.gz';
-    $self->{defined}{DownloadSite}      =   'http://archive.apache.org/dist/httpd/';
+    $self->{defined}{ArchiveName}  = 'httpd';
+    $self->{defined}{WebSite}      = 'http://httpd.apache.org';
+    $self->{defined}{VersionForm}  = '2\.\d\.\d{1,2}';
+    $self->{defined}{Extension}    = 'tar.gz';
+    $self->{defined}{DownloadSite} = 'http://archive.apache.org/dist/httpd/';
 
-    $self->{defined}{Dependencies}      =   [ 'pcre', 'libtool', 'apr', 'aprutil' ];
+    $self->{defined}{Dependencies} = [ 'pcre', 'apr', 'aprutil' ];
 
     $self->{defined}{AdditionalArgument}=   \&set_argument;
 
-    $self->{defined}{CommandConfigure}  =   './configure CC=/usr/bin/cc CPP=/usr/bin/cpp';
+    $self->{defined}{CommandConfigure}  =   './configure';
     $self->{defined}{CommandMake}       =   'make';
     $self->{defined}{CommandTest}       =   undef;
     $self->{defined}{CommandInstall}    =   'make install';
