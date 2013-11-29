@@ -15,7 +15,7 @@ sub initialize {
     $self->SUPER::initialize;
 
     $self->{defined}{IndexSite}         =
-        'http://downloads.mysql.com/archives.php';
+        'http://downloads.mysql.com/archives/community/';
     $self->{defined}{ArchiveName}       =   'mysql';
     $self->{defined}{WebSite}           =   'http://www.mysql.com';
     $self->{defined}{VersionForm}       =   '5\.\d\.\d{1,2}';
@@ -59,35 +59,14 @@ sub set_versionlist {
 sub archived_versions {
     my $attributes = shift;
 
-    my $index_site = 'http://downloads.mysql.com/archives.php';
-
-    my $major_html = Enbld::HTTP->get_html( $index_site );
-    my $major_list = $major_html->parse_version(
-            quotemeta( '<a href="archives.php?p=mysql-' ) .
-            '5\.\d' .
-            quotemeta( '">MySQL Database Server ' ) .
-            '5\.\d' .
-            quotemeta( '</a>' ),
-            '5\.\d'
-            );
-
-    my @versionlist;
-    my $revision_site = 'http://downloads.mysql.com/archives.php?p=mysql-';
-    for my $major ( @{ $major_list } ) {
-        my $revision_html = Enbld::HTTP->get_html( $revision_site . $major );
-        my $revision_list = $revision_html->parse_version(
-                quotemeta( '<a href="archives.php?p=mysql-' ) .
-                '5\.\d' .
-                quotemeta( '&v=' ) .
-                $attributes->VersionForm .
-                quotemeta( '">' ),
-                $attributes->VersionForm,
+    my $html = Enbld::HTTP->get_html( $attributes->IndexSite );
+    my $list =
+        $html->parse_version(
+                quotemeta( '<option label="' ) . $attributes->VersionForm . '"',
+                $attributes->VersionForm
                 );
 
-        push @versionlist, @{ $revision_list };
-    }
-
-    return \@versionlist;
+    return $list;
 }
 
 sub set_url {
