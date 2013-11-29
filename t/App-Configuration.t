@@ -59,7 +59,7 @@ subtest 'write and read config to configuration file' => sub {
 
     Enbld::App::Configuration->write_file;
 
-    my $conf = File::Spec->catfile( Enbld::Home->conf, 'Enbld.conf' );
+    my $conf = File::Spec->catfile( Enbld::Home->conf, 'enbld.conf' );
     ok( -e $conf, 'write configuration file' );
     my $dummy = Enbld::Config->new( name =>  'app', enabled  =>  '1.1' );
     Enbld::App::Configuration->set_config( $dummy );
