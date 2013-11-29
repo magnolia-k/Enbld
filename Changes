@@ -1,5 +1,12 @@
 Revision history for Enbld.
 
+0.7023 2013/11/29
+        [Test Fix]
+        - t/App-Configuration.t is passed at other than Mac OS X.
+
+        [Definition]
+        - Mysql definition can analysis new archive file site.
+
 0.7022 2013/11/29
         [Bug Fix]
         -Fix META.json
