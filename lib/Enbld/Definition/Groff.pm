@@ -10,16 +10,15 @@ sub initialize {
 
     $self->SUPER::initialize;
 
-    $self->{defined}{ArchiveName}       =   'groff';
-    $self->{defined}{WebSite}           =   'http://www.gnu.org/software/groff/';
-    $self->{defined}{VersionForm}       =   '\d\.\d{1,2}(\.\d)?';
-    $self->{defined}{Extension}         =   'tar.gz';
-    $self->{defined}{DownloadSite}      =   'http://ftp.gnu.org/gnu/groff/';
+    $self->{defined}{ArchiveName}      = 'groff';
+    $self->{defined}{WebSite}          = 'http://www.gnu.org/software/groff/';
+    $self->{defined}{VersionForm}      = '\d\.\d{1,2}(\.\d)?';
+    $self->{defined}{DownloadSite}     = 'http://ftp.gnu.org/gnu/groff/';
 
-    $self->{defined}{CommandConfigure}  =   'LANG=C;./configure';
-    $self->{defined}{CommandMake}       =   'LANG=C;make';
-    $self->{defined}{CommandTest}       =   'LANG=C;make check';
-    $self->{defined}{CommandInstall}    =   'LANG=C;make install';
+    $self->{defined}{CommandConfigure} = 'LANG=C;./configure';
+    $self->{defined}{CommandMake}      = 'LANG=C;make';
+    $self->{defined}{CommandTest}      = 'LANG=C;make check';
+    $self->{defined}{CommandInstall}   = 'LANG=C;make install';
 
     return $self;
 }

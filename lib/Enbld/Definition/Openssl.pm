@@ -13,7 +13,6 @@ sub initialize {
     $self->{defined}{ArchiveName}       =   'openssl';
     $self->{defined}{WebSite}           =   'http://www.openssl.org/';
     $self->{defined}{VersionForm}       =   '\d\.\d\.\d\w?';
-    $self->{defined}{Extension}         =   'tar.gz';
     $self->{defined}{DownloadSite}      =   'http://www.openssl.org/source/';
 
     $self->{defined}{AdditionalArgument}=   \&set_argument;

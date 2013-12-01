@@ -10,16 +10,12 @@ sub initialize {
     
     $self->SUPER::initialize;
     
-    $self->{defined}{ArchiveName}       =   'apr';
-    $self->{defined}{WebSite}           =   'http://apr.apache.org';
-    $self->{defined}{VersionForm}       =   '\d\.\d\.\d{1,2}';
-    $self->{defined}{Extension}         =   'tar.gz';
-    $self->{defined}{DownloadSite}      =   'http://archive.apache.org/dist/apr/';
+    $self->{defined}{WebSite}      = 'http://apr.apache.org';
 
-    $self->{defined}{CommandConfigure}  =   './configure';
-    $self->{defined}{CommandMake}       =   'make';
-    $self->{defined}{CommandTest}       =   undef;
-    $self->{defined}{CommandInstall}    =   'make install';
+    $self->{defined}{DownloadSite} = 'http://archive.apache.org/dist/apr/';
+
+    $self->{defined}{ArchiveName}  = 'apr';
+    $self->{defined}{VersionForm}  = '\d\.\d\.\d{1,2}';
 
     return $self;
 }

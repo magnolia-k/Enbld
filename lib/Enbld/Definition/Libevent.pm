@@ -13,7 +13,6 @@ sub initialize {
     $self->{defined}{ArchiveName}       =   'libevent';
     $self->{defined}{WebSite}           =   'http://libevent.org';
     $self->{defined}{VersionForm}       =   '\d\.\d\.\d{1,2}';
-    $self->{defined}{Extension}         =   'tar.gz';
     $self->{defined}{IndexSite}         =
         'http://libevent.org/old-releases.html';
     $self->{defined}{DownloadSite}      =

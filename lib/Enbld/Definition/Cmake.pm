@@ -13,7 +13,6 @@ sub initialize {
     $self->{defined}{ArchiveName}       =   'cmake';
     $self->{defined}{WebSite}           =   'http://www.cmake.org';
     $self->{defined}{VersionForm}       =   '\d\.\d\.\d{1,2}(\.\d)?';
-    $self->{defined}{Extension}         =   'tar.gz';
     $self->{defined}{DownloadSite}      =   'http://www.cmake.org/files/';
 
     $self->{defined}{VersionList}       =   \&set_versionlist;

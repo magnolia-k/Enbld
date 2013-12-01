@@ -13,7 +13,6 @@ sub initialize {
     $self->{defined}{ArchiveName}       =   'node';
     $self->{defined}{WebSite}           =   'http://nodejs.org';
     $self->{defined}{VersionForm}       =   'v\d\.\d{1,2}\.\d{1,2}';
-    $self->{defined}{Extension}         =   'tar.gz';
     $self->{defined}{DownloadSite}      =   'http://nodejs.org/dist/';
 
     $self->{defined}{VersionList}       =   \&set_versionlist;

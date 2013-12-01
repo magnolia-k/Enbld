@@ -15,7 +15,6 @@ sub initialize {
     $self->{defined}{ArchiveName}       =   'git';
     $self->{defined}{WebSite}           =   'http://git-scm.com';
     $self->{defined}{VersionForm}       =   '1\.\d\.\d{1,2}(\.\d{1,2})?';
-    $self->{defined}{Extension}         =   'tar.gz';
     $self->{defined}{DownloadSite}      =
         'http://git-core.googlecode.com/files/';
 

@@ -19,7 +19,6 @@ sub initialize {
     $self->{defined}{ArchiveName}       =   'mysql';
     $self->{defined}{WebSite}           =   'http://www.mysql.com';
     $self->{defined}{VersionForm}       =   '5\.\d\.\d{1,2}';
-    $self->{defined}{Extension}         =   'tar.gz';
     $self->{defined}{DownloadSite}      =   'http://www.mysql.com/';
 
     $self->{defined}{Dependencies}      =   [ 'cmake' ];

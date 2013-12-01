@@ -15,7 +15,6 @@ sub initialize {
     $self->{defined}{ArchiveName}       =   'nginx';
     $self->{defined}{WebSite}           =   'http://nginx.org';
     $self->{defined}{VersionForm}       =   '1\.\d\.\d{1,2}';
-    $self->{defined}{Extension}         =   'tar.gz';
     $self->{defined}{DownloadSite}      =   'http://nginx.org/download/';
     
     $self->{defined}{AdditionalArgument}=   \&set_argument;

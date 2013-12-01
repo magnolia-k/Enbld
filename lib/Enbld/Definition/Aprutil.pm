@@ -10,20 +10,15 @@ sub initialize {
     
     $self->SUPER::initialize;
     
-    $self->{defined}{ArchiveName}       =   'apr-util';
-    $self->{defined}{WebSite}           =   'http://apr.apache.org';
-    $self->{defined}{VersionForm}       =   '\d\.\d\.\d{1,2}';
-    $self->{defined}{Extension}         =   'tar.gz';
-    $self->{defined}{DownloadSite}      =   'http://archive.apache.org/dist/apr/';
+    $self->{defined}{WebSite}       = 'http://apr.apache.org';
 
-    $self->{defined}{Dependencies}      =   [ 'apr' ];
+    $self->{defined}{DownloadSite}  = 'http://archive.apache.org/dist/apr/';
+    $self->{defined}{ArchiveName}   = 'apr-util';
+    $self->{defined}{VersionForm}   = '\d\.\d\.\d{1,2}';
 
-    $self->{defined}{AdditionalArgument}=   \&set_argument;
+    $self->{defined}{Dependencies}  = [ 'apr' ];
 
-    $self->{defined}{CommandConfigure}  =   './configure';
-    $self->{defined}{CommandMake}       =   'make';
-    $self->{defined}{CommandTest}       =   undef;
-    $self->{defined}{CommandInstall}    =   'make install';
+    $self->{defined}{AdditionalArgument} = \&set_argument;
 
     return $self;
 }
@@ -40,4 +35,3 @@ sub set_argument {
 }
 
 1;
-
