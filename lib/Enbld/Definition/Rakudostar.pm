@@ -14,17 +14,15 @@ sub initialize {
 
     $self->SUPER::initialize;
 
-    $self->{defined}{ArchiveName}           =   'rakudo-star';
-    $self->{defined}{WebSite}               =   'http://rakudo.org';
-    $self->{defined}{VersionForm}           =   '\d{4}\.\d{2}';
-    $self->{defined}{Extension}             =   'tar.gz';
-    $self->{defined}{DownloadSite}          =
-        'http://rakudo.org/downloads/star/';
+    $self->{defined}{ArchiveName}  = 'rakudo-star';
+    $self->{defined}{WebSite}      = 'http://rakudo.org';
+    $self->{defined}{VersionForm}  = '\d{4}\.\d{2}';
+    $self->{defined}{DownloadSite} = 'http://rakudo.org/downloads/star/';
 
-    $self->{defined}{CommandConfigure}  =   'perl Configure.pl --gen-parrot';
-    $self->{defined}{CommandMake}       =   'make';
-    $self->{defined}{CommandTest}       =   undef;
-    $self->{defined}{CommandInstall}    =   'make install';
+    $self->{defined}{CommandConfigure} = 'perl Configure.pl --gen-parrot';
+    $self->{defined}{CommandMake}      = 'make';
+    $self->{defined}{CommandTest}      = 'make rakudo-test';
+    $self->{defined}{CommandInstall}   = 'make install';
 
     return $self;
 }
