@@ -10,19 +10,13 @@ sub initialize {
     
     $self->SUPER::initialize;
     
-    $self->{defined}{ArchiveName}       =   'zsh';
-    $self->{defined}{WebSite}           =   'http://www.zsh.org';
-    $self->{defined}{VersionForm}       =   '\d\.\d\.\d';
-    $self->{defined}{Extension}         =   'tar.gz';
-    $self->{defined}{DownloadSite}      =   'http://sourceforge.net/projects/zsh/files/zsh/';
+    $self->{defined}{ArchiveName}     = 'zsh';
+    $self->{defined}{WebSite}         = 'http://www.zsh.org';
+    $self->{defined}{VersionForm}     = '\d\.\d\.\d';
+    $self->{defined}{DownloadSite}    = 'http://sourceforge.net/projects/zsh/files/zsh/';
 
-    $self->{defined}{IndexParserForm}   =   \&set_index_parser_form;
-    $self->{defined}{URL}               =   \&set_URL;
-
-    $self->{defined}{CommandConfigure}  =   './configure';
-    $self->{defined}{CommandMake}       =   'make';
-    $self->{defined}{CommandTest}       =   undef;
-    $self->{defined}{CommandInstall}    =   'make install';
+    $self->{defined}{IndexParserForm} = \&set_index_parser_form;
+    $self->{defined}{URL}             = \&set_URL;
 
     return $self;
 }
@@ -50,6 +44,4 @@ sub set_URL {
     return $url;
 }
 
-
 1;
-
