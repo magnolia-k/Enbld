@@ -17,7 +17,6 @@ sub initialize {
     $self->{defined}{ArchiveName}           =   'perl';
     $self->{defined}{WebSite}               =   'http://www.perl.org';
     $self->{defined}{VersionForm}           =   '5\.\d{1,2}\.\d{1,2}';
-    $self->{defined}{Extension}             =   'tar.gz';
     $self->{defined}{DistName}              =   'TMTOWTDI';
     $self->{defined}{AllowedCondition}      =   'development';
     $self->{defined}{DownloadSite}          =   'http://www.cpan.org/src/5.0/';
