@@ -16,7 +16,6 @@ sub initialize {
     $self->{defined}{ArchiveName}       =   'tmux';
     $self->{defined}{WebSite}           =   'http://tmux.sourceforge.net';
     $self->{defined}{VersionForm}       =   '\d\.\d';
-    $self->{defined}{Extension}         =   'tar.gz';
     $self->{defined}{Dependencies}      =   [ 'pkgconfig', 'libevent' ];
     $self->{defined}{DownloadSite}      =
         'http://sourceforge.net/projects/tmux/files/tmux/';
