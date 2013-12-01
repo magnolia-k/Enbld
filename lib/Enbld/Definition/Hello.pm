@@ -10,16 +10,11 @@ sub initialize {
 
     $self->SUPER::initialize;
 
-    $self->{defined}{ArchiveName}       =   'hello';
-    $self->{defined}{WebSite}           =   'http://www.gnu.org/software/hello/';
-    $self->{defined}{VersionForm}       =   '\d\.\d';
-    $self->{defined}{Extension}         =   'tar.gz';
-    $self->{defined}{DownloadSite}      =   'http://ftp.gnu.org/gnu/hello/';
+    $self->{defined}{WebSite}      = 'http://www.gnu.org/software/hello/';
 
-    $self->{defined}{CommandConfigure}  =   './configure';
-    $self->{defined}{CommandMake}       =   'make';
-    $self->{defined}{CommandTest}       =   'make check';
-    $self->{defined}{CommandInstall}    =   'make install';
+    $self->{defined}{DownloadSite} = 'http://ftp.gnu.org/gnu/hello/';
+    $self->{defined}{ArchiveName}  = 'hello';
+    $self->{defined}{VersionForm}  = '\d\.\d';
 
     return $self;
 }
