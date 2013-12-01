@@ -11,7 +11,7 @@ sub initialize {
     $self->SUPER::initialize;
 
     $self->{defined}{ArchiveName}       =   'scala';
-    $self->{defined}{WebSite}           =   'http://www.cmake.org';
+    $self->{defined}{WebSite}           =   'http://www.scala-lang.org';
     $self->{defined}{VersionForm}       =   '\d\.\d{1,2}\.\d';
     $self->{defined}{Extension}         =   'tgz';
     $self->{defined}{DownloadSite}      =   'http://www.scala-lang.org/files/archive/';
