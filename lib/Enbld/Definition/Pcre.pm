@@ -9,6 +9,7 @@ sub initialize {
     my $self = shift;
 
     $self->SUPER::initialize;
+
     $self->{defined}{IndexSite}         =
         'http://sourceforge.net/projects/pcre/files/pcre/';
  
@@ -16,17 +17,11 @@ sub initialize {
     $self->{defined}{ArchiveName}       =   'pcre';
     $self->{defined}{WebSite}           =   'http://www.pcre.org';
     $self->{defined}{VersionForm}       =   '\d\.\d{1,2}';
-    $self->{defined}{Extension}         =   'tar.gz';
     $self->{defined}{DownloadSite}      =
         'http://sourceforge.net/projects/pcre/files/pcre/';
 
     $self->{defined}{IndexParserForm}   =   \&set_index_parser_form;
     $self->{defined}{URL}               =   \&set_URL;
-
-    $self->{defined}{CommandConfigure}  =   './configure';
-    $self->{defined}{CommandMake}       =   'make';
-    $self->{defined}{CommandTest}       =   'make check';
-    $self->{defined}{CommandInstall}    =   'make install';
 
     return $self;
 }
