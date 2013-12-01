@@ -19,10 +19,10 @@ sub initialize {
     $self->{defined}{CopyFiles}         =
         [ 'bin', 'examples', 'man', 'src', 'doc', 'lib', 'misc' ];
 
-    $self->{defined}{CommandConfigure}  =   undef;
-    $self->{defined}{CommandMake}       =   undef;
-    $self->{defined}{CommandTest}       =   undef;
-    $self->{defined}{CommandInstall}    =   undef;
+    $self->{defined}{CommandConfigure}  =   '';
+    $self->{defined}{CommandMake}       =   '';
+    $self->{defined}{CommandTest}       =   '';
+    $self->{defined}{CommandInstall}    =   '';
 
     return $self;
 }

@@ -21,9 +21,9 @@ sub initialize {
 
     $self->{defined}{Prefix}            =   'prefix=';
 
-    $self->{defined}{CommandConfigure}  =   undef;
+    $self->{defined}{CommandConfigure}  =   '';
     $self->{defined}{CommandMake}       =   'make';
-    $self->{defined}{CommandTest}       =   undef;
+    $self->{defined}{CommandTest}       =   '';
     $self->{defined}{CommandInstall}    =   'make install';
 
     return $self;

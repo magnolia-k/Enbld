@@ -20,10 +20,9 @@ sub initialize {
         return $self;
     }
 
-    require Enbld::Exception;
-    croak( Enbld::Exception->new( "Attribute 'CommandInstall' isn't defined" ) );
+    # empty string is valid.
+    $self->{is_evaluated}++;
 }
-
 
 sub validate {
     my ( $self, $string ) = @_;

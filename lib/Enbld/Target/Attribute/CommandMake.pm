@@ -20,8 +20,8 @@ sub initialize {
         return $self;
     }
 
-    require Enbld::Exception;
-    croak( Enbld::Exception->new( "Attribute 'CommandMake' isn't defined" ) );
+    # empty string is valid.
+    $self->{is_evaluated}++;
 }
 
 sub validate {
