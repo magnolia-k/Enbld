@@ -572,7 +572,7 @@ Now, Enbld supports for installation below software.
  python         http://www.python.org
  rakudostar     http://rakudo.org
  ruby           https://www.ruby-lang.org
- scala          http://www.cmake.org
+ scala          http://www.scala-lang.org
  tmux           http://tmux.sourceforge.net
  tree           http://mama.indstate.edu/users/ice/tree/
  vim            http://www.vim.org
