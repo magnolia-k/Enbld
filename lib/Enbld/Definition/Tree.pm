@@ -39,3 +39,25 @@ sub set_args {
 }
 
 1;
+
+=pod
+
+=head1 NAME
+
+Enbld::Definition::Tree - definition module for Tree
+
+=head1 SEE ALSO
+
+L<Tree|http://mama.indstate.edu/users/ice/tree/>
+L<Enbld::Definition>
+
+=head1 COPYRIGHT
+
+copyright 2013- Magnolia C<< <magnolia.k@me.com> >>.
+
+=head1 LICENSE
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut

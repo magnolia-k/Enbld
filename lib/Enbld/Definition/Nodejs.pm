@@ -54,3 +54,25 @@ sub set_url {
 }
 
 1;
+
+=pod
+
+=head1 NAME
+
+Enbld::Definition::Nodejs - definition module for node.js
+
+=head1 SEE ALSO
+
+L<node.js|http://nodejs.org>
+L<Enbld::Definition>
+
+=head1 COPYRIGHT
+
+copyright 2013- Magnolia C<< <magnolia.k@me.com> >>.
+
+=head1 LICENSE
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut

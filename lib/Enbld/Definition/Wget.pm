@@ -39,3 +39,24 @@ sub set_argument {
 
 1;
 
+=pod
+
+=head1 NAME
+
+Enbld::Definition::Wget - definition module for GNU Wget
+
+=head1 SEE ALSO
+
+L<GNU Wget|http://www.gnu.org/software/wget/>
+L<Enbld::Definition>
+
+=head1 COPYRIGHT
+
+copyright 2013- Magnolia C<< <magnolia.k@me.com> >>.
+
+=head1 LICENSE
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut

@@ -41,3 +41,25 @@ sub set_index_parser_form {
 }
 
 1;
+
+=pod
+
+=head1 NAME
+
+Enbld::Definition::Git - definition module for git
+
+=head1 SEE ALSO
+
+L<git|http://git-scm.com>
+L<Enbld::Definition>
+
+=head1 COPYRIGHT
+
+copyright 2013- Magnolia C<< <magnolia.k@me.com> >>.
+
+=head1 LICENSE
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut

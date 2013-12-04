@@ -104,3 +104,48 @@ sub _is_stable {
 }
 
 1;
+
+=pod
+
+=head1 NAME
+
+Enbld::Definition::Perl - definition module for The Perl Programming Language
+
+=head1 INSTALL DEVELOPMENT VERSION
+
+Definition module for Perl supports installation for development version of perl.Set attribute 'VersionCondition' to 'development', install latest development version of perl(e.g. 5.19.1).
+
+  target 'perl' => {
+      version 'development';
+      # -> $attributes->add( 'VersionCondition', 'development' );
+  };
+
+  # -> install odd numbers version(e.g. 5.19.1)
+
+
+=head1 INSTALL MODULES
+
+Definition module for Perl supports installation for CPAN modules.
+
+  target 'perl' => {
+  	  version 'latest';
+      modules => {
+          'Carton' => 0,  # -> install Carton
+      };
+  };
+
+=head1 SEE ALSO
+
+L<The Perl Programming Language|http://www.perl.org>
+L<Enbld::Definition>
+
+=head1 COPYRIGHT
+
+copyright 2013- Magnolia C<< <magnolia.k@me.com> >>.
+
+=head1 LICENSE
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut
