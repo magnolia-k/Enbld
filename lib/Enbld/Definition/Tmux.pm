@@ -10,8 +10,6 @@ sub initialize {
 
     $self->SUPER::initialize;
 
-    $self->{defined}{IndexSite}         =
-        'http://sourceforge.net/projects/tmux/files/tmux/';
     $self->{defined}{AdditionalArgument}   =  \&set_argument;
     $self->{defined}{ArchiveName}       =   'tmux';
     $self->{defined}{WebSite}           =   'http://tmux.sourceforge.net';
@@ -60,13 +58,11 @@ sub set_index_parser_form {
 sub set_URL {
     my $attributes = shift;
 
-    my $site = 'http://sourceforge.net/projects/tmux/files/tmux/';
-
     my $dir  = $attributes->ArchiveName . '-' . $attributes->Version;
     my $file = $attributes->ArchiveName . '-' . $attributes->Version .
         '.' . $attributes->Extension;
 
-    my $url = $site . $dir . '/' . $file . '/download';
+    my $url = $attributes->DownloadSite . $dir . '/' . $file . '/download';
 
     return $url;
 }
