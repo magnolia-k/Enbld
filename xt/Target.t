@@ -117,7 +117,7 @@ subtest "install" => sub {
 
         throws_ok {
             Enbld::Target->new( 'brokenapp' )->install;
-        } qr/make/, 'fail to install';
+        } 'Enbld::Error', 'fail to install';
 
         teardown();
 
