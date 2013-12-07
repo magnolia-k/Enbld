@@ -14,8 +14,6 @@ use File::Copy::Recursive qw/rcopy/;
 use autodie;
 use List::Util qw/first/;
 
-use Enbld::Copy;
-
 require Enbld::Definition;
 require Enbld::Feature;
 require Enbld::Condition;
