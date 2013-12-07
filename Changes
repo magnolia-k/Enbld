@@ -1,5 +1,8 @@
 Revision history for Enbld.
 
+0.7025 2013/12/17
+        - Remove 'use Enbld::Copy' from Enbld::Target.
+
 0.7024 2013/12/07
         - Add pod to definition modules.
 
