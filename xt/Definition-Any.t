@@ -7,7 +7,7 @@ use Test::More;
 use Test::Enbld::Definition;
 
 my @def_list = qw/
- apr aprutil apache autoconf automake cmake emacs git groff hello
+ apache apr aprutil autoconf automake cmake emacs git groff hello
  libevent libidn libtool mysql nginx nodejs pcre perl pkgconfig python
  rakudostar ruby scala tmux tree vim wget zsh openssl/;
 
@@ -18,7 +18,6 @@ for my $def ( @def_list ) {
     Enbld::Home->initialize;
     Enbld::Home->create_build_directory;
     Enbld::Logger->rotate( Enbld::Home->log );
-
 
     my $target = Enbld::Target->new( $def );
     my $installed = eval { $target->install };
