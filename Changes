@@ -1,5 +1,8 @@
 Revision history for Enbld.
 
+0.7024 2013/12/07
+        - Add pod to definition modules.
+
 0.7023 2013/11/29
         [Test Fix]
         - t/App-Configuration.t is passed at other than Mac OS X.
