@@ -123,6 +123,8 @@ Returns a new attributes collector for target software.
 
 The return value is a Enbld::Target::AttributeCollector object.
 
+=back
+
 =head1 COPYRIGHT
 
 copyright 2013- Magnolia C<< <magnolia.k@me.com> >>.
@@ -131,6 +133,5 @@ copyright 2013- Magnolia C<< <magnolia.k@me.com> >>.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
-
 
 =cut
