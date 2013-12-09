@@ -50,6 +50,8 @@ sub output_targets {
     foreach my $name ( sort keys %{ Enbld::App::Configuration->config } ) {
         my $config = Enbld::App::Configuration->search_config( $name );
 
+        next unless $config->enabled;
+
         my $lines = $config->DSL;
 
         foreach my $line ( @{ $lines } ) {
