@@ -121,6 +121,8 @@ sub _delete_old_build_directory {
 	$limit -= ONE_MONTH;
 
 	foreach my $build_dir ( @list ) {
+        next if ( $build_dir !~ /\d{10}/ ); # for skip .DS_Store
+
 		if ( $limit->epoch > $build_dir ) {
 			remove_tree( File::Spec->catdir( $dirs->{build}, $build_dir ) );
 		}

@@ -10,13 +10,13 @@ use File::Temp;
 use Time::Piece;
 use Time::Seconds;
 use File::Path qw/make_path/;
+use autodie;
 
 require_ok( 'Enbld::Home' );
 require Enbld::Feature;
 
 eval { Enbld::Home->home };
-like( $@, qr/ABORT:Not initialized Enbld home's path yet./,
-          'not initialized' );
+like( $@, qr/ABORT:Not initialized Enbld home's path yet./, 'not initialized' );
 
 SKIP: {
           skip "skip ... in root user", 2 unless ( $> );
@@ -86,6 +86,12 @@ subtest 'remove build directory' => sub {
 	make_path( $old_dir );
 	make_path( $new_dir );
 
+    # test for skipping .DS_Store at Mac OS X
+    my $other = File::Spec->catfile( Enbld::Home->build, 'dummyfile' );
+    open my $fh, '>', $other;
+    print $fh 'dummy';
+    close $fh;
+
 	ok( -d $old_dir, 'old build directory is in existence' );
 	ok( -d $new_dir, 'new build directory is in existence' );
 
@@ -93,6 +99,7 @@ subtest 'remove build directory' => sub {
 
 	ok( ! -d $old_dir, 'old build directory disappears' );
 	ok( -d $new_dir,   'new build directory exists' );
+    ok( -e $other,     'other file exists' );
 };
 
 subtest 'set deploy path' => sub {
