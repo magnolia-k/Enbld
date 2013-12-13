@@ -129,4 +129,8 @@ sub _delete_old_build_directory {
 	}
 }
 
+sub DESTROY {
+    # do nothing.
+}
+
 1;

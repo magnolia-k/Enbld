@@ -38,4 +38,8 @@ sub AUTOLOAD {
     croak( Enbld::Exception->new( "'$method' is invalid method" ) );
 }
 
+sub DESTROY {
+    # do nothing
+}
+
 1;
