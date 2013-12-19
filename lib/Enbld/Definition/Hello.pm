@@ -30,8 +30,8 @@ Enbld::Definition::Hello - definition module for GNU Hello
 =head1 SEE ALSO
 
 L<GNU Hello|http://www.gnu.org/software/hello/>
-L<Enbld::Definition>
 
+L<Enbld::Definition>
 
 =head1 COPYRIGHT
 

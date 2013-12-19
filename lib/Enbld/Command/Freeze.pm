@@ -83,7 +83,7 @@ sub output_rcfiles {
 __DATA__
 #!/usr/bin/perl
 
-use 5.012;
+use strict;
 use warnings;
 
 use utf8;

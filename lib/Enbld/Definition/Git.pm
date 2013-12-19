@@ -51,6 +51,7 @@ Enbld::Definition::Git - definition module for git
 =head1 SEE ALSO
 
 L<git|http://git-scm.com>
+
 L<Enbld::Definition>
 
 =head1 COPYRIGHT

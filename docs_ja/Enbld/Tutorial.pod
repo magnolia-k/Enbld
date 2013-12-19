@@ -1,0 +1,50 @@
+=pod
+
+=encoding utf8
+
+=head1 名前
+
+Enbld::Tutorial - Enbldのチュートリアル
+
+=head1 説明
+
+Enbld::Tutorialは、Enbldの詳細な解説です。
+
+=head1 インストール
+
+=head2 インストーラによるインストール
+
+Enbldをインストールするためには、Enbldインストーラを使うのが簡単です。
+
+ $ curl -L http://goo.gl/MrbDDB | perl
+
+L<http://goo.gl/MrbDDB>は、以下のURLへのリンクになっています。
+
+L<https://raw.github.com/magnolia-k/EnbldInstaller/master/bin/enbld_installer>
+
+インストーラはCPANからEnbldの最新のtarballをダウンロードし、解凍／インストールを自動的に実行します。
+
+=head2 手動のインストール
+
+もちろん、CPANからEnbldのtarballをダウンロードして、手動でインストールすることもできます。
+
+ダウンロードしたtarballの中にある'setup'スクリプトを使います。
+
+ $ curl -LO http://search.cpan.org/CPAN/authors/id/M/MA/MAGNOLIA/Enbld-x.xxxx.tar.gz
+ $ tar xvf Enbld-x.xxxx.tar.gz
+ $ cd Enbld-x.xxxx
+ $ ./setup
+
+=head2 パスの設定
+
+Enbldは全てのコンポーネントをC<$HOME/.enbld>へインストールします。Enbld自身のモジュールファイルや、インストールしたソフトウェア、ログファイルなど、全てです。
+
+そのため、Enbldやインストールしたソフトウェアの実行ファイルや、manファイルにPATHを通す必要が有ります。
+
+
+ export $PATH=$HOME/.enbld/bin:$HOME/.enbld/sbin:$HOME/.enbld/extlib/bin:$PATH
+ export MANPATH=$HOME/.enbld/share/man:$HOME/.enbld/man:$MANPATH
+
+=head2 インストール時の注意事項
+
+=cut

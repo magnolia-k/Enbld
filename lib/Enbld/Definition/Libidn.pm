@@ -30,6 +30,7 @@ Enbld::Definition::Libidn - definition module for GNU IDN Library
 =head1 SEE ALSO
 
 L<GNU IDN Library|http://www.gnu.org/software/libidn/>
+
 L<Enbld::Definition>
 
 =head1 COPYRIGHT

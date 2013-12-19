@@ -32,6 +32,7 @@ Enbld::Definition::Automake - definition module for GNU Automake
 =head1 SEE ALSO
 
 L<GNU Automake|http://www.gnu.org/software/automake/>
+
 L<Enbld::Definition>
 
 =head1 COPYRIGHT

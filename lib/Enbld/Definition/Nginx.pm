@@ -70,6 +70,7 @@ Enbld::Definition::Nginx - definition module for nginx
 =head1 SEE ALSO
 
 L<nginx|http://nginx.org>
+
 L<Enbld::Definition>
 
 =head1 COPYRIGHT

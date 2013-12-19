@@ -470,235 +470,227 @@ sub _err {
 
 1;
 
+__END__
+
 =pod
 
 =head1 NAME
 
-Enbld - Build your development environment by perl-based DSL.
+Enbld - Yet another package manager for building development environment
 
 =head1 SYNOPSIS
 
- #!/usr/bin/perl
+=head2 Installation
 
- use 5.012;
- use warnings;
+  $ curl -L http://goo.gl/MrbDDB | perl
 
- use utf8;
+=head2 Prepare a configuration file
 
- use lib "$ENV{HOME}/.enbld/extlib/lib/perl5/";
+  $ cat conf_for_build.pl
+  #!/usr/bin/perl
 
- use Enbld;
+  use strict;
+  use warnings;
 
- enbld 'myenv' => build {
+  use lib "$ENV{HOME}/.enbld/extlib/lib/perl5/";
 
-     # install latest version
-     target 'git' => define {
-         version 'latest';
-     };
+  use Enbld;
 
-     # install specific version
-     target 'tmux' => define {
-         version '1.8';
-     };
+  enbld 'mydevenv' => build {
 
-     # install software and set configuration file
-     target 'vim' => define {
-         version 'latest';
-     };
+      # install latest version
+      target 'git' => define {
+          version 'latest';
+      };
 
-     conf '.vimrc' => load {
-         from 'https://raw.github.com/magnolia-k/vimrc/master/.vimrc';
-     };
- };
+      # install specific version
+      target 'perl' => define {
+          version '5.18.1';
+      };
+
+  };
+
+=head2 Run as perl script
+
+  $ chmod +x conf_for_build.pl
+  $ ./conf_for_build.pl 
+
+  -> Installs software according to the configuration.
 
 =head1 DESCRIPTION
 
-B<Enbld is a tool for building development environment.>
+B<Enbld is yet another package manager for building development environment.>
 
-Write installation conditions (a version - latest or specific version number, the execution of a test code, configuration file etc.) of target software in perl-based DSL,then download of a source code, building, and installation will be performed altogether automatically.
+Write conditions of software installation (a version - latest or specific version , the execution of a test code etc.) to a configuration file, and run as perl script.
 
-If DSL is performed once again when the software of a later more high version is released, the latest version will be installed automatically.
-
+Then Enbld installs software according to the configuration.
 
 =head2 FEATURES
 
-=over 3
+=over
 
-=item * Configuration file which described installation conditions is defined by perl-based DSL. 
+=item 1. The conditions of installation are defined by perl-based DSL
 
-Once it writes a configuration file, same environment is easily reproducible . 
+Once it writes a configuration files, the same environment will become reproducible easily. 
 
-=item * Arbitrary versions are installable. 
+=item 2. The specified versions can install
 
-If it is specified as 'latest', the latest version will be judged automatically and it will be installed. 
+Unlike other package management systems, Enbld does not fix a version.
 
-=item * The version will be installed if arbitrary versions are specified. 
+The version to install can be specified freely.
 
-Like other package management systems (Homebrew, MacPorts etc.), the package managerial system side does not specify a version. 
+And version 'latest' also can be specified. In this case the latest version is decided automatically, and it be installed.
 
-=item * It can be confirmed whether a version higher than the version installed is released. 
+=item 3. The release of the newer version can check
 
-The software (vim, git, etc.) upgraded frequently can also always use the latest version. 
+The software specified version 'latest' can check release of the newer version.
 
-=item * All software is installed in a home directory.
+So the software upgraded frequently (vim, git, etc.) can always use the latest version.
 
-Software which became unnecessary can be deleted easily. 
+=item 4. The all software are installed in a home directory.
 
-=back
+There is not require sudo for installation.
 
-=head3 Supported software
-
-Now, Enbld supports for installation below software.
-
- apache         http://httpd.apache.org
- apr            http://apr.apache.org
- aprutil        http://apr.apache.org
- autoconf       http://www.gnu.org/software/autoconf/
- automake       http://www.gnu.org/software/automake/
- cmake          http://www.cmake.org
- emacs          http://www.gnu.org/software/emacs/
- git            http://git-scm.com
- groff          http://www.gnu.org/software/groff/
- hello          http://www.gnu.org/software/hello/
- libevent       http://libevent.org
- libidn         http://www.gnu.org/software/libidn/
- libtool        http://www.gnu.org/software/libtool/
- mysql          http://www.mysql.com
- nginx          http://nginx.org
- nodejs         http://nodejs.org
- pcre           http://www.pcre.org
- perl           http://www.perl.org
- pkgconfig      http://www.freedesktop.org/wiki/Software/pkg-config/
- python         http://www.python.org
- rakudostar     http://rakudo.org
- ruby           https://www.ruby-lang.org
- scala          http://www.scala-lang.org
- tmux           http://tmux.sourceforge.net
- tree           http://mama.indstate.edu/users/ice/tree/
- vim            http://www.vim.org
- wget           http://www.gnu.org/software/wget/
- zsh            http://www.zsh.org
-
-
-=head2 ANTI-FEATURES
-
-=over 3
-
-=item * Enbld does NOT aim at perfect package management software. 
-
-The selection plan of the software to support by Enbld is as follows. 
-
-=over 3
-
-=item * Software required for a developer updated frequently (e.g. git, vim).
-
-=item * Software with which the developer who has participated in the project needs to unite a version (e.g. web server, database, programming language etc.).
-
-=item * Software required for a developer although not installed in Mac OS X (e.g. tmux).
+Backup and remove is easy.
 
 =back
 
-=item * It does not have a function which overlaps with the module controlling function which each software has (e.g. CPAN,gem etc.).
+=head2 ANTI FEATURES
+
+=over
+
+=item 1. Enbld does NOT aim at perfect package manager
+
+The selection plan of the software to support by Enbld is as follows.
+
+=over
+
+=item * The software for development updated frequently
+
+e.g. vim, git
+
+=item * The Software which has a specific version specified by the projects.
+
+e.g.
+
+programming language (perl, ruby, nodejs, scala etc.)
+
+Web Server (apache, nginx etc.)
+
+Database (MySQL etc.) 
+
+=item * The software required for a developer although not installed in OS X
+
+e.g. tmux
 
 =back
 
-=head2 SUPPORTED PLATFORMS
+The software which does not correspond to the above-mentioned base does not support. 
 
-B<Enbld is performing verification of running on Mac OS X 10.8 Mountain Lion.>
+=item 2. Enbld does not offer the features which overlaps with the module install features in which a programming language offers.
 
-Probably, it may operate also on Linux (Debian etc.). 
-When not running, it is waiting for the report :)
+CPAN, Rubygem, etc. should use for a module install features which a programming language offers.
+
+=back
 
 =head2 CAUTION
 
-B<Success of building of all the versions is not guaranteed. Since log file is displayed when building goes wrong, please analyze and send report:)>
+B<Enbld does not gurantee success of building of all the versions.>
 
+Since log file is displayed when building goes wrong, please analyze and send report:)
 
 =head1 INSTALLATION
 
-Install by Enbld installer (Download tarball from CPAN).
+=head2 SUPPORTED PLATFORMS
+
+B<Enbld is performing verification of running on OS X Mavericks.>
+
+Probably, it may operate also on Linux (Debian, Ubuntu etc.). When not running, it is waiting for the report :)
+
+=head2 REQUIREMENTS
+
+=over
+
+=item * perl 5.12 or above
+
+Enbld certainly use the system perl (`/usr/bin/perl`). 
+
+=item * make
+
+=item * compiler (gcc or clang)
+
+=item * other stuff required for individual target software (e.g. JRE for scala)
+
+=back
+
+=head2 INSTALL
 
  $ curl -L http://goo.gl/MrbDDB | perl
 
-or
+Enbld installs all the components in a C<$HOME/.enbld> directory. Therefore, it is necessary to set the PATH of the software which Enbld installed. 
 
-Install from tarball.
+=head2 SET PATH
 
- Download and unpack tarball (Download tarball from CPAN or GitHub).
-
- $ tar xvf Enbld-x.xxxx.tar.gz
- $ cd Enbld-x.xxxx
- $ ./setup
-
-Enbld installs all the components in a $HOME/.enbld directory.Therefore, it is necessary to set the path of the software which Enbld installed. 
-
-Set Enbld's path.
-
-In .bashrc, write below setting.
+In C<.bashrc> or C<.bash_profile>, add below setting.
 
  export $PATH=$HOME/.enbld/bin:$HOME/.enbld/extlib/bin:$PATH
  export MANPATH=$HOME/.enbld/share/man:$HOME/.enbld/man:$MANPATH
 
-=head1 GETTING STARTED
+=head1 GETTING STARTED Enbld
 
 =head2 INSTALL LATEST VERSION
 
 =head3 Ready configuration file
 
- $ cat samples/git_install.plx
+ $ cat samples/git_install.pl
  #!/usr/bin/perl
 
- use 5.012;
+ use strict;
  use warnings;
-
- use utf8;
 
  use lib "$ENV{HOME}/.enbld/extlib/lib/perl5/";
 
  use Enbld;
 
- enbld 'myenv' => build {
+ enbld 'mydevenv' => build {
 
      target 'git' => define {
          version 'latest';
      };
  }
 
-=head3 Execute configuration file
+=head3 Run configuration file
 
- $ ./samples/git_install.plx
+ $ ./samples/git_install.pl
 
-=head3 Target software is installed
+=head3 Finish installation
 
  $ git --version
  git version [latest version]
 
-=head3 Upgrade installed software
+=head3 Upgrade
 
-Then, if the software of a latest version is released, please execute a configuration file again. 
-The software of the latest version will be installed.
+Then, if the newer version is released, please run again.
 
- $ ./samples/git_install.plx
+ $ ./samples/git_install.pl
 
-Latest software is installed.
+The latest version will be installed.
 
 =head2 INSTALL SPECIFIC VERSION
 
-A specific version is specified in setting file. -> version '5.18.1';
+A specific version is specified in a configuration file. -> version '5.18.1';
 
- $ cat samples/specific_version_install.plx
+ $ cat samples/specific_version_install.pl
  #!/usr/bin/perl
     
- use 5.012;
+ use strict;
  use warnings;
-    
- use utf8;
     
  use lib "$ENV{HOME}/.enbld/extlib/lib/perl5/";
     
  use Enbld;
     
- enbld 'myenv' => build {
+ enbld 'mydevenv' => build {
     
      target 'perl' => define {
          version '5.18.1';
@@ -710,90 +702,18 @@ A specific version is specified in setting file. -> version '5.18.1';
 
  $ perl -v
 
- This is perl 5, version 18, subversion 1 (v5.18.1) built for darwin-multi-2level
-
-=head2 DOWNLOAD OR CREATE SOFTWARE' CONFIGURATION FILE (DOTFILE)
-
-Enbld also can create software' configuration file(.dotfile).
-
-'conf' function set software' configuration file to home directory.
-
-=head3 Download software' configuration file
-
- $ cat samples/vim_install.plx
- #!/usr/bin/perl
-    
- use 5.012;
- use warnings;
-    
- use utf8;
-    
- use lib "$ENV{HOME}/.enbld/extlib/lib/perl5/";
-    
- use Enbld;
-    
- enbld 'myenv' => build {
-    
-     target 'vim' => define {
-         version 'latest';
-     };
-    
-     conf '.vimrc' => load {
-         from 'https://raw.github.com/magnolia-k/vimrc/master/.vimrc';
-     };
-    
- };
-
-'.vimrc' is downloaded to $HOME from 'https://raw.github.com/magnolia-k/vimrc/master/.vimrc'.
-
-Nothing is done when the file of the same file already exists. 
-
-
-=head3 Create software' configuration file
-
- conf '.vimrc' => set {
-     content 'syntax on';
-     content 'set cindent';
- };
-
-'.vimrc' is created to $HOME.
-
-Nothing is done when the file of the same file already exists. 
-
-=head3 Copy software' configuration file
-
- conf '.vimrc' => copy {
-     from "/copy/from/.vimrc";
- };
-
-'.vimrc' is created to $HOME.
-
-Nothing is done when the file of the same file already exists. 
-
-=head2 MAKE TEST AT INSTALLATION
-
-Enbld can make test at installation.
-
- target 'git' => define {
-     version 'latest';
-     make_test 1;
- };
-
-As default, this function is OFF. 
-
-If a test goes wrong, also building will go wrong. 
-
+ This is perl 5, version 18, subversion 1 (v5.18.1) built for ...
 
 =head2 ADD ARGUMENTS
 
-'arguments' method adds additional arguments to './configure'.
+'arguments' method adds an additional arguments to 'configure' script.
 
  target 'perl' => define {
      version '5.18.1';
      arguments '-Dusethreads';
  };
 
-perl 5.18.1 with thread
+perl 5.18.1 with thread is builded.
 
  $ perl -v
     
@@ -803,12 +723,15 @@ perl 5.18.1 with thread
 
 Enbld installs utility command 'enblder'.
 
+The main commands are shown below. 
+
+The description of all commands are shown by C<perldoc enblder>.
+
 =head3 Displays available software
 
 Subcommand 'available' displays software that can install by Enbld.
 
  $ enblder available
-
 
 =head3 Displays installed software
 
@@ -839,6 +762,16 @@ Subcommand 'upgrade' upgrade outdated software.
 L<Enbld::Tutorial>
 
 L<enblder>
+
+=head1 WEB SITE
+
+L<https://github.com/magnolia-k/Enbld>
+
+L<http://code-stylistics.net/enbld>
+
+=head1 ISSUE REPORT
+
+L<https://github.com/magnolia-k/Enbld/issues>
 
 =head1 COPYRIGHT
 

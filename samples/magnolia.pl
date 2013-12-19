@@ -1,13 +1,13 @@
 #!/usr/bin/perl
 
-use 5.012;
+use strict;
 use warnings;
 
 use lib "$ENV{HOME}/.enbld/extlib/lib/perl5/";
 
 use Enbld;
 
-enbld 'myenv' => build {
+enbld 'mydevenv' => build {
 
     target 'autoconf' => define {
         version 'latest';

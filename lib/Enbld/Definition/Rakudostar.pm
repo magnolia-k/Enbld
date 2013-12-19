@@ -38,6 +38,7 @@ Enbld::Definition::Rakudostar - definition module for Rakudo Perl 6
 =head1 SEE ALSO
 
 L<Rakudo Perl 6|http://rakudo.org>
+
 L<Enbld::Definition>
 
 =head1 COPYRIGHT

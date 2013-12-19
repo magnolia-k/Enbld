@@ -48,6 +48,7 @@ Enbld::Definition::Wget - definition module for GNU Wget
 =head1 SEE ALSO
 
 L<GNU Wget|http://www.gnu.org/software/wget/>
+
 L<Enbld::Definition>
 
 =head1 COPYRIGHT

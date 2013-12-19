@@ -30,6 +30,7 @@ Enbld::Definition::Libtool - definition module for GNU Libtool
 =head1 SEE ALSO
 
 L<GNU Libtool|http://www.gnu.org/software/libtool/>
+
 L<Enbld::Definition>
 
 =head1 COPYRIGHT

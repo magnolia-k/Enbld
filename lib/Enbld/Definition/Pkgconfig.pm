@@ -33,6 +33,7 @@ Enbld::Definition::Pkgconfig - definition module for pkg-config
 =head1 SEE ALSO
 
 L<pkg-config|http://www.freedesktop.org/wiki/Software/pkg-config/>
+
 L<Enbld::Definition>
 
 =head1 COPYRIGHT

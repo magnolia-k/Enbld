@@ -33,6 +33,7 @@ Enbld::Definition::Emacs - definition module for GNU Emacs
 =head1 SEE ALSO
 
 L<GNU Emacs|http://www.gnu.org/software/emacs/>
+
 L<Enbld::Definition>
 
 =head1 COPYRIGHT

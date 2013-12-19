@@ -34,6 +34,7 @@ Enbld::Definition::Groff - definition module for GNU Troff
 =head1 SEE ALSO
 
 L<GNU Troff|http://www.gnu.org/software/groff/>
+
 L<Enbld::Definition>
 
 =head1 COPYRIGHT

@@ -168,6 +168,7 @@ Enbld::Definition::Vim - definition module for Vim
 =head1 SEE ALSO
 
 L<Vim|http://www.vim.org>
+
 L<Enbld::Definition>
 
 =head1 COPYRIGHT

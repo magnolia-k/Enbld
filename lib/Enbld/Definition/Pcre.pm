@@ -66,6 +66,7 @@ Enbld::Definition::Pcre - definition module for Perl Compatible Regular Expressi
 =head1 SEE ALSO
 
 L<Perl Compatible Regular Expressions|http://www.pcre.org>
+
 L<Enbld::Definition>
 
 =head1 COPYRIGHT

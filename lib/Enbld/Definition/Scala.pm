@@ -38,6 +38,7 @@ Enbld::Definition::Scala - definition module for The Scala Programming Language
 =head1 SEE ALSO
 
 L<The Scala Programming Language|http://www.scala-lang.org>
+
 L<Enbld::Definition>
 
 =head1 COPYRIGHT

@@ -78,6 +78,7 @@ Enbld::Definition::Tmux - definition module for Tmux
 =head1 SEE ALSO
 
 L<tmux|http://tmux.sourceforge.net>
+
 L<Enbld::Definition>
 
 =head1 COPYRIGHT

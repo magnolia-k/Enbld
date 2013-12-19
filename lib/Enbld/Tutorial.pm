@@ -1,26 +1,33 @@
 package Enbld::Tutorial;
 
+use strict;
+use warnings;
+
 1;
+
+__END__
 
 =pod
 
 =head1 NAME
 
-Enbld::Tutorial - Tutorial for use Enbld.
+Enbld::Tutorial - Tutorial for Enbld.
 
 =head1 DESCRIPTION
 
-Enbld::Tutorial is detailed description for Enbld's DSL.
+Enbld::Tutorial is detailed explanation for Enbld.
 
-=head1 INSTALL
+=head1 INSTALLATION
 
-To install, use installer.
+To install Enbld, use Enbld installer.
 
  $ curl -L http://goo.gl/MrbDDB | perl
 
- # 'http://goo.gl/MrbDDB' is link to below address.
- # https://raw.github.com/magnolia-k/EnbldInstaller/master/bin/enbld_installer
- # Installer download tarball from CPAN, and unpack, install automatically.
+'http://goo.gl/MrbDDB' is shortener link to below URI.
+
+L<https://raw.github.com/magnolia-k/EnbldInstaller/master/bin/enbld_installer>
+
+Installer download tarball from CPAN, and unpack, install automatically.
 
 or
 
