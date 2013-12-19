@@ -46,9 +46,9 @@ To run Enbld, since a set of PATH is required, add to an environment variables a
 
 # MORE DOCUMENTS
 
-Displays the fundamental informational of Enbld.
+Displays the introduction of Enbld (same as perldoc lib/Enbld.pm).
 
-    $ enblder readme
+    $ enblder intro
 
 Displays the tutorial of Enbld.
 
