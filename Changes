@@ -1,5 +1,8 @@
 Revision history for Enbld.
 
+0.7026 2013/12/21
+        - Rewrite all documents and add japanese documents.
+
 0.7025 2013/12/17
         - Remove 'use Enbld::Copy' from Enbld::Target.
 

@@ -1,10 +1,10 @@
 {
-   "abstract" : "Build your development environment by perl-based DSL.",
+   "abstract" : "Yet another package manager for building development environment",
    "author" : [
       "magnolia <magnolia.k@me.com>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "ExtUtils::MakeMaker version 6.82, CPAN::Meta::Converter version 2.132830",
+   "generated_by" : "ExtUtils::MakeMaker version 6.66, CPAN::Meta::Converter version 2.120921",
    "license" : [
       "perl_5"
    ],
@@ -20,29 +20,6 @@
          "xt"
       ]
    },
-   "prereqs" : {
-      "build" : {
-         "requires" : {
-            "ExtUtils::MakeMaker" : "0"
-         }
-      },
-      "runtime" : {
-         "requires" : {
-            "File::Copy::Recursive" : "0",
-            "LWP" : "0",
-            "LWP::Protocol::https" : "0",
-            "Mozilla::CA" : "0",
-            "Try::Lite" : "0",
-            "perl" : "5.012"
-         }
-      },
-      "test" : {
-         "requires" : {
-            "Test::Exception" : "0",
-            "Test::Output" : "0"
-         }
-      }
-   },
    "release_status" : "stable",
    "resources" : {
       "bugtracker" : {
@@ -55,5 +32,5 @@
          "web" : "https://github.com/magnolia-k/Enbld"
       }
    },
-   "version" : "0.7025"
+   "version" : "0.7026"
 }

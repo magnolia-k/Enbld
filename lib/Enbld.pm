@@ -3,7 +3,7 @@ package Enbld;
 use 5.012;
 use warnings;
 
-our $VERSION = '0.7025';
+our $VERSION = '0.7026';
 
 use FindBin qw/$Script/;
 use Getopt::Long;
