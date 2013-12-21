@@ -448,14 +448,14 @@ sub parse_option {
 
     if ( Enbld::Feature->is_make_test_all ) {
         Enbld::Message->notify(
-                "INFO:Enbld::Declare is set 'make test mode'.\n" .
+                "INFO:Enbld is set 'make test mode'.\n" .
                 "All targets will be tested."
                 );
     }
 
     if ( Enbld::Feature->is_force_install ) {
         Enbld::Message->notify(
-                "INFO:Enbld::Declare is set 'force install mode'.\n" .
+                "INFO:Enbld is set 'force install mode'.\n" .
                 "All targets will be builded by force."
                 );
     }
