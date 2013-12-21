@@ -286,7 +286,7 @@ sub modules($) {
 
 our $rcfile_condition;
 sub conf($$) {
-    my ( $filepath, $coderef ) = @_;    
+    my ( $filepath, $coderef ) = @_;
 
     if ( ! $initialized ) {
         _err(
@@ -484,9 +484,9 @@ Enbld - Yet another package manager for building development environment
 
   $ curl -L http://goo.gl/MrbDDB | perl
 
-=head2 Prepare a configuration file
+=head2 Prepare a conditions script
 
-  $ cat conf_for_build.pl
+  $ cat conditions_for_build.pl
   #!/usr/bin/perl
 
   use strict;
@@ -512,18 +512,18 @@ Enbld - Yet another package manager for building development environment
 
 =head2 Run as perl script
 
-  $ chmod +x conf_for_build.pl
-  $ ./conf_for_build.pl 
+  $ chmod +x conditions_for_build.pl
+  $ ./conf_for_build.pl
 
-  -> Installs software according to the configuration.
+  -> Installs software according to the conditions which are defined at script.
 
 =head1 DESCRIPTION
 
 B<Enbld is yet another package manager for building development environment.>
 
-Write conditions of software installation (a version - latest or specific version , the execution of a test code etc.) to a configuration file, and run as perl script.
+Write conditions of software installation (a version - latest or specific version , the execution of a test code etc.) to a conditions script, and run as perl script.
 
-Then Enbld installs software according to the configuration.
+Then Enbld installs software according to the conditions which is defined in script.
 
 =head2 FEATURES
 
@@ -531,7 +531,7 @@ Then Enbld installs software according to the configuration.
 
 =item 1. The conditions of installation are defined by perl-based DSL
 
-Once it writes a configuration files, the same environment will become reproducible easily. 
+Once it writes a conditions script, the same environment will become reproducible easily.
 
 =item 2. The specified versions can install
 
@@ -552,6 +552,12 @@ So the software upgraded frequently (vim, git, etc.) can always use the latest v
 There is not require sudo for installation.
 
 Backup and remove is easy.
+
+=item 5. The same interface of installation is offered for all programing languages
+
+Unlike other programing language version manager, the same interface of installatin is offered for all programing languages.
+
+You do not need to learn a different way for every programming language.
 
 =back
 
@@ -577,7 +583,7 @@ programming language (perl, ruby, nodejs, scala etc.)
 
 Web Server (apache, nginx etc.)
 
-Database (MySQL etc.) 
+Database (MySQL etc.)
 
 =item * The software required for a developer although not installed in OS X
 
@@ -585,7 +591,7 @@ e.g. tmux
 
 =back
 
-The software which does not correspond to the above-mentioned base does not support. 
+The software which does not correspond to the above-mentioned base does not support.
 
 =item 2. Enbld does not offer the features which overlaps with the module install features in which a programming language offers.
 
@@ -613,7 +619,7 @@ Probably, it may operate also on Linux (Debian, Ubuntu etc.). When not running, 
 
 =item * perl 5.12 or above
 
-Enbld certainly use the system perl (`/usr/bin/perl`). 
+Enbld certainly use the system perl (`/usr/bin/perl`).
 
 =item * make
 
@@ -640,7 +646,7 @@ In C<.bashrc> or C<.bash_profile>, add below setting.
 
 =head2 INSTALL LATEST VERSION
 
-=head3 Ready configuration file
+=head3 Ready conditions script
 
  $ cat samples/git_install.pl
  #!/usr/bin/perl
@@ -659,7 +665,7 @@ In C<.bashrc> or C<.bash_profile>, add below setting.
      };
  }
 
-=head3 Run configuration file
+=head3 Run as perl script
 
  $ ./samples/git_install.pl
 
@@ -670,7 +676,7 @@ In C<.bashrc> or C<.bash_profile>, add below setting.
 
 =head3 Upgrade
 
-Then, if the newer version is released, please run again.
+Then, if the newer version is released, please run script again.
 
  $ ./samples/git_install.pl
 
@@ -678,7 +684,7 @@ The latest version will be installed.
 
 =head2 INSTALL SPECIFIC VERSION
 
-A specific version is specified in a configuration file. -> version '5.18.1';
+A specific version is specified in a conditions script. -> version '5.18.1';
 
  $ cat samples/specific_version_install.pl
  #!/usr/bin/perl
@@ -729,21 +735,37 @@ The description of all commands are shown by C<perldoc enblder>.
 
 =head3 Displays available software
 
-Subcommand 'available' displays software that can install by Enbld.
+Subcommand 'available' displays software list that can install by Enbld.
 
  $ enblder available
 
+The name displayed on this list is used for the name of the Software which I specify as a condition script. 
+
+=head3 Install the software
+
+subcommand 'install' installs the latest version of the software.
+
+Use to install Software, without writing a condition script.
+
+Then the 'freeze' subcommand is used, displays the conditions script reflecting the installation.
+
 =head3 Displays installed software
 
-Subcommand 'list' displays software that is installed.
+Subcommand 'list' displays software list that is installed.
 
  $ enblder list
 
-=head3 Displays configuration file
+=head3 Displays conditions script
 
-Subcommand 'freeze' displays configuration file that is condition of installed software.
+Subcommand 'freeze' displays the condition script reproducing the software of an installed. 
 
  $ enblder freeze
+
+If the displayed content is redirected to a text file, it will become a script of perl which can be performed as it is. 
+
+ $ enblder freeze > conditions.pl
+ $ chmod +x conditions.pl
+ $ ./conditions.pl
 
 =head3 Displays outdated software
 
@@ -756,6 +778,55 @@ Subcommand 'outdated' displays outdated software list.
 Subcommand 'upgrade' upgrade outdated software.
 
  $ enblder upgrade git
+
+=head1 HOW TO USE RECOMMENDATION OF Enbld
+
+I introduce how to use recommendation of Enbld for the the last. 
+
+=over
+
+=item 1 Install Enbld
+
+  $ curl -L http://goo.gl/MrbDDB | perl
+
+=item 2 Display available software list
+
+  $ enblder available
+
+=item 3 Install software to always use the latest version.
+
+  $ enblder install git
+
+=item 4 Make conditions script
+
+  $ enblder freeze > my_conditions.pl
+  $ chmod +x my_conditions.pl
+
+=item 5 Add a software to use a specific version
+
+  target 'perl' => define {
+      version '5.18.1';
+  }
+
+=item 6 Run a conditions script
+
+  $ ./conditions.pl
+
+=item 7 Sometimes check the release of the newer version
+
+  $ enblder outdated
+
+=item 8 Upgrade outdated software  
+ 
+  $ enblder upgrade git
+
+=item 9 Since a trouble is surely encountered by somewhere, please send me a report or a Patch :)
+
+L<https://github.com/magnolia-k/Enbld/issues>
+
+=item 10 Repeat 7 -> 10
+
+=back
 
 =head1 SEE ALSO
 
