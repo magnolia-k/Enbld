@@ -59,99 +59,99 @@ Enbldがサポートする全てのソフトウェアの一覧を表示します
 
   $ enblder install [target_software]
 
-Installs target software.
+ターゲットのソフトウェアをインストール
 
   $ enblder install [target_software] --force
 
-If a target software is already instlled, It becomes an error.  however, the case where he would like to reinstall compulsorily '--force' option is used. 
+もし、ターゲットのソフトウェアが既にインストール済みの場合、エラーになります。しかし、'--force'オプションを使うことで強制的に再インストールすることができます。
 
   $ enblder install [target_software] --test
 
-The case where a test is performed at the time of installation '--test' option is used. 
+'--test'オプションを使うと、インストール時にテストを実行します。
 
-However, when a test goes wrong, installation also goes wrong. 
+もし、テストが失敗した時は、インストールも失敗します。
 
 =item list
 
   $ enblder list
 
-Displays all installed software.
+インストール済みのソフトウェアの一覧を表示します。
 
   $ enblder list [target_software]
 
-If a target software is specified as an argument, displays the list of the versions which is installed.
+もしターゲットソフトウェアを引数に指定した時は、インストール済みの全てのバージョンのリストを表示します。
 
 =item outdated
 
   $ enblder outdated
 
-Displays all outdated software.
+旧バージョンになったソフトウェアの一覧を表示します。
 
 =item upgrade
 
   $ enblder upgrade [target_software]
 
-Installs upgraded target software.
+ターゲットのソフトウェアをアップグレードします。
 
-Nothing is done when a high version is not released. 
+新しいバージョンがリリースされていない時は、何もしません。
 
 =item rehash
 
-  $ enblder rehash 
+  $ enblder rehash [target_software] 
 
-Re-create target software's symbolic link.
+ターゲットソフトウェアへのシンボリックリンクを作り直します。
 
-When you install an executable file using the module management tool of a programming language ( e.g. CPAN), please restretch a symbolic link using this command. 
+プログラミング言語が提供するモジュール管理ツール(例えばCPAN)を使って実行ファイルをインストールした時は、このコマンドを使ってシンボリックリンクを作り直して下さい。
 
 =item freeze
 
   $ enblder freeze
 
-Displays the conditions script reproduce installed software.
+インストール済みのソフトウェアを再現するコンディションスクリプトを表示します。
 
   $ enblder freeze --current
 
-If '--current' option is attached, the version installed now will be displayed. 
+もし、'--current'オプションを指定すると、現在インストールされているバージョンが表示されます。
 
 =item deploy
 
   $ enblder deploy ~/path/to/deploy
 
-Deploys all installed software to specific path.
+指定したパスへ全てのソフトウェアをデプロイします。
 
 =item off
 
   $ enblder off target_software
 
-Disables target software.
+指定したソフトウェアを無効にします。
 
 =item use
 
   $ enblder use target_software installed_version
 
-Enables specfic version of target.
+指定したバージョンを有効にします。
 
 =item selfupgrade
 
   $ enblder selfupgrade
 
-Upgrade Enbld itself.
+Enbld自身をアップグレードします。
 
 =item help
 
   $ enblder help
 
-Displays the short help message.
+短いヘルプメッセージを表示します。
 
 =item version
 
   $ enblder version
 
-Displays the version number.
+バージョンナンバーを表示します。
 
 =back
 
-=head1 OPTIONS
+=head1 オプション
 
 =over
 
