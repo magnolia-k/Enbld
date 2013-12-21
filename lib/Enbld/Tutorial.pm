@@ -11,50 +11,356 @@ __END__
 
 =head1 NAME
 
-Enbld::Tutorial - Tutorial for Enbld.
+Enbld::Tutorial - Tutorial for Enbld
 
-=head1 DESCRIPTION
+=head1 GRAMMAR OF DSL
 
-Enbld::Tutorial is detailed explanation for Enbld.
+At Enbld, DSL for exclusive use defines the conditions of the software installation. Here, explain the grammar of the DSL.
 
-=head1 INSTALLATION
+=head2 THE EXAMPLE OF CONDITIONS SCRIPT
 
-To install Enbld, use Enbld installer.
+  #!/usr/bin/perl
 
- $ curl -L http://goo.gl/MrbDDB | perl
+  use strict;
+  use warnings;
 
-'http://goo.gl/MrbDDB' is shortener link to below URI.
+  use lib "$ENV{HOME}/.enbld/extlib/lib/perl5/";
 
-L<https://raw.github.com/magnolia-k/EnbldInstaller/master/bin/enbld_installer>
+  use Enbld;
 
-Installer download tarball from CPAN, and unpack, install automatically.
+  enbld 'mydevenv' => build {
 
-or
+      target 'git' => define {
+          version 'latest';
+      };
 
-To install, use 'setup' command.
+  };
 
- Download and unpack tarball.
- 
- $ tar xvf Enbld-x.xxxx.tar.gz
- $ cd Enbld-x.xxxx
- $ ./setup
+=head2 FUNDAMENTAL ARCHITECTURE
 
-Enbld installs all the components in a $HOME/.enbld directory.Therefore, it is necessary to set the path of the software which Enbld installed. 
+=over
 
-Add below to .bashrc.
+=item * Specify system perl to shebang
 
- export $PATH=$HOME/.enbld/bin:$HOME/.enbld/sbin:$HOME/.enbld/extlib/bin:$PATH
- export MANPATH=$HOME/.enbld/share/man:$HOME/.enbld/man:$MANPATH
+  #!/usr/bin/perl
 
-=head2 Caution at installation
+Enbld must be ran from system perl. Therefore, please be sure to specify the path to system perl as shebang>.
 
-Since you can build perl using Enbld, please be sure to install in a $HOME/.enbld directory using a 'setup' command.
+=item * Must set 'use strict' and 'use warnings'
 
-If perl is built using Enbld, it will become impossible to be arranged at the same place as other modules, if it installs using cpan client (e.g. cpanm), but to refer to the module. 
+  use strict;
+  use warnings;
 
-=head1 '.enbld' DIRECTORY COMPOSITION
+For modern perl scirpt, that must use.
 
-'.enbld' directory has the following composition. 
+=item * Set path to Enbld's module by using lib pragma
+
+  use lib "$ENV{HOME}/.enbld/extlib/lib/perl5/";
+
+Since Enbld's modules (C<Enbld.pm> etc.) are installed to C<$HOME/.enbld/extlib/lib/perl5/>, specify a path by a 'lib' pragma so that the modules can be loaded.
+
+=item * Load Enbld module
+
+  use Enbld;
+
+Enbld module exports DSL's methods.
+
+=back
+
+=head2 THE FUNCTIONS FOR THE INSTALLATION OF THE SOFTWARE
+
+It explains the functions which can be used for below by DSL of Enbld. All of these functionses are exported at the time point of "use Enbld".
+
+Since DSL of Enbld is a perl-based, all the things that are not written here follow the grammar of perl.
+
+=head3 enbld
+
+  enbld 'mydevenv' => build {
+      ...
+  }
+
+'enbld' is a functions which performs an installing the software.
+
+The first arguments specifies an environmental name. If it is a string, it will not matter anything.
+
+The second arguments is the code references which the 'build' functions returns.enbld builds a Software by running the code reference to which conditions were written.
+
+=head3 build
+
+'build' is a functions of only the returning code reference.
+
+It is a functions of a raise sake about the readability as a DSL.
+
+=head3 target
+
+  target 'git' => define {
+      ....
+  };
+
+'target' is a functions which defines the conditions of the installation for every software.
+
+The first arguments specifies the name of a software. It is necessary to coincide the name of a software with the name displayed by C<enblder available>.
+
+The second Arguments is the code references which a 'define' functions returns. 'target' defines the conditions of installations by running the code reference to which written the conditions of the installation.
+
+=head3 define
+
+'define' is a functions of only the returning code reference.
+
+It is a functions of a raise sake about the readability as a DSL.
+
+=head3 version
+
+  target 'perl' => define {
+      version '5.18.1';
+  };
+
+'version' is a functions which specifies a version number to install. It specifies a version number as an arguments.
+
+A list of the version which can install can check by C<enblder available [software name]>.
+
+An error will occur the version number not existing is specified.
+
+  target 'git' => define {
+      version 'latest';
+  };
+
+Moreover, if it is specified as 'latest' at a version, Enbld will specify and install the latest version automatically. There is no required of looking for the latest version by yourself.
+
+  target 'perl' => define {
+      version 'development';
+  };
+
+In addition, by a part of softwares, you can specify the version under development.
+
+For example, at perl, even version numbers show under a development, it can install the newest development version by specifying it as 'development'.
+
+Refer to the document of each Definition modules for a more.
+
+=head3 make_test
+
+  target 'git' => define {
+      version 'latest';
+      make_test 1;
+  };
+
+'make_test' is a functions for running test code at building.
+
+if the value which serves as a true by perl is specified as an arguments (except udnef, and zero and a null character string), it runs test code at building.
+
+If a test goes wrong, a build will also go wrong.
+
+Usually, this features is come by off.
+
+=head3 modules
+
+  target 'perl' => define {
+      version 'latest';
+      modules {
+          'App::cpanminus' => 0,
+          'Carton'         => 0,
+      };
+  };
+
+'modules' is a functions which it uses to install a modules using the modules install features which a programming language prepares.
+
+For example, in perl, call cpan and install a modules.
+
+Specify a hash reference as an arguments. In a hash, specify a key for a module name, and a value for a zero.
+
+In the future, a modules version can be due being specified now.
+
+Refer to the document of each Definition modules for a more.
+
+=head3 arguments
+
+  target 'perl' => define {
+      version 'latest';
+      arguments '-Dusethreads';
+  };
+
+'arguments' is a functions which adds the arguments to the 'configure' script of each software.
+
+The string specified by the arguments is handed over as it is.
+
+=head3 annotation
+
+  target 'perl' => define {
+      version 'latest';
+      arguments '-Dusethreads';
+      annotation 'with thread support';
+  };
+
+'annotation' is a functions which carries out an add annotation.
+
+Unlike the comments of a mere script, C<enblder freeze> also reproduce annotation.
+
+=head2 THE FUNCTIONS FOR THE CREATION OF THE CONFIGURATION FILE
+
+  conf '.vimrc' => load {
+      from 'https://raw.github.com/magnolia-k/vimrc/master/.vimrc';
+  };
+
+Enbld also has a features for it not only building each software, but creating the Configuration file (DOTFILES) of each software.
+
+In the above-mentioned e.g., it download the configuration file for vim (.vimrc) from GitHub, and set to home directory.
+
+Moreover, in Enbld, since correlation of an installable software and the filename of a configuration file does not check, you can arrange any configuration files.
+
+=head3 conf
+
+  conf '.vimrc' => load {
+  ...
+  };
+
+'conf' is a functions for creating a configuration file.
+
+The first arguments specifies the filename of a configuration file.
+
+When a directory is attached and specified, it interpreted as follows.
+
+=over
+
+=item * Relative path
+
+A specified of a relative path will create a configuration file as a relative path from C<$HOME>.
+
+For example, if it is specified as C<.module-starter/config>, the configuration file "config" will be created by C<$HOME/.module-starter/config>.
+
+=item * Absolute Path
+
+A specified of an absolute path will create a configuration file on the path.
+
+For example, if it is specified as C</path/to/.module-starter/config>, the configuration file "config" will be created by C</path/to/.module-starter/config>.
+
+However, be careful of an access permission.
+
+=back
+
+In addition, as long as a 'conf' functions is in the code reference specified as the arguments of the 'build' function, it may describe it anywhere.
+
+  enbld 'mydevenv' => build {
+      target 'vim' => define {
+          version 'latest';
+
+          conf '.vimrc' => load {
+              from 'https://raw.github.com/magnolia-k/vimrc/master/.vimrc';
+          }; # -> It's OK
+
+      };
+
+      conf '.bashrc' => set {
+          content 'export PATH=$HOME/.enbld/bin:PATH';
+      }; # -> It's also OK
+  };
+
+The second arguments is functionses which specify where Enbld acquire a configuration file from.
+
+=head3 load
+
+  conf '.vimrc' => load {
+      from 'https://raw.github.com/magnolia-k/vimrc/master/.vimrc';
+  };
+
+Enbld download a configuration file from url specified by the arguments of the from functions.
+
+An arguments is a code reference.
+
+Enbld do nothing, when the files of the same content already exists. Even if a files exists, when the contents differ, Enbld change the filename of the existing files, and Enbld create a files as specified.
+
+=head3 set
+
+  conf '.bashrc' => set {
+      content 'export PATH=$HOME/.enbld/bin:PATH';
+  };
+
+Enbld create a configuration file by the content specified by the arguments of the 'content' functions.
+
+An arguments is a code reference.
+
+Enbld do nothing, when the files of the same content already exists. Even if a files exists, when the contents differ, Enbld change the filename of the existing files, and Enbld create a files as specified.
+
+=head3 copy
+
+  conf '.vimrc' => copy {
+      from '/path/to/.vimrc';
+  };
+
+Enbld copy and create a configuration file from the files specified by the arguments of the 'from' function.
+
+An arguments is a code reference.
+
+Enbld do nothing, when the files of the same content already exists. Even if a files exists, when the contents differ, Enbld change the filename of the existing files, and Enbld create a files as specified.
+
+=head3 from
+
+A 'from' functions is a functions which specifies the get origin of a configuration file.
+
+Specify url or a full path as an arguments.
+
+=head3 content
+
+  conf '.vimrc' => set {
+      content 'syntax on';
+  };
+
+A 'content' functions is a functions which specifies the content of a configuration file.
+
+  conf '.wgetrc' => load {
+      from 'http://xxx.xxx.xxx/.wgetrc';
+
+      content 'proxy_user = user';
+      content 'proxy_passwd = PassWord';
+  }
+
+Enbld can also add a postscript to the downloaded files using a 'content' Functions.
+
+=head3 to
+
+  conf 'filerc' => set {
+    to "$ENV{HOME}/fileconfig";
+    content 'setting string';
+  };
+
+'to' functions is a functions which specifies the deployment place of a configuration file.
+
+Even when only a filename is specified as the arguments of a 'conf' functions, Enbld can control a deployment location by specifying a directory as to functions freely.
+
+=head2 OPTIONS OF THE CONDITIONS SCIRPT
+
+The conditions script can take some optionals. Here, explained the optional.
+
+=head3 test
+
+  $ ./conditions.pl --test
+
+  $ ./conditions.pl -t
+
+Option 'test' execute test at the installation.
+
+=head3 force
+
+  $ ./conditions.pl --force
+
+  $ ./conditions.pl -f
+
+Option 'force' installs all software also including an installed software by force.
+
+=head3 deploy
+
+  $ ./conditions.pl --deploy /path/to/install/
+
+  $ ./conditions.pl -d /path/to/install/
+
+Option 'deploy' specifies the installation location of the script which the condition script defined.
+
+However, the release check of the new version of the software installed by 'deploy' is not made.
+
+=head1 OTHER TOPICS
+
+=head2 '.enbld' DIRECTORY COMPOSITION
+
+'.enbld' directory has the following composition.
 
  $HOME/.enbld --+
                 |
@@ -94,250 +400,27 @@ If perl is built using Enbld, it will become impossible to be arranged at the sa
                 |
                 +--log/          Enbld's log files
 
-
-Enbld installs software to $HOME/depository/[Software Name]/[Version]/ and creates symbolic links to $HOME/bin,$HOME/lib, and so on. Therefore, it can change now easily a newer version. 
-
-=head1 TUTORIAL FOR DSL
-
-=head2 Install latest version
-
-Ready sample configuration file.
-
- $ cat samples/git_install.plx
- #!/usr/bin/perl
-
- use 5.012;
- use warnings;
-
- use utf8;
-
- use lib "$ENV{HOME}/.enbld/extlib/lib/perl5/";
-
- use Enbld;
-
- enbld 'myenv' => build {
-
-     target 'git' => define {
-         version 'latest';
-     };
-
- };
-
- $ ./sample/git_install.plx
- =====> Start building target 'git'.
-
- ...
-
- =====> Finish building target 'git'.
- git 1.8.4.1 is installed.
- $ git --version
- git version 1.8.4.1
-
-* git of the latest version in October 10, 2013 time is git 1.8.4.1. 
-
-=head2 Install specific version
-
-Rewrite the arguments of 'version' function from 'latest' to '1.8.4'. 
-
- $ cat samples/git_install.plx
- #!/usr/bin/perl
-
- use 5.012;
- use warnings;
-
- use utf8;
-
- use lib "$ENV{HOME}/.enbld/extlib/lib/perl5/";
-
- use Enbld;
-
- enbld 'myenv' => build {
-
-     target 'git' => define {
-         version '1.8.4';
-     };
-
- };
-
- $ ./sample/git_install.plx
- =====> Start building target 'git'.
-
- ...
-
- =====> Finish building target 'git'.
- git 1.8.4 is installed.
- $ git --version
- git version 1.8.4
-
-
-=head2 Upgrade installed software
-
-Re-rewrite the arguments of 'version' function from '1.8.4' to 'latest'. 
-
- $ cat samples/git_install.plx
- #!/usr/bin/perl
-
- use 5.012;
- use warnings;
-
- use utf8;
-
- use lib "$ENV{HOME}/.enbld/extlib/lib/perl5/";
-
- use Enbld;
-
- enbld 'myenv' => build {
-
-     target 'git' => define {
-         version 'latest';
-     };
-
- };
-
- $ ./sample/git_install.plx
- =====> Start building target 'git'.
-
- ...
-
- =====> Finish building target 'git'.
- git 1.8.4.1 is installed.
- $ git --version
- git version 1.8.4.1
-
-Since git 1.8.4 was not the latest version, 1.8.4.1 of the latest version was installed. 
-
-=head2 How to write configuration file by DSL
-
-=head3 header code
-
-A configuration file certainly begins from the following code. 
-
- #!/usr/bin/perl
-
- use 5.012;
- use warnings;
-
- use lib "$ENV{HOME}/.enbld/extlib/lib/perl5/";
-
-Since system perl is certainly used for Enbld, it sets the path to system perl to shebang. 
-
-Since Enbld is supporting only 5.12 or more perl, it sets 'use 5.012;'.And warnings pragama is used for safety. 
-
-Since the Enbld's modules are stored in '$HOME/.enbld/extlib/perl5/lib', it is added to a reference place by lib pragma. 
-
-=head3 enbld, build
-
-'myenv' is an nvironment name. An environment name can be attached freely. 
-
- enbld 'myenv' => build {
-     ....
- };
-
-=head3 target, define
-
-'target' function defines target software' building condition.
-
- target 'git => define {
-     ....
- };
-
-=head3 version
-
-'version' function takes arbitrary version numbers or 'latest' string. 
-
- target 'git' => define {
-     version 'latest';
- };
-
- target 'git' => define {
-     version '1.8.4';
- };
-
-=head4 development
-
-A part of software (the present condition -- perl only) can specify 'development' as an argument.  Specification of 'development' will install the latest version among development versions. 
-
- target 'perl' => define {
-     version 'development'; # -> installs 5.19.4 at 10/10/2013.
- };
-
- target 'perl' => define {
-     version 'latest';      # -> installs 5.18.1 at 10/10/2013.
- };
-
-=head3 make_test
-
-Pecification of the value (getting it blocked except undef, 0, and null string) judged by the argument of make_test by perl to be truth will perform a test at the time of building. 
-
- target 'perl' => define {
-	 version   'latest';
-	 make_test '1';
- };
-
-=head3 arguments
-
-An arguments function is used when specifying an additional arguments as 'configure'. 
-
- target 'perl' => define {
-     version   'latest';
-	 arguments '-Dusethreads';
- };
-
-=head3 modules
-
-The specified module can be installed when software is equipped with the module controlling function. 
-
-However, it is support of only perl now. 
-
- target 'perl' => define {
-     version 'latest';
-
-	 modules => {
-         'App::cpanminus' => 0,
-	 };
- };
-
-=head3 annotation
-
-'annotation' is the notes to the condition. 
-
-Although it is the same as writing a comment using the grammar of perl, even if it uses the freeze subcommand, it differs in that it is displayed perfectly. 
-
- target 'perl' => define {
-     version    'latest';
-	 arguments  '-Dusethreads';
-     annotation 'use thread veriosn';
- };
-
-=head2 Deploy
-
-A configuration file can take '--deploy' argument.If '--deploy' argument is specified, deploys all software defined by configuration file to specific path.
- 
- $ ./sample/git_install.plx --deploy /path/to/install
-
-=head2 Make test
-
-A configuration file can take '--make_test' argument. If '--make_test' argument is specified, make test all software at installation.
-
- $ ./sample/git_install.plx --make_test
-
-=head1 Enbld's work-flow
-
- $ ./myenv_install.plx             # install software
- $ enblder list                      # check installed
- $ enblder outdated                  # check outdated
- $ enblder upgrade target_software   # upgrade separately
- $ enblder deploy /path/to/install   # When fully testing, it is deploy. 
+Enbld installs software to C<$HOME/.enbld/depository/[Software Name]/[Version]/> and creates symbolic links to C<$HOME/.enbld/bin>, C<$HOME/.enbld/lib>, and so on. Therefore, it can change now easily a newer version.
 
 =head1 SEE ALSO
 
 L<Enbld>
+
 L<enblder>
+
+=head1 WEB SITE
+
+L<https://github.com/magnolia-k/Enbld>
+
+L<http://code-stylistics.net/enbld>
+
+=head1 ISSUE REPORT
+
+L<https://github.com/magnolia-k/Enbld/issues>
 
 =head1 COPYRIGHT
 
 copyright 2013- Magnolia C<< <magnolia.k@me.com> >>.
-
 
 =head1 LICENSE
 
@@ -345,5 +428,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
-1;

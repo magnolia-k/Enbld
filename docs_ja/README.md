@@ -46,7 +46,7 @@ Enbldを動作させるためには、PATHの設定が必要なので、表示�
 
 # 他のドキュメント
 
-Enbldのイントロを表示します (perldoc lib/Enbld.pmと同じです)。
+Enbldのイントロダクションドキュメントを表示します (perldoc lib/Enbld.pmと同じです)。
 
     $ enblder intro
 

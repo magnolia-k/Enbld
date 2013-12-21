@@ -1,72 +1,59 @@
-#!/usr/bin/perl
-
-use 5.012;
-use warnings;
-
-use FindBin;
-use lib "$FindBin::Bin/../lib/perl5";
-
-require Enbld::App;
-
-my $app = Enbld::App->new;
-
-$app->parse_options( @ARGV );
-$app->envbuild;
-
 =pod
+
+=encoding UTF-8
 
 =head1 NAME
 
-enblder - utility command for Enbld
+enblder - Enbldのユーティリティコマンド
 
 =head1 SYNOPSIS
 
- $ enblder intro          # displays the introduction for Enbld
- $ enblder tutorial       # displays the tutorial for Enbld
- $ enblder available      # displays all software list supported by Enbld
- $ enblder available git  # displays all version of target software
- $ enblder install git    # installs target software
- $ enblder list           # displays installed software list
- $ enblder list git       # displays all installed version of target software
- $ enblder outdated       # displays all outdated software list
- $ enblder upgrade git    # installs upgraded target software
- $ enblder freeze         # displays conditions script reproduce installed software
- $ enblder deploy ~/path  # deploys all installed software to specific path
- $ enblder selfupgrade    # upgrade Enbld
+ $ enblder intro          # Enbldのイントロダクションドキュメントを表示
+ $ enblder tutorial       # Enbldのチュートリアルを表示
+ $ enblder available      # Enbldがサポートするソフトウェアの一覧を表示
+ $ enblder available git  # インストール可能なバージョンの一覧を表示
+ $ enblder install git    # ターゲットのソフトウェアをインストール
+ $ enblder list           # インストール済のソフトウェアの一覧を表示
+ $ enblder list git       # 指定したソフトウェアのインストール済のバージョンの一覧を表示
+ $ enblder outdated       # 旧バージョンのソフトウェアの一覧を表示
+ $ enblder upgrade git    # ターゲットのソフトウェアのアップグレード
+ $ enblder freeze         # インストール済のソフトウェアを再現するコンディションスクリプトを表示
+ $ enblder deploy ~/path  # 指定したパスにソフトウェアをデプロイ
+ $ enblder selfupgrade    # Enbld自身をアップグレード
 
-=head1 DESCRIPTION
+=head1 説明
 
-enblder is utility command for Enbld.
+enblderは、Enbldのユーティリティコマンドです。
 
-=head1 COMMANDS
+=head1 コマンド
 
 =over
 
 =item intro
 
- $ enblder intro
+  $ enblder intro
 
-Displays the introduction for Enbld.
+Enbldのイントロダクションドキュメントを表示します。
 
-This document is equal to C<perldoc lib/Enbld.pm>.
+このドキュメントは、C<perldoc lib/Enbld.pm>と同じです。
 
 =item tutorial
 
   $ enblder tutorial
 
-Displays the tutorial for Enbld.
+Enbldのチュートリアルを表示します。
 
-This document is equal to C<perldoc lib/Enbld/Tutorial.pm>.
+このドキュメントは、C<perldoc lib/Enbld/Tutorial.pm>と同じです。
 
 =item available
 
   $ enblder available
 
-Displays all software list supported by Enbld.
+Enbldがサポートする全てのソフトウェアの一覧を表示します。
 
   $ enblder available [target_software]
 
-If a target software is specified as an argument, displays the list of the versions which can be obtained by the software.
+ターゲットのソフトウェアを引数に指定すると、そのソフトウェアでインストール可能なバージョンの一覧を表示します。
 
 =item install
 
@@ -170,43 +157,43 @@ Displays the version number.
 
 =item -f, --force
 
-See sucommand 'install'.
+'install'の説明を見て下さい。
 
 =item -t, --test
 
-See subcommand 'install'.
+'install'の説明を見て下さい。
 
 =item -c, --current
 
-See subcommand 'freeze'.
+'freeze'の説明を見て下さい。
 
 =item -h, --help
 
-This option is equal to subcommand 'help'.
+このオプションは、'help'サブコマンドと同じです。
 
 =item -v, --version
 
-This option is equal to subcommand 'version'.
+このオプションは、'version'サブコマンドと同じです。
 
 =back
 
-=head1 SEE ALSO
+=head1 更なる情報
 
 L<Enbld>
 
 L<Enbld::Tutorial>
 
-=head1 WEB SITE
+=head1 ウェブサイト
 
 L<https://github.com/magnolia-k/Enbld>
 
 L<http://code-stylistics.net/enbld>
 
-=head1 ISSUE REPORT
+=head1 課題のレポート
 
 L<https://github.com/magnolia-k/Enbld/issues>
 
-=head1 COPYRIGHT
+=head1 コピーライト
 
 copyright 2013- Magnolia C<< <magnolia.k@me.com> >>.
 
@@ -216,3 +203,4 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
+

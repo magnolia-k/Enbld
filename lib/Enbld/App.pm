@@ -30,7 +30,6 @@ sub parse_options {
     Getopt::Long::GetOptions(
             'v|version'     => sub { $self->{cmd} = 'version' },
             'h|help'        => sub { $self->{cmd} = 'help' },
-            'n|notest'      => sub { $make_test = undef },
             't|test'        => sub { $make_test++ },
             'f|force'       => sub { $force++ },
             'c|current'     => sub { $current++ },
