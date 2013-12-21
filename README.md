@@ -6,9 +6,9 @@ Enbld helps you install the software required for software development (programm
 
 - Unlike other package manager, Enbld can install specific version.
 
-- Unlike other programing language version manager, Enbld offers a same interface for all programing language.
+- Unlike other programing language version manager, Enbld offers the same interface of installation for all programing languages.
 
-- All conditions of installation are defined by using perl-based DSL.
+- Conditions of installation software are defined by using perl-based DSL.
 
         target 'git' => define {
             version 'latest'; # -> install latest version
@@ -30,7 +30,7 @@ When not running, I'm waiting for the report :)
 
  - perl 5.12 or above
 
-    NOTE:Enbld certainly use the system perl (`/usr/bin/perl`). 
+    NOTE:Enbld certainly use the system perl (`/usr/bin/perl`).
 
  - make
 
@@ -42,7 +42,7 @@ When not running, I'm waiting for the report :)
 
     $ curl -L http://goo.gl/MrbDDB | perl
 
-To run Enbld, since a set of PATH is required, add to an environment variables according to the message. 
+To run Enbld, since a set of PATH is required, add to an environment variables according to the message.
 
 # MORE DOCUMENTS
 
