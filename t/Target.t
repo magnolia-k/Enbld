@@ -105,7 +105,7 @@ subtest "install" => sub {
         setup( deploy => $deploy_path );
 
         Enbld::Target->new( 'testapp', $config )->deploy;
-        my $app = File::Spec->catdir( $deploy_path, 'bin', 'Enbldtestapp' );
+        my $app = File::Spec->catdir( $deploy_path, 'bin', 'enbldtestapp' );
         ok( -e $app, 'deploy' );
 
         teardown();
@@ -247,7 +247,7 @@ subtest 'install declared' => sub {
 
         Enbld::Target->new( 'testapp', $config )->deploy_declared( $condition );
 
-        my $app = File::Spec->catdir( $deploy_path, 'bin', 'Enbldtestapp' );
+        my $app = File::Spec->catdir( $deploy_path, 'bin', 'enbldtestapp' );
         ok( -e $app, 'deploy' );
 
         teardown();
