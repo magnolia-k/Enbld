@@ -1,7 +1,9 @@
 package Enbld::Command::Install;
 
-use 5.012;
+use strict;
 use warnings;
+
+use 5.010001;
 
 use parent qw/Enbld::Command/;
 

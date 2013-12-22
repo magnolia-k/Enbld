@@ -1,6 +1,6 @@
 package Enbld::Condition;
 
-use 5.012;
+use strict;
 use warnings;
 
 sub new {

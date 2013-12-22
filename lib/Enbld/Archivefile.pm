@@ -1,6 +1,6 @@
 package Enbld::Archivefile;
 
-use 5.012;
+use strict;
 use warnings;
 
 use Archive::Tar;

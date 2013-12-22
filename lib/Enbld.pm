@@ -1,7 +1,9 @@
 package Enbld;
 
-use 5.012;
+use strict;
 use warnings;
+
+use 5.010001;
 
 our $VERSION = '0.7028';
 
@@ -617,7 +619,7 @@ Probably, it may operate also on Linux (Debian, Ubuntu etc.). When not running, 
 
 =over
 
-=item * perl 5.12 or above
+=item * perl 5.10.1 or above
 
 Enbld certainly use the system perl (`/usr/bin/perl`).
 

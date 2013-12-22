@@ -1,6 +1,6 @@
 package Enbld::Module::Perl;
 
-use 5.012;
+use strict;
 use warnings;
 
 use parent qw/Enbld::Module/;

@@ -1,6 +1,6 @@
 package Enbld::Target::Attribute::WebSite;
 
-use 5.012;
+use strict;
 use warnings;
 
 use Carp;

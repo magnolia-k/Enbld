@@ -1,6 +1,6 @@
 package Enbld::Target::Attribute::IndexSite;
 
-use 5.012;
+use strict;
 use warnings;
 
 use Carp;

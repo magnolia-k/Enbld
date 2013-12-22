@@ -1,7 +1,9 @@
 package Enbld::Command::Selfupgrade;
 
-use 5.012;
+use strict;
 use warnings;
+
+use 5.010001;
 
 use File::Spec;
 

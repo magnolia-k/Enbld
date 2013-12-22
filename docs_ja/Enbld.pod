@@ -145,7 +145,7 @@ B<Enbldは、OS X Mavericksで動作検証を行っています。>
 
 =over
 
-=item * perl 5.12以上
+=item * perl 5.10.1以上
 
 注:Enbldは必ずsystem perl (C</usr/bin/perl>)を使います。
 

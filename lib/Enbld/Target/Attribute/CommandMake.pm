@@ -1,6 +1,6 @@
 package Enbld::Target::Attribute::CommandMake;
 
-use 5.012;
+use strict;
 use warnings;
 
 use parent qw/Enbld::Target::AttributeExtension::Command/;

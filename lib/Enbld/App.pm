@@ -1,6 +1,6 @@
 package Enbld::App;
 
-use 5.012;
+use strict;
 use warnings;
 
 use Getopt::Long;

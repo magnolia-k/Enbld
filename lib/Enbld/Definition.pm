@@ -1,6 +1,6 @@
 package Enbld::Definition;
 
-use 5.012;
+use strict;
 use warnings;
 
 use Module::Load;

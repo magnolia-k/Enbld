@@ -1,6 +1,6 @@
 package Enbld::Definition::Testdependant;
 
-use 5.012;
+use strict;
 use warnings;
 
 use parent qw/Enbld::Definition/;

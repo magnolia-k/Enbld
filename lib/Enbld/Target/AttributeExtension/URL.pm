@@ -1,6 +1,6 @@
 package Enbld::Target::AttributeExtension::URL;
 
-use 5.012;
+use strict;
 use warnings;
 
 use Carp;

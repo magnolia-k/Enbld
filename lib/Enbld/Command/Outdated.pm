@@ -1,6 +1,6 @@
 package Enbld::Command::Outdated;
 
-use 5.012;
+use strict;
 use warnings;
 
 use parent qw/Enbld::Command/;

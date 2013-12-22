@@ -1,6 +1,6 @@
 package Enbld::Definition::Pcre;
 
-use 5.012;
+use strict;
 use warnings;
 
 use parent qw/Enbld::Definition/;
