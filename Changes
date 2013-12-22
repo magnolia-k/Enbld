@@ -1,5 +1,11 @@
 Revision history for Enbld.
 
+0.7028 2013/12/21
+        - Fix test -> t/Target.t
+          At OS X, the File System which does not distinguish
+          an upper case and a lower-case letter.
+          I did not notice.
+
 0.7027 2013/12/21
         - Fix lacking translation.
 
