@@ -468,6 +468,7 @@ sub _make {
         return $self;
     }
 
+    # this code for tree command...tree don't has configure
     my $args = $self->{attributes}->Prefix . $self->{install};
 
     if ( $self->{attributes}->AdditionalArgument ) {

@@ -13,7 +13,7 @@ sub initialize {
     $self->{defined}{ArchiveName}       =   'tree';
     $self->{defined}{WebSite}           =
         'http://mama.indstate.edu/users/ice/tree/';
-    $self->{defined}{AdditionalArgument} = \&set_args;
+    $self->{defined}{DarwinArgument}    = \&set_args;
     $self->{defined}{VersionForm}       =   '1\.\d\.\d';
     $self->{defined}{Extension}         =   'tgz';
     $self->{defined}{DownloadSite}      =
