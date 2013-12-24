@@ -31,10 +31,10 @@ sub initialize {
     $self->{defined}{Version}           =   \&set_version;
     $self->{defined}{PatchFiles}        =   \&set_patchfiles;
 
-    $self->{defined}{CommandConfigure}  =   'LANG=C;./configure';
-    $self->{defined}{CommandMake}       =   'LANG=C;make';
-    $self->{defined}{CommandTest}       =   'LANG=C;make test';
-    $self->{defined}{CommandInstall}    =   'LANG=C;make install';
+    $self->{defined}{CommandConfigure}  =   './configure';
+    $self->{defined}{CommandMake}       =   'make';
+    $self->{defined}{CommandTest}       =   'make test';
+    $self->{defined}{CommandInstall}    =   'make install';
 
     return $self;
 }

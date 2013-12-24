@@ -554,7 +554,7 @@ sub _exec {
 
     Enbld::Message->notify( "--> $cmd" );
 
-    system( "$cmd >> $logfile 2>&1" );
+    system( "LANG=C;$cmd >> $logfile 2>&1" );
 
     return $self unless $?;
 
