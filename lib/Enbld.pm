@@ -124,6 +124,11 @@ sub build_target {
     } ( 'Enbld::Error' => sub {
         Enbld::Message->alert( $@ );
 
+        if ( $^O ne 'darwin' ) {
+            say "If you run Enbld at Linux or BSD, there is a possibility " .
+            "that the Software which depends is not installed.";
+        }
+
         say "\n" . "Please check build logile:" . Enbld::Logger->logfile;
 
         $target_result{$name} = $name . ' is failure to build.';
