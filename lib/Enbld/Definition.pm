@@ -14,7 +14,11 @@ sub new {
 
     my $self = {
         defined => {
+            DefaultArgument     =>  undef,
+            DarwinArgument      =>  undef,
+
             AdditionalArgument  =>  undef,
+
             AllowedCondition    =>  undef,
             ArchiveName         =>  undef,
             CopyFiles           =>  undef,

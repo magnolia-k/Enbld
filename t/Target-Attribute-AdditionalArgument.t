@@ -9,6 +9,8 @@ use Test::Exception;
 require Enbld::Target::AttributeCollector;
 
 my $no = Enbld::Target::AttributeCollector->new;
+$no->add( 'DarwinArgument' );
+$no->add( 'DefaultArgument' );
 $no->add( 'AdditionalArgument' );
 is( $no->AdditionalArgument, '', 'no parameter' );
 

@@ -16,7 +16,7 @@ sub initialize {
     $self->{defined}{ArchiveName}   = 'apr-util';
     $self->{defined}{VersionForm}   = '\d\.\d\.\d{1,2}';
 
-    $self->{defined}{Dependencies}  = [ 'apr' ];
+    $self->{defined}{Dependencies}  = sub { return [ 'apr' ] };
 
     $self->{defined}{AdditionalArgument} = \&set_argument;
 

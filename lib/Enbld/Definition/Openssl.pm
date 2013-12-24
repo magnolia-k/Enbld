@@ -15,7 +15,7 @@ sub initialize {
     $self->{defined}{VersionForm}       =   '\d\.\d\.\d\w?';
     $self->{defined}{DownloadSite}      =   'http://www.openssl.org/source/';
 
-    $self->{defined}{AdditionalArgument}=   \&set_argument;
+    $self->{defined}{DarwinArgument}    =   'darwin64-x86_64-cc';
 
     $self->{defined}{SortedVersionList} =   \&set_sorted_version_list;
 
@@ -29,10 +29,6 @@ sub initialize {
 
 sub set_commandconfigure {
     return $^O eq 'darwin' ? './configure' : './config';
-}
-
-sub set_argument {
-    return $^O eq 'darwin' ? 'darwin64-x86_64-cc' : undef;
 }
 
 sub set_sorted_version_list {

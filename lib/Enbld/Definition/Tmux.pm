@@ -10,7 +10,7 @@ sub initialize {
 
     $self->SUPER::initialize;
 
-    $self->{defined}{AdditionalArgument}   =  \&set_argument;
+    $self->{defined}{DarwinArgument}    =  \&set_argument;
     $self->{defined}{ArchiveName}       =   'tmux';
     $self->{defined}{WebSite}           =   'http://tmux.sourceforge.net';
     $self->{defined}{VersionForm}       =   '\d\.\d';
