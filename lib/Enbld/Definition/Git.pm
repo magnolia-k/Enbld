@@ -20,6 +20,8 @@ sub initialize {
 
     $self->{defined}{IndexParserForm}   =   \&set_index_parser_form;
 
+    $self->{defined}{AdditionalArgument} = '--without-tcltk';
+
     $self->{defined}{CommandConfigure}  =   './configure';
     $self->{defined}{CommandMake}       =   'make';
     $self->{defined}{CommandTest}       =   'make test';
