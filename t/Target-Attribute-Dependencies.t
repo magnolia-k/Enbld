@@ -8,6 +8,8 @@ use Test::Exception;
 
 require Enbld::Target::AttributeCollector;
 
+plan skip_all => "Skip a test since it is not OS X" unless ( $^O eq 'darwin' );
+
 my $no = Enbld::Target::AttributeCollector->new;
 $no->add( 'Dependencies' );
 is_deeply( \@{ $no->Dependencies }, [], 'no parameter' );

@@ -15,7 +15,7 @@ sub initialize {
     $self->{defined}{DistName}          =   'TestDependant';
     $self->{defined}{VersionForm}       =   '\d\.\d';
     $self->{defined}{Extension}         =   'tar.gz';
-    $self->{defined}{Dependencies}      =   [ 'testapp' ],
+    $self->{defined}{Dependencies}      =   sub { return [ 'testapp' ] },
     $self->{defined}{DownloadSite}      =   'http://www.example.com/';
 
     $self->{defined}{CommandConfigure}  =   './configure';
