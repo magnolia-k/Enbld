@@ -167,7 +167,7 @@ Enbldは全てのコンポーネントをC<「$HOME/.enbld」>ディレクトリ
 
 C<.bashrc>か、C<.bash_profile>に下記の設定を追加して下さい。
 
- export $PATH=$HOME/.enbld/bin:$HOME/.enbld/extlib/bin:$PATH
+ export PATH=$HOME/.enbld/bin:$HOME/.enbld/extlib/bin:$PATH
  export MANPATH=$HOME/.enbld/share/man:$HOME/.enbld/man:$MANPATH
 
 =head1 Enbldを始める

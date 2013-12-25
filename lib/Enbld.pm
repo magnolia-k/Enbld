@@ -646,7 +646,7 @@ Enbld installs all the components in a C<$HOME/.enbld> directory. Therefore, it 
 
 In C<.bashrc> or C<.bash_profile>, add below setting.
 
- export $PATH=$HOME/.enbld/bin:$HOME/.enbld/extlib/bin:$PATH
+ export PATH=$HOME/.enbld/bin:$HOME/.enbld/extlib/bin:$PATH
  export MANPATH=$HOME/.enbld/share/man:$HOME/.enbld/man:$MANPATH
 
 =head1 GETTING STARTED Enbld
