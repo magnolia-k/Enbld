@@ -20,7 +20,7 @@ sub initialize {
 
     $self->{defined}{IndexParserForm}   =   \&set_index_parser_form;
 
-    $self->{defined}{CommandConfigure}  =   'sh configure';
+    $self->{defined}{CommandConfigure}  =   './configure';
     $self->{defined}{CommandMake}       =   'make';
     $self->{defined}{CommandTest}       =   'make test';
     $self->{defined}{CommandInstall}    =   'make install';
