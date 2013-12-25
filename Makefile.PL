@@ -16,12 +16,6 @@ WriteMakefile(
         'ExtUtils::MakeMaker' => 6.82,
     },
 
-    TEST_REQUIRES => {
-        'Test::More'        => 0.98,
-        'Test::Output'      => 0,
-        'Test::Exception'   => 0,
-    },
-
     "EXE_FILES" => [
         "bin/enblder",
         "bin/chkenbld",
@@ -36,6 +30,10 @@ WriteMakefile(
         'Mozilla::CA'           => 0,
         'Try::Lite'             => 0,
         'File::Copy::Recursive' => 0,
+
+        'Test::More'        => 0.98,
+        'Test::Output'      => 0,
+        'Test::Exception'   => 0,
     },
 
 	META_MERGE		=> {
