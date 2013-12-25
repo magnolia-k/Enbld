@@ -7,6 +7,6 @@ requires 'File::Copy::Recursive', '0';
 requires 'autodie', '0';
 requires 'parent', '0';
 
-test_requires 'Test::More', '0.98';
-test_requires 'Test::Output', '0';
-test_requires 'Test::Exception', '0';
+requires 'Test::More', '0.98';
+requires 'Test::Output', '0';
+requires 'Test::Exception', '0';
