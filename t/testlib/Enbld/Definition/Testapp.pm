@@ -20,10 +20,7 @@ sub initialize {
     $self->{defined}{PatchFiles}        =
         [ 'http://www.example.com/TestAppPatch.txt' ];
 
-    $self->{defined}{CommandConfigure}  =   './configure';
-    $self->{defined}{CommandMake}       =   'make';
-    $self->{defined}{CommandTest}       =   'make test';
-    $self->{defined}{CommandInstall}    =   'make install';
+    $self->{defined}{TestAction}        =   'test';
 
     return $self;
 }

@@ -38,7 +38,9 @@ sub new {
 #           VersionCondition    =>  undef,
             VersionForm         =>  undef,
             WebSite             =>  undef,
-            
+           
+            TestAction          =>  undef,
+
             CommandConfigure    =>  undef,
             CommandMake         =>  undef,
             CommandTest         =>  undef,

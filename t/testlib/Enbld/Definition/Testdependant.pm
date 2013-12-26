@@ -18,10 +18,7 @@ sub initialize {
     $self->{defined}{Dependencies}      =   sub { return [ 'testapp' ] },
     $self->{defined}{DownloadSite}      =   'http://www.example.com/';
 
-    $self->{defined}{CommandConfigure}  =   './configure';
-    $self->{defined}{CommandMake}       =   'make';
-    $self->{defined}{CommandTest}       =   'make test';
-    $self->{defined}{CommandInstall}    =   'make install';
+    $self->{defined}{TestAction}        =   'test';
 
     return $self;
 }

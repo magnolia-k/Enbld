@@ -19,7 +19,6 @@ sub initialize {
     $self->{defined}{DownloadSite}      =   'http://www.example.com/';
 
     $self->{defined}{CommandConfigure}  =   undef;
-    $self->{defined}{CommandMake}       =   'make';
     $self->{defined}{CommandTest}       =   undef;
     $self->{defined}{CommandInstall}    =   undef;
 

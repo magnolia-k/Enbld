@@ -9,7 +9,16 @@ sub initialize {
     my ( $self, $param ) = @_;
 
     if ( ! defined $param ) {
-        $self->{value} = 'make';
+
+        if ( `make -v` =~ /GNU Make/ ) {
+            $self->{value} = 'make';
+        } elsif ( `which gmake` ) {
+            $self->{value} = 'gmake';
+        } else {
+            require Enbld::Error;
+            die( Enbld::Error->new( "GNU Make is NOT installed." ));
+        }
+
         $self->{is_evaluated}++;
 
         return $self;
