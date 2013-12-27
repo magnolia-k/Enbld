@@ -26,18 +26,4 @@ sub initialize {
     croak( Enbld::Exception->new( "Attribute 'TestAction' isn't defined" ) );
 }
 
-our @actions = qw/check test/;
-
-sub validate {
-    my ( $self, $string ) = @_;
-
-    $self->SUPER::validate( $string );
-
-    return $string if ( grep { $string eq $_ } @actions );
-
-    my $err = "Attribute 'TestAction' is invalid string";
-    require Enbld::Exception;
-    croak( Enbld::Exception->new( $err, $string ));
-}
-
 1;

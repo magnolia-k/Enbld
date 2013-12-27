@@ -31,10 +31,7 @@ sub initialize {
     $self->{defined}{Version}           =   \&set_version;
     $self->{defined}{PatchFiles}        =   \&set_patchfiles;
 
-    $self->{defined}{CommandConfigure}  =   './configure';
-    $self->{defined}{CommandMake}       =   'make';
-    $self->{defined}{CommandTest}       =   'make test';
-    $self->{defined}{CommandInstall}    =   'make install';
+    $self->{defined}{TestAction}        =   'test';
 
     return $self;
 }

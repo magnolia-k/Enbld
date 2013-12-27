@@ -20,10 +20,7 @@ sub initialize {
     $self->{defined}{IndexParserForm}   =   \&set_index_parser_form;
     $self->{defined}{Filename}          =   \&set_filename;
 
-    $self->{defined}{CommandConfigure}  =   './configure';
-    $self->{defined}{CommandMake}       =   'make';
-    $self->{defined}{CommandTest}       =   'make verify';
-    $self->{defined}{CommandInstall}    =   'make install';
+    $self->{defined}{TestAction}        =   'verify';
 
     return $self;
 }

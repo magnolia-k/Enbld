@@ -22,10 +22,7 @@ sub initialize {
 
     $self->{defined}{AdditionalArgument} = '--without-tcltk';
 
-    $self->{defined}{CommandConfigure}  =   './configure';
-    $self->{defined}{CommandMake}       =   'make';
-    $self->{defined}{CommandTest}       =   'make test';
-    $self->{defined}{CommandInstall}    =   'make install';
+    $self->{defined}{TestAction}        =   'test';
 
     return $self;
 }

@@ -20,9 +20,7 @@ sub initialize {
     $self->{defined}{AdditionalArgument}=   \&set_argument;
     
     $self->{defined}{CommandConfigure}  =   './configure';
-    $self->{defined}{CommandMake}       =   'make';
-    $self->{defined}{CommandTest}       =   undef;
-    $self->{defined}{CommandInstall}    =   'make install';
+    $self->{defined}{CommandTest}       =   '';
 
     return $self;
 }

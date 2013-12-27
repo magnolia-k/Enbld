@@ -24,10 +24,9 @@ sub initialize {
     $self->{defined}{Prefix}                =   '-Dprefix=';
     $self->{defined}{AdditionalArgument}    =   \&set_argument;
 
+    $self->{defined}{TestAction}        =   'test';
+
     $self->{defined}{CommandConfigure}  =   'sh Configure -de';
-    $self->{defined}{CommandMake}       =   'make';
-    $self->{defined}{CommandTest}       =   'make test';
-    $self->{defined}{CommandInstall}    =   'make install';
 
     return $self;
 }
