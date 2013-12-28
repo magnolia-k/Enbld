@@ -14,7 +14,7 @@ sub initialize {
 
     $self->{defined}{ArchiveName}    = 'ruby';
     $self->{defined}{WebSite}        = 'https://www.ruby-lang.org';
-    $self->{defined}{VersionForm}    = '\d\.\d\.\d-p\d{1,3}';
+    $self->{defined}{VersionForm}    = '\d\.\d\.\d(-p\d{1,3})?';
     $self->{defined}{Dependencies}   = [ 'openssl' ];
     $self->{defined}{DownloadSite}   = 'http://cache.ruby-lang.org/pub/ruby/';
 
