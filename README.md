@@ -32,7 +32,7 @@ When not running, I'm waiting for the report :)
 
     NOTE:Enbld certainly use the system perl (`/usr/bin/perl`).
 
- - make
+ - GNU Make
 
  - compiler (gcc or clang)
 

@@ -628,7 +628,7 @@ Probably, it may operate also on Linux (Debian, Ubuntu etc.). When not running, 
 
 Enbld certainly use the system perl (`/usr/bin/perl`).
 
-=item * make
+=item * GNU Make
 
 =item * compiler (gcc or clang)
 
@@ -731,6 +731,21 @@ perl 5.18.1 with thread is builded.
  $ perl -v
     
  This is perl 5, version 18, subversion 1 (v5.18.1) built for darwin-thread-multi-2level
+
+=head2 INSTALL SOFTWARE WHICH DEPENDS 
+
+When using Enbld at OS X, Enbld also solve the dependencies between softwares automatically.
+
+For example, when the is equal to which needs a libidn library for wget, and Enbld install wget, they also install libidn automatically.
+
+  $ enblder install wget
+  =====> Start building target 'wget'.
+  =====> Found dependencies.
+  --> Dependency 'libidn'.
+  --> libidn is not installed yet.
+  =====> Start building target 'libidn'.
+
+Please solve the software which needs the fix patterns of a dependencies at that of a many using the package Management manager of operating system in operating system of Linux and BSD(s) other than OS X.
 
 =head2 UTILITY COMMAND 'enblder'
 

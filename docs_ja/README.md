@@ -32,7 +32,7 @@ Enbldは、ソフトウェア開発に必要なソフトウェア（プログラ
 
   注:Enbldは必ずsystem perl(`/usr/bin/perl`)を使います。
 
- - make
+ - GNU Make
 
  - コンパイラ (gccか、clang)
 

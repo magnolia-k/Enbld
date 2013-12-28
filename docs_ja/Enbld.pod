@@ -149,7 +149,7 @@ B<Enbldは、OS X Mavericksで動作検証を行っています。>
 
 注:Enbldは必ずsystem perl (C</usr/bin/perl>)を使います。
 
-=item * make
+=item * GNU Make
 
 =item * コンパイラ (gccか、clang)
 
@@ -252,6 +252,21 @@ perl 5.18.1は、スレッド付きでビルドされました。
  $ perl -v
     
  This is perl 5, version 18, subversion 1 (v5.18.1) built for darwin-thread-multi-2level
+
+=head2 依存するソフトウェアのインストール
+
+OS XでEnbldを使う場合、ソフトウェア間の依存関係も自動的に解決します。
+
+例えば、wgetにはlibidnライブラリが必要ですが、Enbldはwgetをインストールする際、自動的にlibidnもインストールします。
+
+  $ enblder install wget
+  =====> Start building target 'wget'.
+  =====> Found dependencies.
+  --> Dependency 'libidn'.
+  --> libidn is not installed yet.
+  =====> Start building target 'libidn'.
+
+OS X以外の、Linuxや、BSDといったOSでは依存関係の解決パターンが多いので、必要なソフトウェアは、OSのパッケージ管理マネージャーを使って解決して下さい。
 
 =head2 ユーティリティコマンド'enblder'
 
