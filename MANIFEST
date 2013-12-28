@@ -81,6 +81,8 @@ lib/Enbld/Target/Attribute/CommandInstall.pm
 lib/Enbld/Target/Attribute/CommandMake.pm
 lib/Enbld/Target/Attribute/CommandTest.pm
 lib/Enbld/Target/Attribute/CopyFiles.pm
+lib/Enbld/Target/Attribute/DarwinArgument.pm
+lib/Enbld/Target/Attribute/DefaultArgument.pm
 lib/Enbld/Target/Attribute/Dependencies.pm
 lib/Enbld/Target/Attribute/DistName.pm
 lib/Enbld/Target/Attribute/DownloadSite.pm
@@ -91,6 +93,7 @@ lib/Enbld/Target/Attribute/IndexSite.pm
 lib/Enbld/Target/Attribute/PatchFiles.pm
 lib/Enbld/Target/Attribute/Prefix.pm
 lib/Enbld/Target/Attribute/SortedVersionList.pm
+lib/Enbld/Target/Attribute/TestAction.pm
 lib/Enbld/Target/Attribute/URL.pm
 lib/Enbld/Target/Attribute/Version.pm
 lib/Enbld/Target/Attribute/VersionCondition.pm
@@ -161,3 +164,5 @@ t/testlib/Enbld/Definition/Testapp.pm
 t/testlib/Enbld/Definition/Testdependant.pm
 xt/Definition-Any.t
 xt/Definition-Perl.t
+xt/HTTP.t
+xt/RcFile.t
