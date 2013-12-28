@@ -1,5 +1,13 @@
 Revision history for Enbld.
 
+0.7029 2013/12/28
+        - Support Linux and BSD better.
+          At Linux, Enbld made it not solve a dependencies.
+          Please use package management manager.
+          At BSD, use GNU Make instead of BSD make.
+        - Add document for solution a dependencies.
+        - Change the minimum version of required perl into 5.10.1 from 5.12.
+
 0.7028 2013/12/21
         - Fix test -> t/Target.t
           At OS X, the File System which does not distinguish
