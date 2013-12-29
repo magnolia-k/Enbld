@@ -130,10 +130,8 @@ t/Exception.t
 t/Feature.t
 t/Home.t
 t/HTML.t
-t/HTTP.t
 t/Logger.t
 t/Message.t
-t/RcFile.t
 t/Target-Attribute-AdditionalArgument.t
 t/Target-Attribute-AllowedCondition.t
 t/Target-Attribute-ArchiveName.t
