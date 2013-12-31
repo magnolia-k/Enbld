@@ -9,6 +9,7 @@ use autodie;
 use File::Spec;
 use File::Fetch;
 
+# At OS X Since Mozilla::CA is not installed, warning message will be displayed.
 $File::Fetch::BLACKLIST = [ qw/lwp/ ];
 
 my $home   = File::Spec->catdir(  $ENV{HOME}, '.enbld'  );
@@ -20,7 +21,21 @@ download_cpanm() unless ( -e $cpanm );
 
 say "=====> Install Enbld to $home.";
 
-system( '/usr/bin/perl', $cpanm, '-L', $extlib, '.' );
+print "\n";
+system( "/usr/bin/perl $cpanm -L $extlib ." );
+print "\n";
+
+if ( $? ) {
+
+    if ( $? == -1 ) {
+        die( "Failed to execute cpanm\n" );
+    } elsif ( $? & 127 ) {
+        die( "Child died with signal\n" );
+    } else {
+        die( "Installation error. Exit code:" . ( $? >> 8 ));
+    }
+
+}
 
 print << 'EOF';
 =====> Finish installation.
