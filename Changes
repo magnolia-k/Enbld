@@ -1,5 +1,9 @@
 Revision history for Enbld.
 
+0.7030 2013/12/30
+        [Fix Definition]
+        - Support the new versioning of ruby.
+
 0.7029 2013/12/28
         - Support Linux and BSD better.
           At Linux, Enbld made it not solve a dependencies.
