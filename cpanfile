@@ -1,5 +1,5 @@
-configure_require 'ExtUtils::MakeMaker', '6.66';
-build_require 'ExtUtils::MakeMaker', '6.66';
+configure_requires 'ExtUtils::MakeMaker', '6.66';
+build_requires 'ExtUtils::MakeMaker', '6.66';
 
 requires 'version', '0.77';
 requires 'LWP', '0';
