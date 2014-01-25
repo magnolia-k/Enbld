@@ -21,7 +21,9 @@ sub do {
         my $config = Enbld::App::Configuration->search_config( $name );
         my $target = Enbld::Target->new( $name, $config );
 
-        my $version = $target->is_outdated;
+        my $version = eval { $target->is_outdated };
+
+        next if $@;
 
         if ( $version ) {
             $outdated{$name} = $version;
