@@ -1,5 +1,9 @@
 Revision history for Enbld.
 
+0.7031 2014/02/06
+        [Fix Definition]
+        - Support development version for node.js.
+
 0.7030 2013/12/30
         [Fix Definition]
         - Support the new versioning of ruby.

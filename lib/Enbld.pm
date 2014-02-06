@@ -5,7 +5,7 @@ use warnings;
 
 use 5.010001;
 
-our $VERSION = '0.7030';
+our $VERSION = '0.7031';
 
 use FindBin qw/$Script/;
 use Getopt::Long;
