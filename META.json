@@ -34,9 +34,8 @@
       "runtime" : {
          "requires" : {
             "File::Copy::Recursive" : "0",
-            "LWP" : "0",
-            "LWP::Protocol::https" : "0",
-            "Mozilla::CA" : "0",
+            "HTTP::Tiny" : "0.041",
+            "IO::Socket::SSL" : "0",
             "Try::Lite" : "0",
             "autodie" : "0",
             "parent" : "0",
@@ -64,5 +63,5 @@
          "web" : "https://github.com/magnolia-k/Enbld"
       }
    },
-   "version" : "0.7031"
+   "version" : "0.7032"
 }

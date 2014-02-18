@@ -6,7 +6,7 @@ use warnings;
 use File::Spec;
 use Carp;
 
-use LWP::UserAgent;
+use HTTP::Tiny;
 
 our $ua;
 our $download_hook;
@@ -17,8 +17,7 @@ require Enbld::Error;
 require Enbld::Exception;
 
 sub initialize_ua {
-    $ua = LWP::UserAgent->new;
-    $ua->env_proxy;
+    $ua = HTTP::Tiny->new;
 }
 
 sub download {
@@ -43,8 +42,8 @@ sub download {
     initialize_ua() unless $ua;
     my $res = $ua->mirror( $url, $path );
 
-    if ( ! $res->is_success ) {
-        die Enbld::Error->new( $res->status_line );
+    if ( ! $res->{success} ) {
+        die Enbld::Error->new( $res->{reason} );
     }
 
     return $path;
@@ -69,11 +68,11 @@ sub get {
     initialize_ua() unless $ua;
     my $res = $ua->get( $url );
 
-    if ( ! $res->is_success ) {
-        die Enbld::Error->new( $res->status_line );
+    if ( ! $res->{success} ) {
+        die Enbld::Error->new( $res->{reason} );
     }
 
-    return $res->decoded_content;
+    return $res->{content};
 }
 
 sub get_html {
