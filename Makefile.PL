@@ -3,6 +3,10 @@ use 5.006;
 use strict;
 use warnings;
 
+if ( $^O eq 'MSWin32' ) {
+    die "Enbld can't run on windows platform.";
+}
+
 use ExtUtils::MakeMaker;
 
 WriteMakefile(

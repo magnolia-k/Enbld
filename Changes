@@ -1,5 +1,9 @@
 Revision history for Enbld.
 
+0.7033 2014/02/20
+        - Added check for Win32.
+          Since Enbld can't run on windows platforms.
+
 0.7032_1 2014/02/19
         - test release for tester.
 

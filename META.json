@@ -51,7 +51,7 @@
          }
       }
    },
-   "release_status" : "testing",
+   "release_status" : "stable",
    "resources" : {
       "bugtracker" : {
          "web" : "https://github.com/magnolia-k/Enbld/issues"
@@ -63,5 +63,5 @@
          "web" : "https://github.com/magnolia-k/Enbld"
       }
    },
-   "version" : "0.7032_1"
+   "version" : "0.7033"
 }
