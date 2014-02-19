@@ -1,5 +1,8 @@
 Revision history for Enbld.
 
+0.7032_1 2014/02/19
+        - test release for tester.
+
 0.7032 2014/02/18
         - Replace HTTP module from 'LWP' to 'HTTP::Tiny'.
           Since HTTP::Tiny 0.041 supported  authenticating proxy.
