@@ -1,5 +1,8 @@
 Revision history for Enbld.
 
+0.7034 2014/02/26
+        - Improved definition for ruby.
+
 0.7033 2014/02/20
         - Added check for Win32.
           Since Enbld can't run on windows platforms.
