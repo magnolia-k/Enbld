@@ -2,9 +2,8 @@ configure_requires 'ExtUtils::MakeMaker', '6.66';
 build_requires 'ExtUtils::MakeMaker', '6.66';
 
 requires 'version', '0.77';
-requires 'LWP', '0';
-requires 'LWP::Protocol::https', '0';
-requires 'Mozilla::CA', '0';
+requires 'HTTP::Tiny', '0.041';
+requires 'IO::Socket::SSL', '0';
 requires 'Try::Lite', '0';
 requires 'File::Copy::Recursive', '0';
 
