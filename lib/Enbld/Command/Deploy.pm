@@ -8,6 +8,7 @@ use 5.010001;
 use parent qw/Enbld::Command/;
 
 use Try::Lite;
+use File::Spec;
 
 require Enbld::Feature;
 require Enbld::Home;
@@ -23,6 +24,11 @@ sub do {
 
     unless ( $deploy_path ) {
         die( "ERROR:'deploy' command requires directory path argument.\n" );
+    }
+
+    ### to absolute path
+    unless ( File::Spec->file_name_is_absolute( $deploy_path ) ) {
+        $deploy_path = File::Spec->rel2abs( $deploy_path );
     }
 
     Enbld::Feature->set_deploy_mode( $deploy_path );
