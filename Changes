@@ -1,5 +1,9 @@
 Revision history for Enbld.
 
+0.7035 2014/03/08
+        [Improvement]
+        - Become able to receive relative path for deploying. (ytnobody++)
+
 0.7034 2014/02/26
         - Improved definition for ruby.
 
