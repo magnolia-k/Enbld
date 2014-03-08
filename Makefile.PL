@@ -45,6 +45,7 @@ WriteMakefile(
         'IO::Socket::SSL'       => 0,
         'Try::Lite'             => 0,
         'File::Copy::Recursive' => 0,
+        'File::Spec'            => 0,
     },
 
 	META_MERGE		=> {
