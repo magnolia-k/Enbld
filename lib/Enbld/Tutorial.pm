@@ -354,6 +354,8 @@ Option 'force' installs all software also including an installed software by for
 
 Option 'deploy' specifies the installation location of the script which the condition script defined.
 
+The deploy path can be specified by relative path or absolute path.
+
 However, the release check of the new version of the software installed by 'deploy' is not made.
 
 =head1 OTHER TOPICS

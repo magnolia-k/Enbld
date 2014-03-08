@@ -439,6 +439,11 @@ sub parse_option {
             'd|deploy=s'    => \$deploy_path,
             );
 
+    ### to absolute path
+    unless ( File::Spec->file_name_is_absolute( $deploy_path ) ) {
+        $deploy_path = File::Spec->rel2abs( $deploy_path );
+    }
+
     require Enbld::Feature;
     Enbld::Feature->initialize(
             make_test   =>  $make_test,
