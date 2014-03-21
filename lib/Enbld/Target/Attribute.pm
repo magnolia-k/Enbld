@@ -5,38 +5,34 @@ use warnings;
 
 use Carp;
 
-use Module::Load;
 use Module::Load::Conditional qw/can_load/;
+
+require Enbld::Exception;
 
 sub new {
     my ( $class, $name, $param ) = @_;
 
     if ( ! $name ) {
-        require Enbld::Exception;
         croak( Enbld::Exception->new( "'$class' requires name" ) );
     }
 
     my $module = "Enbld::Target::Attribute::$name";
 
-    if ( can_load( modules => { $module => undef } ) ) {
-        load $module;
+    can_load( modules => { $module => 0 } ) or
+        croak( Enbld::Exception->new( "Attribute '$name' is invalid name" ) );
 
-        my $self = {
-            attributes      =>  undef,
-            value           =>  undef,
-            callback        =>  undef,
-            is_evaluated    =>  undef,
-        };
+    my $self = {
+        attributes      =>  undef,
+        value           =>  undef,
+        callback        =>  undef,
+        is_evaluated    =>  undef,
+    };
 
-        bless $self, $module;
+    bless $self, $module;
 
-        $self->initialize( $param );
+    $self->initialize( $param );
 
-        return $self;
-    }
-
-    require Enbld::Exception;
-    croak( Enbld::Exception->new( "Attribute '$name' is invalid name" ) );
+    return $self;
 }
 
 
@@ -59,7 +55,6 @@ sub validate {
     if ( ! $string ) {
         my $type = ref( $self );
         $type =~ s/.*:://;
-        require Enbld::Exception;
         croak( Enbld::Exception->new( "Attribute '$type' is empty string" ));
     }
 
@@ -68,7 +63,6 @@ sub validate {
         $type =~ s/.*:://;
 
         my $err = "Attribute '$type' isn't scalar value";
-        require Enbld::Exception;
         croak( Enbld::Exception->new( $err, $string ));
     }
 

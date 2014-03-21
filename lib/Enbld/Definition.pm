@@ -3,7 +3,6 @@ package Enbld::Definition;
 use strict;
 use warnings;
 
-use Module::Load;
 use Module::Load::Conditional qw/can_load/;
 
 require Enbld::Error;
@@ -50,15 +49,14 @@ sub new {
 
     my $module = 'Enbld::Definition::' . ucfirst( $name );
 
-    if ( can_load( modules => { $module => undef } ) ) {
-        bless $self, $module;
+    can_load( modules => { $module => 0 } ) or
+        die( Enbld::Error->new( "no definition for target '$name'" ));
 
-        $self->initialize;
+    bless $self, $module;
 
-        return $self;
-    }
+    $self->initialize;
 
-    die( Enbld::Error->new( "no definition for target '$name'" ));
+    return $self;
 }
 
 sub initialize {
