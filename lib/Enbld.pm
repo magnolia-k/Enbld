@@ -3,6 +3,8 @@ package Enbld;
 use strict;
 use warnings;
 
+use Carp;
+
 use 5.010001;
 
 our $VERSION = '0.7035';
