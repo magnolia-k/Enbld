@@ -124,13 +124,11 @@ Definition module for Perl supports installation for development version of perl
 
 =head1 INSTALL MODULES
 
-Definition module for Perl supports installation for CPAN modules.
+Definition module for Perl supports installation for CPAN modules by specified cpanfile.
 
   target 'perl' => {
   	  version 'latest';
-      modules => {
-          'Carton' => 0,  # -> install Carton
-      };
+      module_file 'cpanfile';
   };
 
 =head1 SEE ALSO

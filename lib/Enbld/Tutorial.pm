@@ -152,23 +152,18 @@ If a test goes wrong, a build will also go wrong.
 
 Usually, this features is come by off.
 
-=head3 modules
+=head3 module_file
 
   target 'perl' => define {
       version 'latest';
-      modules {
-          'App::cpanminus' => 0,
-          'Carton'         => 0,
-      };
+      module_file 'cpanfile';
   };
 
-'modules' is a functions which it uses to install a modules using the modules install features which a programming language prepares.
+'module_file' is a functions which it uses to install a modules using the modules install features which a programming language prepares.
 
-For example, in perl, call cpan and install a modules.
+For example, in perl, call cpanm and install a modules specified by cpanfile.
 
-Specify a hash reference as an arguments. In a hash, specify a key for a module name, and a value for a zero.
-
-In the future, a modules version can be due being specified now.
+The argument is path of the modules definition file for the languages (i.e. cpanfile at perl ).
 
 Refer to the document of each Definition modules for a more.
 

@@ -5,6 +5,8 @@ use warnings;
 
 use parent qw/Enbld::Module/;
 
+use FindBin qw/$Bin/;
+
 use File::Spec;
 
 require Enbld::Home;
@@ -14,19 +16,39 @@ require Enbld::Error;
 sub initialize {
     my $self = shift;
 
-    $self->{command} = File::Spec->catfile( $self->{path}, 'bin', 'cpan' );
-}
+    # install cpanm
+    my $cpan = File::Spec->catfile( $self->{path}, 'bin', 'cpan' );
+    $self->{installer} = File::Spec->catfile( $self->{path}, 'bin', 'cpanm' );
 
-sub module {
-    my ( $self, $name, $version ) = @_;
+    require Enbld::Logger;
+    my $logfile = Enbld::Logger->logfile;
 
-    return $name;
+    system( "$cpan App::cpanminus >> $logfile 2>&1" );
+
+    if ( $? >> 8 ) {
+        die( Enbld::Error->new( "Can't install cpanm" ));
+    }
+
+    # fullpath
+    my $path;
+    if ( File::Spec->file_name_is_absolute( $self->{module_file} ) ) {
+        $path = $self->{module_file};
+    } else {
+        $path = File::Spec->catfile( $Bin, $self->{module_file} );
+    }
+
+    if ( ! -e $path ) {
+        die( Enbld::Error->new( "Can't find cpanfile:$path" ));
+    }
+
+    $self->{module_file_fullpath} = $path;
 }
 
 sub install_command {
-    my ( $self, $module ) = @_;
+    my $self = shift;
 
-    my $cmd = q{yes '' | } . $self->{command} . ' ' . $module;
+    my $cmd = $self->{installer} . ' --cpanfile !file! --installdeps .';
+    $cmd =~ s/!file!/$self->{module_file_fullpath}/;
 
     return $cmd;
 }

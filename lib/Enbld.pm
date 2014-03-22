@@ -20,6 +20,7 @@ our @EXPORT = qw/
     define
     version
     make_test
+    module_file
     modules
     arguments
     annotation
@@ -281,14 +282,18 @@ sub annotation($) {
     $condition_ref->{annotation} = $annotation;
 }
 
-sub modules($) {
-    my $modules = shift;
+sub module_file($) {
+    my $module_file = shift;
 
-    if ( ref( $modules ) ne 'HASH' ) {
-        _err( "Function 'modules' requires HASH reference type parameter." );
+    if ( ref( $module_file ) ) {
+        _err( "Function 'module_file' requires string type parameter." );
     }
 
-    $condition_ref->{modules} = $modules;
+    $condition_ref->{module_file} = $module_file;
+}
+
+sub modules {
+    croak "'modules' function is deparecated. Please use 'module_file'.";
 }
 
 our $rcfile_condition;

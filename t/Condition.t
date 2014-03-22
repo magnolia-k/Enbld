@@ -49,24 +49,6 @@ subtest 'serialize' => sub {
                 );
     };
 
-    subtest 'modules serialize' => sub {
-        my $condition = Enbld::Condition->new( modules => {
-                module_a    => 0,
-                module_b    => 0,
-                });
-
-        is_deeply(
-                $condition->serialize,
-                {
-                version => 'latest',
-                modules => {
-                module_a => 0,
-                module_b => 0,
-                }},
-                'serialized modules'
-                );
-    };
-
 };
 
 subtest 'is_equal_to method' => sub {
@@ -101,29 +83,6 @@ subtest 'is_equal_to method' => sub {
                 'different not equal pattern' );
     };
 
-    subtest 'modules check' => sub {
-        my $condition = Enbld::Condition->new( modules => { module => 0 } );
-        my $param     = Enbld::Condition->new( modules => { module => 0 } );
-
-        is( $condition->is_equal_to( $param ), $condition, 'same modules' );
-
-        my $param_diff = Enbld::Condition->new( modules => undef );
-
-        is( $condition->is_equal_to( $param_diff ), undef,
-                'different modules pattern1' );
-
-        my $condition_diff = Enbld::Condition->new( modules => undef );
-
-        is( $condition_diff->is_equal_to( $param ), undef,
-                'diffrent modules pattern2' );
-
-        my $param_diff_but_modules = Enbld::Condition->new(
-                modules => { 'diffrentmodule' => 0 },
-                );
-
-        is( $condition->is_equal_to( $param_diff_but_modules ), undef,
-                'different module condition' );
-    };
 };
 
 done_testing();

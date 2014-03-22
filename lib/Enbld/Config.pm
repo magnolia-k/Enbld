@@ -115,15 +115,9 @@ sub DSL {
         push @config, "    annotation '" . $self->condition->annotation ."';\n";
     }
 
-    if ( $self->condition->modules ) {
-        push @config, "    modules {\n";
+    if ( $self->condition->module_file ) {
+        push @config, "    module_file '" . $self->condition->module_file ."';\n";
 
-        foreach my $module ( sort keys %{ $self->condition->modules } ) {
-            push @config, ' ' x 8 . "'" . $module . "' => " . 
-                $self->condition->modules->{$module} . ",\n";
-        }
-
-        push @config, "    };\n";
     }
 
     push @config, "};\n";

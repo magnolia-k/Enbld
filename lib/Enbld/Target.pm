@@ -310,7 +310,7 @@ sub _build {
     $self->_setup_install_directory;
     $self->_exec_build_command( $condition );
 
-    if ( $condition->modules ) {
+    if ( $condition->module_file ) {
         $self->_install_module( $condition );
     }
 
@@ -335,7 +335,7 @@ sub _build_to_deploy {
 
     $self->_exec_build_command( $condition );
 
-    if ( $condition->modules ) {
+    if ( $condition->module_file ) {
         $self->_install_module( $condition );
     }
 
@@ -512,11 +512,12 @@ sub _install_module {
 
     require Enbld::Module;
     my $module = Enbld::Module->new(
-            name    => $self->{name},
-            path    => $self->{install},
+            name        => $self->{name},
+            path        => $self->{install},
+            module_file => $condition->module_file,
             );
 
-    $module->install( $condition->modules );
+    $module->install;
 }
 
 sub _postbuild {

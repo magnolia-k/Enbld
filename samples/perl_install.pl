@@ -12,9 +12,7 @@ enbld 'mydevenv' => build {
     target 'perl' => define {
         version 'latest';
 
-        modules {
-            'App::cpanminus'    =>  0,
-        };
+        modules 'cpanfile';
     };
 };
 

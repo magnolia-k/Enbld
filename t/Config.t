@@ -115,17 +115,6 @@ subtest 'DSL' => sub {
     my $make_test_DSL = $make_test_config->DSL;
     like( $make_test_DSL->[2], qr/make_test '1'/, 'make test' );
 
-    my $modules_condition = Enbld::Condition->new( modules => {
-                module_a => 0,
-                module_b => 0,
-            });
-
-    my $modules_config = Enbld::Config->new( name => 'app' );
-    $modules_config->set_enabled( '1.0', $modules_condition );
-    my $modules_DSL = $modules_config->DSL;
-
-    like( $modules_DSL->[3], qr/module_a/, 'module condition first' );
-    like( $modules_DSL->[4], qr/module_b/, 'module condition second' );
 };
 
 done_testing();
