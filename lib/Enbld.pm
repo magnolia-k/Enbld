@@ -440,8 +440,10 @@ sub parse_option {
             );
 
     ### to absolute path
-    unless ( File::Spec->file_name_is_absolute( $deploy_path ) ) {
-        $deploy_path = File::Spec->rel2abs( $deploy_path );
+    if ( $deploy_path ) {
+        unless ( File::Spec->file_name_is_absolute( $deploy_path ) ) {
+            $deploy_path = File::Spec->rel2abs( $deploy_path );
+        }
     }
 
     require Enbld::Feature;
