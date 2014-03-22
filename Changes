@@ -1,5 +1,13 @@
 Revision history for Enbld.
 
+0.7036 2014/03/22
+        [Bug Fix]
+        - Fixed deploy mode at absolute path.
+          Compulsorily, it was lost that DSL is set as deploy mode.
+
+        [New Feature]
+        - Supported cpanfile at module installation for perl.
+
 0.7035 2014/03/08
         [Improvement]
         - Become able to receive relative path for deploying. (ytnobody++)

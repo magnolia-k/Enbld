@@ -4,7 +4,7 @@
       "magnolia <magnolia.k@me.com>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "ExtUtils::MakeMaker version 6.88, CPAN::Meta::Converter version 2.133380",
+   "generated_by" : "ExtUtils::MakeMaker version 6.66, CPAN::Meta::Converter version 2.120921",
    "license" : [
       "perl_5"
    ],
@@ -20,37 +20,6 @@
          "xt"
       ]
    },
-   "prereqs" : {
-      "build" : {
-         "requires" : {
-            "ExtUtils::MakeMaker" : "6.66"
-         }
-      },
-      "configure" : {
-         "requires" : {
-            "ExtUtils::MakeMaker" : "6.66"
-         }
-      },
-      "runtime" : {
-         "requires" : {
-            "File::Copy::Recursive" : "0",
-            "HTTP::Tiny" : "0.041",
-            "IO::Socket::SSL" : "0",
-            "Try::Lite" : "0",
-            "autodie" : "0",
-            "parent" : "0",
-            "perl" : "5.010001",
-            "version" : "0.77"
-         }
-      },
-      "test" : {
-         "requires" : {
-            "Test::Exception" : "0",
-            "Test::More" : "0.98",
-            "Test::Output" : "0"
-         }
-      }
-   },
    "release_status" : "stable",
    "resources" : {
       "bugtracker" : {
@@ -63,5 +32,5 @@
          "web" : "https://github.com/magnolia-k/Enbld"
       }
    },
-   "version" : "0.7035"
+   "version" : "0.7036"
 }
