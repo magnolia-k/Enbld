@@ -7,7 +7,7 @@ use File::Spec;
 use File::Basename 'dirname';
 
 use lib (
-    File::Spec->catfile( dirname(__FILE__), qw| .. lib perl5| ),
+    File::Spec->catdir( dirname(__FILE__), qw| .. lib perl5| ),
 );
 
 require Enbld::App;

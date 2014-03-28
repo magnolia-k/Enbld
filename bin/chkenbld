@@ -6,7 +6,11 @@ use warnings;
 use version;
 
 use FindBin;
-use lib "$FindBin::Bin/../lib/perl5";
+use File::Basename 'dirname';
+
+use lib (
+    File::Spec->catdir( dirname(__FILE__), qw| .. lib perl5| ),
+);
 
 require Enbld::Home;
 Enbld::Home->initialize;
