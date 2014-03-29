@@ -4,7 +4,6 @@ use strict;
 use warnings;
 
 use Carp;
-use Scalar::Util qw/blessed/;
 
 require Enbld::Exception;
 
