@@ -4,19 +4,24 @@ use strict;
 use warnings;
 
 use Carp;
-use Data::Dumper;
 
 use overload (
         q{""} => \&to_string,
         fallback => 1,
         );
 
+sub throw {
+    my ( $class, $message, $param ) = @_;
+
+    die $class->new( $message, $param );
+}
+
 sub new {
     my ( $class, $message, $param ) = @_;
 
     chomp( $message );
 
-    if ( $param ) { $message .= "\n" . Dumper( $param ) };
+    if ( $param ) { $message .= "\n" . $param . "\n" };
 
     my $location = $ENV{HARNESS_ACTIVE} ? Carp::longmess() : Carp::shortmess();
 

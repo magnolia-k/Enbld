@@ -8,6 +8,12 @@ use overload (
         fallback => 1,
         );
 
+sub throw {
+    my ( $class, $message ) = @_;
+
+    die $class->new( $message );
+}
+
 sub new {
     my ( $class, $message ) = @_;
 
