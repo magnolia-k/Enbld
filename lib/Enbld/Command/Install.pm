@@ -29,14 +29,7 @@ sub do {
     my $target = Enbld::Target->new( $target_name, $config );
 
     my $installed = try {
-
-        if ( $version ) {
-            my $condition = Enbld::Condition->new( version => $version );
-            return $target->install_declared( { $target_name => $condition } );
-        } else {
-            return $target->install;
-        }
-
+            return $target->install( $version );
     } ( 'Enbld::Error' => sub {
         Enbld::Message->alert( $@ );
 

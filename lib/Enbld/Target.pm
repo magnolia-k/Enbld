@@ -48,12 +48,14 @@ sub new {
 
 sub install {
     my $self = shift;
+    my $version = shift;
     
     if ( ! $self->_is_install_ok ) {
         Enbld::Error->throw( "'$self->{name}' is already installed." );
     }
 
-    my $condition = Enbld::Condition->new;
+    my $condition = $version ? Enbld::Condition->new( version => $version ) :
+        Enbld::Condition->new;
 
     $self->{attributes}->add( 'VersionCondition', $condition->version );
 
