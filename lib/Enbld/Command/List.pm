@@ -75,7 +75,7 @@ sub list_target_installed_version {
 
     if ( ! $config ) {
         require Enbld::Error;
-        die Enbld::Error->new( "Target '$target_name' is not installed yet.\n" );
+        Enbld::Error->throw( "Target '$target_name' is not installed yet.\n" );
     }
 
     for my $installed ( sort keys %{ $config->installed } ) {

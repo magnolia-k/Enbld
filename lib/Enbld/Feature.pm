@@ -41,12 +41,12 @@ sub _validate_deploy_path {
     
     if ( ! -d $deploy_path ) {
         my $err = "'$deploy_path' is nonexistent directory.";
-        die( Enbld::Error->new( $err ));
+        Enbld::Error->throw( $err );
     }
 
     if ( ! -w $deploy_path ) {
         my $err = "no permission to write directory:$deploy_path";
-        die( Enbld::Error->new( $err ));
+        Enbld::Error->throw( $err );
     }
 
     return $deploy_path;

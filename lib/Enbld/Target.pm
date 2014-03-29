@@ -50,7 +50,7 @@ sub install {
     my $self = shift;
     
     if ( ! $self->_is_install_ok ) {
-        die( Enbld::Error->new( "'$self->{name}' is already installed." ) );
+        Enbld::Error->throw( "'$self->{name}' is already installed." );
     }
 
     my $condition = Enbld::Condition->new;
@@ -131,7 +131,7 @@ sub upgrade {
     my $self = shift;
 
     if ( ! $self->is_installed ) {
-        die( Enbld::Error->new( "'$self->{name}' is not installed yet." ) );
+        Enbld::Error->throw( "'$self->{name}' is not installed yet." );
     }
 
     $self->{attributes}->add(
@@ -151,7 +151,7 @@ sub upgrade {
         first { ${ $VersionList }[$_] eq $enabled } 0..$#{ $VersionList };
 
     if ( $index_current <= $index_enabled ) {
-        die( Enbld::Error->new( "'$self->{name}' is up to date." ) );
+        Enbld::Error->throw( "'$self->{name}' is up to date." );
     }
 
     $self->_build( $self->{config}->condition );
@@ -163,7 +163,7 @@ sub off {
     my $self = shift;
 
     if ( ! $self->is_installed ) {
-        die( Enbld::Error->new( "'$self->{name}' is not installed yet." ) );
+        Enbld::Error->throw( "'$self->{name}' is not installed yet." );
     }
 
     $self->_drop;
@@ -177,7 +177,7 @@ sub rehash {
     my $self = shift;
 
     if ( ! $self->is_installed ) {
-        die( Enbld::Error->new( "'$self->{name}' isn't installed yet." ) );
+        Enbld::Error->throw( "'$self->{name}' isn't installed yet." );
     }
 
     $self->_switch( $self->{config}->enabled );
@@ -189,20 +189,20 @@ sub use {
     my ( $self, $version ) = @_;
 
     if ( ! $self->{config}->installed ) {
-        die( Enbld::Error->new( "'$self->{name}' isn't installed yet." ) );
+        Enbld::Error->throw( "'$self->{name}' isn't installed yet." );
     }
 
     my $form = $self->{attributes}->VersionForm;
     if ( $version !~ /^$form$/ ) {
-        die( Enbld::Error->new( "'$version' is not valid version form." ) );
+        Enbld::Error->throw( "'$version' is not valid version form." );
     }
 
     if ( $self->{config}->enabled && $self->{config}->enabled eq $version ) {
-        die( Enbld::Error->new( "'$version' is current enabled version." ) );
+        Enbld::Error->throw( "'$version' is current enabled version." );
     }
 
     if ( ! $self->{config}->is_installed_version( $version ) ) {
-        die( Enbld::Error->new( "'$version' isn't installed yet" ) );
+        Enbld::Error->throw( "'$version' isn't installed yet" );
     }
 
     $self->_switch( $version );
@@ -561,13 +561,13 @@ sub _exec {
     return $self unless $?;
 
     if ( $? == -1 ) {
-        die( Enbld::Error->new( "Failed to execute:$cmd" ));
+        Enbld::Error->throw( "Failed to execute:$cmd" );
     } elsif ( $? & 127 ) {
-        my $err = "Child died with signal:$cmd";
-        die( Enbld::Error->new( $err ));
+        Enbld::Error->new( "Child died with signal:$cmd" );
     } else {
-        my $err = "Build fail.Command:$cmd return code:" . ( $? >> 8 );
-        die( Enbld::Error->new( $err ));
+        Enbld::Error->throw(
+                "Build fail.Command:$cmd return code:" . ( $? >> 8 )
+                );
     }
 }
 

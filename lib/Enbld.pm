@@ -486,7 +486,7 @@ sub parse_option {
 sub _err {
     my ( $msg, $param ) = @_;
 
-    die( Enbld::Error->new( $msg, $param ) );
+    Enbld::Error->throw( $msg, $param );
 }
 
 1;

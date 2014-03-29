@@ -21,7 +21,7 @@ sub new {
     
     my $module = 'Enbld::Module::' . ucfirst( $self->{name} );
     can_load( modules => { $module => 0 } ) or
-        die( Enbld::Error->new( "no module for target '$self->{name}'" ));
+        Enbld::Error->throw( "no module for target '$self->{name}'" );
 
     bless $self, $module;
 
@@ -46,7 +46,7 @@ sub install {
 
     if ( $? >> 8 ) {
         my $err = "Build fail.Command:$cmd return code:" . ( $? >> 8 );
-        die( Enbld::Error->new( $err ));
+        Enbld::Error->throw( $err );
     }
 
     my $end_msg = "----> Finish install modules for '$self->{name}'.";

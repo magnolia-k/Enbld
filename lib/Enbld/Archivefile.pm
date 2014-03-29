@@ -45,7 +45,7 @@ sub _err {
     my ( $err, $msg ) = @_;
 
     require Enbld::Error;
-    die( Enbld::Error->new( $err, $msg ) );
+    Enbld::Error->throw( $err, $msg );
 }
 
 1;

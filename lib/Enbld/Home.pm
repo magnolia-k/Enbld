@@ -43,12 +43,12 @@ sub AUTOLOAD {
 
     unless ( exists $dirs->{$method} ) {
         my $err = "Can't execute Enbld::Home's method.";
-        croak( Enbld::Exception->new( $err, $method ));
+        Enbld::Exception->throw( $err, $method );
     }
 
     unless ( $dirs->{$method} ) {
         my $err = "Not initialized Enbld home's path yet.";
-        croak( Enbld::Exception->new( $err ));
+        Enbld::Exception->throw( $err );
     }
 
     return $dirs->{$method};
@@ -80,17 +80,17 @@ sub _create_home_directory {
     make_path( $dirs->{home}, { error => \$error } );
 
     if ( @{ $error } ) {
-        die( Enbld::Error->new(
+        Enbld::Error->throw(
                     "Can't create Enbld's home directory:$dirs->{home}\n" .
                     "Please check write permission for $dirs->{home}",
-                    ));
+                    );
     }
 
     if ( ! -w $dirs->{home} ) {
-        die( Enbld::Error->new(
+        Enbld::Error->throw(
                     "No permission to write directory:$dirs->{home}" .
                     "Please check write permission for $dirs->{home}"
-                    ));
+                    );
     }
 
     make_path( $dirs->{$_} = File::Spec->catdir( $dirs->{home}, $_ )) for

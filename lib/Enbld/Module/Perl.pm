@@ -26,7 +26,7 @@ sub initialize {
     system( "$cpan App::cpanminus >> $logfile 2>&1" );
 
     if ( $? >> 8 ) {
-        die( Enbld::Error->new( "Can't install cpanm" ));
+        Enbld::Error->throw( "Can't install cpanm" );
     }
 
     # fullpath
@@ -38,7 +38,7 @@ sub initialize {
     }
 
     if ( ! -e $path ) {
-        die( Enbld::Error->new( "Can't find cpanfile:$path" ));
+        Enbld::Error->throw( "Can't find cpanfile:$path" );
     }
 
     $self->{module_file_fullpath} = $path;

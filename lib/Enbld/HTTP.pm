@@ -43,7 +43,7 @@ sub download {
     my $res = $ua->mirror( $url, $path );
 
     if ( ! $res->{success} ) {
-        die Enbld::Error->new( $res->{reason} );
+        Enbld::Error->throw( $res->{reason} );
     }
 
     return $path;
@@ -69,7 +69,7 @@ sub get {
     my $res = $ua->get( $url );
 
     if ( ! $res->{success} ) {
-        die Enbld::Error->new( $res->{reason} );
+        Enbld::Error->throw( $res->{reason} );
     }
 
     return $res->{content};
@@ -96,7 +96,7 @@ sub register_get_hook {
 
     my $err = "register get hook requires CODE reference parameter.";
     require Enbld::Exception;
-    croak( Enbld::Exception->new( $err, $coderef ));
+    Enbld::Exception->throw( $err, $coderef );
 }
 
 sub register_download_hook {
@@ -109,7 +109,7 @@ sub register_download_hook {
 
     my $err = "register download hook requires CODE reference parameter.";
     require Enbld::Exception;
-    croak( Enbld::Exception->new( $err, $coderef ));
+    Enbld::Exception->throw( $err, $coderef );
 }
 
 1;

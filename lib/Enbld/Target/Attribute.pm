@@ -3,8 +3,6 @@ package Enbld::Target::Attribute;
 use strict;
 use warnings;
 
-use Carp;
-
 use Module::Load::Conditional qw/can_load/;
 
 require Enbld::Exception;
@@ -13,13 +11,13 @@ sub new {
     my ( $class, $name, $param ) = @_;
 
     if ( ! $name ) {
-        croak( Enbld::Exception->new( "'$class' requires name" ) );
+        Enbld::Exception->throw( "'$class' requires name" );
     }
 
     my $module = "Enbld::Target::Attribute::$name";
 
     can_load( modules => { $module => 0 } ) or
-        croak( Enbld::Exception->new( "Attribute '$name' is invalid name" ) );
+        Enbld::Exception->throw( "Attribute '$name' is invalid name" );
 
     my $self = {
         attributes      =>  undef,
@@ -34,7 +32,6 @@ sub new {
 
     return $self;
 }
-
 
 sub initialize {
     my ( $self, $param ) = @_;
@@ -55,15 +52,13 @@ sub validate {
     if ( ! $string ) {
         my $type = ref( $self );
         $type =~ s/.*:://;
-        croak( Enbld::Exception->new( "Attribute '$type' is empty string" ));
+        Enbld::Exception->throw( "Attribute '$type' is empty string" );
     }
 
     if ( ref( $string ) ) {
         my $type = ref( $self );
         $type =~ s/.*:://;
-
-        my $err = "Attribute '$type' isn't scalar value";
-        croak( Enbld::Exception->new( $err, $string ));
+        Enbld::Exception->throw( "Attribute '$type' isn't scalar value" );
     }
 
     return $string;
