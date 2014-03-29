@@ -22,6 +22,7 @@ Commands:
   available            displays all software supported by Enbld
   available target     displays all version of target software
   install target       installs target software
+  install target ver   installs the specific version of target software
   list                 displays installed software
   list target          displays all installed version of target software
   outdated             displays all outdated software

@@ -25,16 +25,17 @@ enblder - utility command for Enbld
 
 =head1 SYNOPSIS
 
- $ enblder intro          # displays the introduction for Enbld
- $ enblder tutorial       # displays the tutorial for Enbld
- $ enblder available      # displays all software list supported by Enbld
- $ enblder available git  # displays all version of target software
- $ enblder install git    # installs target software
- $ enblder list           # displays installed software list
- $ enblder list git       # displays all installed version of target software
- $ enblder outdated       # displays all outdated software list
- $ enblder upgrade git    # installs upgraded target software
- $ enblder freeze         # displays conditions script reproduce installed software
+ $ enblder intro           # displays the introduction for Enbld
+ $ enblder tutorial        # displays the tutorial for Enbld
+ $ enblder available       # displays all software list supported by Enbld
+ $ enblder available git   # displays all version of target software
+ $ enblder install git     # installs target software
+ $ enblder install git 1.9 # installs the specific version of target software
+ $ enblder list            # displays installed software list
+ $ enblder list git        # displays all installed version of target software
+ $ enblder outdated        # displays all outdated software list
+ $ enblder upgrade git     # installs upgraded target software
+ $ enblder freeze          # displays conditions script reproduce installed software
  $ enblder deploy ~/path  # deploys all installed software to specific path
  $ enblder selfupgrade    # upgrade Enbld
 
@@ -77,6 +78,10 @@ If a target software is specified as an argument, displays the list of the versi
   $ enblder install [target_software]
 
 Installs target software.
+
+  $ enblder install [target_software] [version]
+
+Installs the specific version of target software.
 
   $ enblder install [target_software] --force
 

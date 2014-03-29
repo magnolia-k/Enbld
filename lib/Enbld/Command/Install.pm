@@ -15,11 +15,13 @@ require Enbld::Exception;
 require Enbld::Message;
 require Enbld::Target;
 require Enbld::Logger;
+require Enbld::Condition;
 
 sub do {
     my $self = shift;
 
     my $target_name = $self->validate_target_name( shift @{ $self->{argv} } );
+    my $version = shift @{ $self->{argv} };
 
     $self->setup;
 
@@ -27,7 +29,14 @@ sub do {
     my $target = Enbld::Target->new( $target_name, $config );
 
     my $installed = try {
-        return $target->install;
+
+        if ( $version ) {
+            my $condition = Enbld::Condition->new( version => $version );
+            return $target->install_declared( { $target_name => $condition } );
+        } else {
+            return $target->install;
+        }
+
     } ( 'Enbld::Error' => sub {
         Enbld::Message->alert( $@ );
 

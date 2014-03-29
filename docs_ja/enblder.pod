@@ -8,18 +8,19 @@ enblder - Enbldのユーティリティコマンド
 
 =head1 SYNOPSIS
 
- $ enblder intro          # Enbldのイントロダクションドキュメントを表示
- $ enblder tutorial       # Enbldのチュートリアルを表示
- $ enblder available      # Enbldがサポートするソフトウェアの一覧を表示
- $ enblder available git  # インストール可能なバージョンの一覧を表示
- $ enblder install git    # ターゲットのソフトウェアをインストール
- $ enblder list           # インストール済のソフトウェアの一覧を表示
- $ enblder list git       # 指定したソフトウェアのインストール済のバージョンの一覧を表示
- $ enblder outdated       # 旧バージョンのソフトウェアの一覧を表示
- $ enblder upgrade git    # ターゲットのソフトウェアのアップグレード
- $ enblder freeze         # インストール済のソフトウェアを再現するコンディションスクリプトを表示
- $ enblder deploy ~/path  # 指定したパスにソフトウェアをデプロイ
- $ enblder selfupgrade    # Enbld自身をアップグレード
+ $ enblder intro           # Enbldのイントロダクションドキュメントを表示
+ $ enblder tutorial        # Enbldのチュートリアルを表示
+ $ enblder available       # Enbldがサポートするソフトウェアの一覧を表示
+ $ enblder available git   # インストール可能なバージョンの一覧を表示
+ $ enblder install git     # ターゲットのソフトウェアをインストール
+ $ enblder install git 1.9 # 指定したバージョンのターゲットソフトウェアをインストール
+ $ enblder list            # インストール済のソフトウェアの一覧を表示
+ $ enblder list git        # 指定したソフトウェアのインストール済のバージョンの一覧を表示
+ $ enblder outdated        # 旧バージョンのソフトウェアの一覧を表示
+ $ enblder upgrade git     # ターゲットのソフトウェアのアップグレード
+ $ enblder freeze          # インストール済のソフトウェアを再現するコンディションスクリプトを表示
+ $ enblder deploy ~/path   # 指定したパスにソフトウェアをデプロイ
+ $ enblder selfupgrade     # Enbld自身をアップグレード
 
 =head1 説明
 
@@ -60,6 +61,10 @@ Enbldがサポートする全てのソフトウェアの一覧を表示します
   $ enblder install [target_software]
 
 ターゲットのソフトウェアをインストール
+
+  $ enblder install [target_software] [version]
+
+指定したバージョンのターゲットソフトウェアをインストール
 
   $ enblder install [target_software] --force
 
