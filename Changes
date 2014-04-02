@@ -1,5 +1,14 @@
 Revision history for Enbld.
 
+0.7037 2014/04/02
+        [New Feature]
+        - Added support for installation the specific version of target.
+
+        [Refactoring]
+        - Replaced shebang (ytnobody++)
+        - Improved the specified method of a lib directory. (ytnobody++)
+        - Simplified the error handling.
+
 0.7036 2014/03/22
         [Bug Fix]
         - Fixed deploy mode at absolute path.
