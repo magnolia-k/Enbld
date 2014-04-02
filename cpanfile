@@ -7,6 +7,7 @@ requires 'IO::Socket::SSL', '0';
 requires 'Try::Lite', '0';
 requires 'File::Copy::Recursive', '0';
 requires 'File::Spec', '0';
+requires 'File::Basename', '0';
 
 requires 'autodie', '0';
 requires 'parent', '0';
