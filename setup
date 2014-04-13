@@ -42,9 +42,9 @@ print << 'EOF';
 
 Please add following path to PATH.
 
-    $HOME/.enbld/extlib/bin
     $HOME/.enbld/bin
     $HOME/.enbld/sbin
+    $HOME/.enbld/extlib/bin
 
 Please add following path to MANPATH.
 
