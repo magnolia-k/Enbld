@@ -1,5 +1,9 @@
 Revision history for Enbld.
 
+0.7038 2014/05/29
+        [Fixed Definition]
+        - Supported git 2.x.x.
+
 0.7037 2014/04/02
         [New Feature]
         - Added support for installation the specific version of target.
