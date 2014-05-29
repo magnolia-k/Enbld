@@ -10,33 +10,17 @@ sub initialize {
 
     $self->SUPER::initialize;
 
-    $self->{defined}{IndexSite}         =
-        'http://code.google.com/p/git-core/downloads/list?num=1000&start=0';
+    $self->{defined}{DownloadSite}      =
+        'https://www.kernel.org/pub/software/scm/git/';
     $self->{defined}{ArchiveName}       =   'git';
     $self->{defined}{WebSite}           =   'http://git-scm.com';
-    $self->{defined}{VersionForm}       =   '1\.\d\.\d{1,2}(\.\d{1,2})?';
-    $self->{defined}{DownloadSite}      =
-        'http://git-core.googlecode.com/files/';
-
-    $self->{defined}{IndexParserForm}   =   \&set_index_parser_form;
+    $self->{defined}{VersionForm}       =   '\d\.\d\.\d{1,2}(\.\d{1,2})?';
 
     $self->{defined}{AdditionalArgument} = '--without-tcltk';
 
     $self->{defined}{TestAction}        =   'test';
 
     return $self;
-}
-
-sub set_index_parser_form {
-    my $attributes = shift;
-
-    my $filename_form = quotemeta( $attributes->ArchiveName ) . '-' .
-                $attributes->VersionForm . '\.' . 
-                quotemeta( $attributes->Extension );
-
-    my $index_parser_form = 'name=' . $filename_form . '&amp';
-
-    return $index_parser_form;
 }
 
 1;
