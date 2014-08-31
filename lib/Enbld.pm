@@ -7,7 +7,7 @@ use Carp;
 
 use 5.010001;
 
-our $VERSION = '0.7038';
+our $VERSION = '0.7039';
 
 use FindBin qw/$Script/;
 use Getopt::Long;
