@@ -39,11 +39,17 @@ sub download {
 
     Enbld::Message->notify( "--> Download '$file' from '$url'." );
 
-    initialize_ua() unless $ua;
-    my $res = $ua->mirror( $url, $path );
+    my $curl = `which curl`;
+    chomp $curl;
+    if ( $curl ) {
+        system("$curl -L $url -o $path -s");
+    } else {
+        initialize_ua() unless $ua;
+        my $res = $ua->mirror( $url, $path );
 
-    if ( ! $res->{success} ) {
-        Enbld::Error->throw( $res->{reason} );
+        if ( ! $res->{success} ) {
+            Enbld::Error->throw( $res->{reason} );
+        }
     }
 
     return $path;
