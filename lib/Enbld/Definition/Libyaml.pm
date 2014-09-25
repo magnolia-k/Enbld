@@ -29,7 +29,7 @@ Enbld::Definition::Libyaml - definition module for LibYAML
 
 =head1 SEE ALSO
 
-L<LibYAML – PyYAML|http://pyyaml.org/wiki/LibYAML>
+L<LibYAML - PyYAML|http://pyyaml.org/wiki/LibYAML>
 
 L<Enbld::Definition>
 
