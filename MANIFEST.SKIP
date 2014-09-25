@@ -1,4 +1,3 @@
-
 #!start included /System/Library/Perl/5.12/ExtUtils/MANIFEST.SKIP
 # Avoid version control files.
 \bRCS\b
@@ -72,3 +71,6 @@
 \blocal\b
 ^cpanfile
 ^cpanfile\.snapshot
+
+# Avoid travis files
+^.travis.yml

@@ -1,5 +1,9 @@
 Revision history for Enbld.
 
+0.7040 2014/09/25
+        [New Definition]
+        - Added support for libyaml
+
 0.7039 2014/08/31
         [Bug Fix]
         - Fixed libevent can be downloaded correctly by using the curl.
