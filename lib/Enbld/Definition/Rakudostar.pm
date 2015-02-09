@@ -21,7 +21,7 @@ sub initialize {
 
     $self->{defined}{TestAction}   = 'rakudo-test';
 
-    $self->{defined}{CommandConfigure} = 'perl Configure.pl --gen-parrot';
+    $self->{defined}{CommandConfigure} = 'perl Configure.pl --backends=moar --gen-moar --gen-nqp';
 
     return $self;
 }

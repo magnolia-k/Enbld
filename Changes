@@ -1,5 +1,9 @@
 Revision history for Enbld.
 
+0.7041 2015/02/09
+	[Fixed Definition]
+	- Fixed the vm of rakudo -> moarVM
+
 0.7040 2014/09/25
         [New Definition]
         - Added support for libyaml
