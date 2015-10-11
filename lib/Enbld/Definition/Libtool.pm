@@ -11,10 +11,10 @@ sub initialize {
     $self->SUPER::initialize;
 
     $self->{defined}{WebSite}      = 'http://www.gnu.org/software/libtool/';
-
     $self->{defined}{DownloadSite} = 'http://ftp.gnu.org/gnu/libtool/';
+
     $self->{defined}{ArchiveName}  = 'libtool';
-    $self->{defined}{VersionForm}  = '\d\.\d\.\d{1,2}';
+    $self->{defined}{VersionForm}  = '\d\.\d{1,2}(\.\d{1,2})?';
 
     return $self;
 }
@@ -35,7 +35,7 @@ L<Enbld::Definition>
 
 =head1 COPYRIGHT
 
-copyright 2013- Magnolia C<< <magnolia.k@me.com> >>.
+copyright 2015- Magnolia C<< <magnolia.k@me.com> >>.
 
 =head1 LICENSE
 
