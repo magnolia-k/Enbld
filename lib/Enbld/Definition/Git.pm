@@ -16,11 +16,15 @@ sub initialize {
     $self->{defined}{WebSite}           =   'http://git-scm.com';
     $self->{defined}{VersionForm}       =   '\d\.\d\.\d{1,2}(\.\d{1,2})?';
 
-    $self->{defined}{AdditionalArgument} = '--without-tcltk';
+    $self->{defined}{AdditionalArgument} = &set_argument;
 
     $self->{defined}{TestAction}        =   'test';
 
     return $self;
+}
+
+sub set_argument {
+    my $arg = "--without-tcltk --with-openssl=" . Enbld::Home->home;
 }
 
 1;
