@@ -1,5 +1,12 @@
 Revision history for Enbld.
 
+0.7042 2015/10/11
+    [New Definition]
+    - Added support for libtool
+
+    [Fixed Definition]
+    - Fixed Git for El Capitan
+
 0.7041 2015/02/09
 	[Fixed Definition]
 	- Fixed the vm of rakudo -> moarVM
